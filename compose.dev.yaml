@@ -1,0 +1,41 @@
+services:
+  next-app:
+    container_name: webapp-auth-v3-dev
+    build:
+      context: ./next-app
+      dockerfile: /docker/dev.Dockerfile
+
+    # Set environment variables directly in the compose file
+    environment:
+      ENV_VARIABLE: ${ENV_VARIABLE}
+      NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
+      TEST_VARIABLE: ${TEST_VARIABLE}
+
+    # Set environment variables based on the .env file
+    env_file:
+      - .env
+    # volumes:
+    #   - ./next-app/src:/app/src
+    #   - ./next-app/public:/app/public
+    restart: always
+    ports:
+      - 3001:3000
+    develop:
+      watch:
+        - action: sync
+          path: ./next-app/src
+          target: /app/src
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
+    networks:
+      - auth-v3
+
+  # Add more containers below (nginx, postgres, etc.)
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  auth-v3:
+    external: true

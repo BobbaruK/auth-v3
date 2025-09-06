@@ -1,0 +1,23 @@
+services:
+  next-app:
+    container_name: webapp-auth-v3-prod
+    build:
+      context: ./next-app
+      dockerfile: /docker/prod.Dockerfile
+      args:
+        ENV_VARIABLE: ${ENV_VARIABLE}
+        NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
+        TEST_VARIABLE: ${TEST_VARIABLE}
+    restart: always
+    ports:
+      - 3001:3000
+    networks:
+      - auth-v3
+
+  # Add more containers below (nginx, postgres, etc.)
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  auth-v3:
+    external: true
