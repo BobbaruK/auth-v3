@@ -10,6 +10,34 @@
   width: 100%;
 }
 
+@theme {
+  @keyframes shine {
+    0% {
+      background-position: 200% 0;
+    }
+    25% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  --animate-shine: shine 3s ease-out infinite;
+
+  @keyframes gradientFlow {
+    0% {
+      background-position: 0 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0 50%;
+    }
+  }
+  --animate-gradient-flow: gradientFlow 10s ease 0s infinite normal none running;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -81,6 +109,11 @@
   --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
   --sidebar-border: oklch(0.923 0.003 48.717);
   --sidebar-ring: oklch(0.709 0.01 56.259);
+
+  --gradient-lime: oklch(67.287% 0.1546 116.644);
+  --gradient-ocean: oklch(44.56% 0.10114 242.813);
+  --gradient-wine: oklch(32.332% 0.12034 5.266);
+  --gradient-rust: oklch(55.695% 0.19944 34.155);
 }
 
 .dark {
@@ -115,6 +148,11 @@
   --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.553 0.013 58.071);
+
+  --gradient-lime: oklch(62% 0.1546 116.644);
+  --gradient-ocean: oklch(40% 0.10114 242.813);
+  --gradient-wine: oklch(28% 0.12034 5.266);
+  --gradient-rust: oklch(45% 0.19944 34.155);
 }
 
 @layer base {
