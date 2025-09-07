@@ -35,7 +35,7 @@ const eslintConfig = [
         {
           mode: "full",
           type: "shared",
-          pattern: ["src/components/**/*"],
+          pattern: ["src/components/**/*", "src/lib/**/*"],
         },
         {
           mode: "full",
