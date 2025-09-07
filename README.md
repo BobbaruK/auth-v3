@@ -78,6 +78,7 @@ Each commit message should have the following format:
 - **deps** → dependency updates (upgrade/downgrade libraries)
 - **db** → database-related changes (Prisma migrations, seeds)
 - **docker** → Docker-related changes (Dockerfile, docker-compose)
+- **release** → versioning and release-related commits (version bumps, changelogs, preparing or publishing a new release)
 
 ### Examples
 
