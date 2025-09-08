@@ -26,7 +26,7 @@ This repository contains a **Next.js** application fully dockerized and built wi
 ## Overview
 
 This project explores building a full-stack Next.js application with Docker, Prisma, and PostgreSQL.  
-It follows the tutorial ["Build and Deploy a Fullstack Next.js App with Docker, Postgres & Prisma"](https://www.youtube.com/watch?v=N4meIif7Jtc) and aims to provide a solid foundation for future production-ready applications.
+It follows this tutorial ["Better Auth Full Tutorial with Next.js, Prisma ORM, PostgreSQL, Nodemailer"](https://www.youtube.com/watch?v=N4meIif7Jtc) and aims to provide a solid foundation for future production-ready applications.
 
 ## Server Setup
 
@@ -35,8 +35,15 @@ It follows the tutorial ["Build and Deploy a Fullstack Next.js App with Docker, 
 To start the development server:
 
 ```bash
-docker network create auth-v3
 docker compose -f compose.dev.yaml up --watch
+```
+
+Alternatively, you can run only the Postgres container with Docker and start the Next.js app locally:
+
+```bash
+docker compose -f compose.dev.yaml up db
+cd ./next-app
+npm run dev
 ```
 
 ### Production
@@ -44,7 +51,6 @@ docker compose -f compose.dev.yaml up --watch
 To start the production server:
 
 ```bash
-docker network create auth-v3
 docker compose -f compose.prod.yaml up
 ```
 
@@ -53,7 +59,6 @@ docker compose -f compose.prod.yaml up
 To start the production without multi staging server:
 
 ```bash
-docker network create auth-v3
 docker compose -f compose.prod-without-multistage.yaml up
 ```
 
