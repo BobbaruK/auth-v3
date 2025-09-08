@@ -37,6 +37,7 @@ const eslintConfig = [
           type: "shared",
           pattern: [
             "src/components/**/*",
+            "src/constants/**/*",
             "src/lib/**/*",
             "src/providers/**/*",
           ],
@@ -69,17 +70,17 @@ const eslintConfig = [
           default: "disallow",
           rules: [
             {
-              from: "core",
-              allow: ["core"],
-            },
-            {
-              from: "shared",
+              from: ["core", "shared", "feature"],
               allow: ["core", "shared"],
             },
-            {
-              from: "feature",
-              allow: ["core", "shared"],
-            },
+            // {
+            //   from: "shared",
+            //   allow: ["core", "shared"],
+            // },
+            // {
+            //   from: "feature",
+            //   allow: ["core", "shared"],
+            // },
             {
               from: ["app", "neverImport"],
               allow: ["core", "shared", "feature"],
