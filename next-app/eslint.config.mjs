@@ -30,7 +30,7 @@ const eslintConfig = [
           mode: "full",
           type: "core",
           capture: ["name"],
-          pattern: ["src/core/**/*"],
+          pattern: ["src/core/**/*", "src/generated/**/*"],
         },
         {
           mode: "full",
