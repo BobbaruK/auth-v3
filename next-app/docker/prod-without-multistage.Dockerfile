@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -15,8 +15,9 @@ RUN \
   else echo "Warning: Lockfile not found. It is recommended to commit lockfiles to version control." && yarn install; \
   fi
 
-COPY src ./src
+COPY prisma ./prisma
 COPY public ./public
+COPY src ./src
 COPY next.config.ts .
 COPY postcss.config.mjs .
 COPY tsconfig.json .
@@ -29,12 +30,16 @@ ARG NEXT_PUBLIC_ENV_VARIABLE
 ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
 ARG TEST_VARIABLE
 ENV TEST_VARIABLE=${TEST_VARIABLE}
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 
 # Next.js collects completely anonymous telemetry data about general usage. Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line to disable telemetry at build time
 # ENV NEXT_TELEMETRY_DISABLED 1
 
 # Note: Don't expose ports here, Compose will handle that for us
+
+RUN npx prisma generate
 
 # Build Next.js based on the preferred package manager
 RUN \

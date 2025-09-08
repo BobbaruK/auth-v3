@@ -18,11 +18,14 @@ RUN \
   else echo "Warning: Lockfile not found. It is recommended to commit lockfiles to version control." && yarn install; \
   fi
 
-COPY src ./src
+COPY prisma ./prisma
 COPY public ./public
+COPY src ./src
 COPY next.config.ts .
 COPY postcss.config.mjs .
 COPY tsconfig.json .
+
+RUN npx prisma generate
 
 # Environment variables must be present at build time
 # https://github.com/vercel/next.js/discussions/14030
@@ -32,6 +35,8 @@ ARG NEXT_PUBLIC_ENV_VARIABLE
 ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
 ARG TEST_VARIABLE
 ENV TEST_VARIABLE=${TEST_VARIABLE}
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 
 # Next.js collects completely anonymous telemetry data about general usage. Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line to disable telemetry at build time
@@ -71,6 +76,8 @@ ARG NEXT_PUBLIC_ENV_VARIABLE
 ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
 ARG TEST_VARIABLE
 ENV TEST_VARIABLE=${TEST_VARIABLE}
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 
 # Uncomment the following line to disable telemetry at run time
 # ENV NEXT_TELEMETRY_DISABLED 1
