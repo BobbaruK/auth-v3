@@ -40,6 +40,7 @@ const eslintConfig = [
             "src/constants/**/*",
             "src/lib/**/*",
             "src/providers/**/*",
+            "src/types/**/*",
           ],
         },
         {
