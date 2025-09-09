@@ -32,13 +32,11 @@ export const LoginForm = () => {
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(async () => {
-      console.log(values);
-
       await signIn.email(
         {
           email: values.email,
           password: values.password,
-          callbackURL: "/profile",
+          callbackURL: "/settings",
         },
         {
           onRequest: () => {},
