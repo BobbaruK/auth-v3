@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { Header } from "@/components/layout/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,13 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          {children}
+          <div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
+            <Header />
+            <main>{children}</main>
+            <footer>
+              <div className="container">Footer</div>
+            </footer>
+          </div>
           <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>
