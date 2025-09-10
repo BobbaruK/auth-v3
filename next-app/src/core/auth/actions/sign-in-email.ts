@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
+import { APIError } from "better-auth/api";
 
 type SignInResponse =
   | {
@@ -57,9 +58,9 @@ export const signInEmail = async (
       success: "Login successful. Good to have you back.",
     };
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof APIError) {
       return {
-        error: "Oops! Something went wrong while logging in.",
+        error: error.message,
       };
     }
 

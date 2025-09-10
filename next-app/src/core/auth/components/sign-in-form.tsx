@@ -21,7 +21,7 @@ import { toast } from "sonner";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
 
-export const LoginForm = () => {
+export const SignInForm = () => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
