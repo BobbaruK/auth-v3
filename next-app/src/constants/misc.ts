@@ -21,3 +21,9 @@ export const MIN_USERNAME = 2;
  * @type {number}
  */
 export const MAX_USERNAME = 50;
+
+/**
+ * Valid email domains
+ * @type {array}
+ */
+export const VALID_DOMAINS = ["gmail.com", "yahoo.com", "outlook.com"];
