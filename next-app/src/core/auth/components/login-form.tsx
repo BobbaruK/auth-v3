@@ -18,8 +18,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
+import { useRouter } from "next/navigation";
+import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 
 export const LoginForm = () => {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -36,15 +39,19 @@ export const LoginForm = () => {
         {
           email: values.email,
           password: values.password,
-          callbackURL: "/settings",
         },
         {
-          onRequest: () => {},
+          onRequest: () => {
+            toast.warning("Logging in...");
+          },
           onResponse: () => {},
           onError: (ctx) => {
             toast.error(ctx.error.message);
           },
-          onSuccess: () => {},
+          onSuccess: () => {
+            toast.success("You have successfully login");
+            router.push(DEFAULT_LOGIN_REDIRECT);
+          },
         }
       );
     });
@@ -78,7 +85,16 @@ export const LoginForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <FormLabel>Password</FormLabel>
+                    <Button
+                      size={"sm"}
+                      variant={"link"}
+                      asChild
+                      className="px-0 font-normal text-foreground ms-auto">
+                      <Link href={"/auth/reset"}>Forgot password?</Link>
+                    </Button>
+                  </div>
                   <FormControl>
                     <Input
                       {...field}
@@ -87,13 +103,6 @@ export const LoginForm = () => {
                       disabled={isPending}
                     />
                   </FormControl>
-                  <Button
-                    size={"sm"}
-                    variant={"link"}
-                    asChild
-                    className="px-0 font-normal text-foreground">
-                    <Link href={"/auth/reset"}>Forgot password?</Link>
-                  </Button>
                   <FormMessage />
                 </FormItem>
               )}
