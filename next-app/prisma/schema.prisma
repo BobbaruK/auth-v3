@@ -15,7 +15,7 @@ datasource db {
 }
 
 model auth_user {
-  id        String   @id
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
@@ -31,7 +31,7 @@ model auth_user {
 }
 
 model auth_session {
-  id        String   @id
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -47,7 +47,7 @@ model auth_session {
 }
 
 model auth_account {
-  id        String   @id
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -68,7 +68,7 @@ model auth_account {
 }
 
 model auth_verification {
-  id        String   @id
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 

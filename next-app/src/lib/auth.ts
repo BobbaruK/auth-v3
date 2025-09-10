@@ -22,5 +22,11 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     minPasswordLength: MIN_PASSWORD,
+    autoSignIn: false,
+  },
+  advanced: {
+    database: {
+      generateId: false,
+    },
   },
 });
