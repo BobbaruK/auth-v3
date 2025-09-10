@@ -10,16 +10,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { signIn } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
-import { useRouter } from "next/navigation";
-import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -35,21 +35,38 @@ export const LoginForm = () => {
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(async () => {
+      //  Server side signup
+      // signInEmail(values)
+      //   .then((data) => {
+      //     if (data.error) {
+      //       toast.error(data.error);
+      //     }
+
+      //     if (data.success) {
+      //       toast.success(data.success);
+      //       console.log("first");
+      //       router.refresh(); // not working
+      //       router.push(DEFAULT_LOGIN_REDIRECT);
+      //     }
+      //   })
+      //   .catch(() => {
+      //     toast.error("Something went wrong!");
+      //   });
+
+      //  Client side signup
       await signIn.email(
         {
           email: values.email,
           password: values.password,
         },
         {
-          onRequest: () => {
-            toast.warning("Logging in...");
-          },
+          onRequest: () => {},
           onResponse: () => {},
           onError: (ctx) => {
             toast.error(ctx.error.message);
           },
           onSuccess: () => {
-            toast.success("You have successfully login");
+            toast.success("Login successful. Good to have you back.");
             router.push(DEFAULT_LOGIN_REDIRECT);
           },
         }
