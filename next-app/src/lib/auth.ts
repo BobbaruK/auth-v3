@@ -16,6 +16,7 @@ export const auth = betterAuth({
   },
   session: {
     modelName: "auth_session",
+    expiresIn: 60 * 60 * 24 * 30,
   },
   verification: {
     modelName: "auth_verification",
