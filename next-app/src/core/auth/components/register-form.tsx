@@ -13,14 +13,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { signUp } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { RegisterSchema } from "../schemas/register";
+import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -40,12 +43,17 @@ export const RegisterForm = () => {
           password: values.password,
         },
         {
-          onRequest: () => {},
+          onRequest: () => {
+            toast.warning("Sending data...");
+          },
           onResponse: () => {},
           onError: (ctx) => {
             toast.error(ctx.error.message);
           },
-          onSuccess: () => {},
+          onSuccess: () => {
+            toast.success("You have successfully created an account.");
+            router.push(DEFAULT_LOGIN_REDIRECT);
+          },
         }
       );
     });
