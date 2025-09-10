@@ -1,5 +1,5 @@
 import { PageStructure } from "@/components/page-structure";
-import { RegisterForm } from "@/core/auth/components/register-form";
+import { SignUpForm } from "@/core/auth/components/sign-up-form";
 import Link from "next/link";
 
 const RegisterPage = () => {
@@ -7,7 +7,7 @@ const RegisterPage = () => {
     <PageStructure>
       <h1 className="text-3xl font-bold">Register</h1>
 
-      <RegisterForm />
+      <SignUpForm />
 
       <p className="text-muted-foreground text-sm">
         Already have an account. <Link href={"/login"}>Login</Link>

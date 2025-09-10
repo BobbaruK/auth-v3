@@ -3,6 +3,8 @@
 import { auth } from "@/lib/auth";
 import z from "zod";
 import { RegisterSchema } from "../schemas/register";
+import { APIError } from "better-auth/api";
+import { ErrorCode } from "@/types/errors";
 
 type RegisterResponse =
   | {
@@ -14,7 +16,7 @@ type RegisterResponse =
       error: string;
     };
 
-export const registerEmail = async (
+export const signUpEmail = async (
   values: z.infer<typeof RegisterSchema>
 ): Promise<RegisterResponse> => {
   const { email, name, password } = values;
@@ -32,10 +34,22 @@ export const registerEmail = async (
       success: "Registration complete, You're all set.",
     };
   } catch (error) {
-    if (error instanceof Error) {
-      return {
-        error: "Oops! Something went wrong while registering",
-      };
+    if (error instanceof APIError) {
+      const errCode = error.body?.code as ErrorCode;
+
+      // console.log(errCode);
+
+      switch (errCode) {
+        // case "USER_ALREADY_EXISTS":
+        //   return {
+        //     error: "Oops! Something went wrong. Please try again.",
+        //   };
+
+        default:
+          return {
+            error: error.message,
+          };
+      }
     }
 
     return {

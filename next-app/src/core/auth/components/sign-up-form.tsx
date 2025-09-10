@@ -18,10 +18,10 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { registerEmail } from "../actions/register-email";
+import { signUpEmail } from "../actions/sign-up-email";
 import { RegisterSchema } from "../schemas/register";
 
-export const RegisterForm = () => {
+export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -37,7 +37,7 @@ export const RegisterForm = () => {
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     startTransition(() => {
       //  Server side signup
-      registerEmail(values)
+      signUpEmail(values)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
