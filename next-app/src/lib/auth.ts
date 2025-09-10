@@ -1,9 +1,8 @@
-import { MIN_PASSWORD, VALID_DOMAINS } from "@/constants/misc";
+import { MIN_PASSWORD, SESSION_EXPIRES, VALID_DOMAINS } from "@/constants/misc";
 import prisma from "@/lib/prisma";
 import { betterAuth } from "better-auth";
-import { APIError } from "better-auth/api";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { createAuthMiddleware } from "better-auth/api";
+import { APIError, createAuthMiddleware } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
@@ -18,7 +17,7 @@ export const auth = betterAuth({
   },
   session: {
     modelName: "auth_session",
-    expiresIn: 60 * 60 * 24 * 30,
+    expiresIn: SESSION_EXPIRES,
   },
   verification: {
     modelName: "auth_verification",

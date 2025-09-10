@@ -23,6 +23,12 @@ export const MIN_USERNAME = 2;
 export const MAX_USERNAME = 50;
 
 /**
+ * Session expiration time in (seconds)
+ * @type {number}
+ */
+export const SESSION_EXPIRES = 60 * 60 * 24 * 30;
+
+/**
  * Valid email domains
  * @type {array}
  */
