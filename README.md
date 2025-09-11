@@ -20,7 +20,7 @@ This repository contains a **Next.js** application fully dockerized and built wi
 - **Next.js** – React framework for building full-stack web applications
 - **Prisma ORM** – Type-safe database toolkit and query builder
 - **PostgreSQL** – Relational database management system
-- **Nodemailer** – Email sending functionality
+- **Resend** – Email sending functionality
 - **Docker** – Containerization for development and deployment
 
 ## Overview
