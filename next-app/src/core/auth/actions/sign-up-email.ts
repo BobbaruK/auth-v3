@@ -1,10 +1,11 @@
 "use server";
 
+import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { auth } from "@/lib/auth";
+import { ErrorCode } from "@/types/errors";
+import { APIError } from "better-auth/api";
 import z from "zod";
 import { RegisterSchema } from "../schemas/register";
-import { APIError } from "better-auth/api";
-import { ErrorCode } from "@/types/errors";
 
 type RegisterResponse =
   | {
@@ -27,17 +28,16 @@ export const signUpEmail = async (
         name,
         email,
         password,
+        callbackURL: DEFAULT_LOGIN_REDIRECT,
       },
     });
 
     return {
-      success: "Registration complete, You're all set.",
+      success: "Registration complete, please verify your email.",
     };
   } catch (error) {
     if (error instanceof APIError) {
       const errCode = error.body?.code as ErrorCode;
-
-      // console.log(errCode);
 
       switch (errCode) {
         // case "USER_ALREADY_EXISTS":

@@ -1,4 +1,5 @@
 import { MIN_PASSWORD, SESSION_EXPIRES, VALID_DOMAINS } from "@/constants/misc";
+import { sendVerificationMail } from "@/core/mail/actions/verification-mail";
 import prisma from "@/lib/prisma";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
@@ -26,6 +27,18 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: MIN_PASSWORD,
     autoSignIn: false,
+    requireEmailVerification: true,
+  },
+  emailVerification: {
+    autoSignInAfterVerification: true,
+    sendVerificationEmail: async ({ user, url, token }) => {
+      await sendVerificationMail({
+        name: user.name,
+        email: user.email,
+        url,
+        token,
+      });
+    },
   },
   hooks: {
     before: createAuthMiddleware(async (ctx) => {
