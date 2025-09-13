@@ -95,6 +95,25 @@ const eslintConfig = [
       ],
     },
   },
+  {
+    files: ["src/generated/**/*"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-this-alias": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
+      "@typescript-eslint/no-unnecessary-type-constraint": "off",
+      "@typescript-eslint/no-wrapper-object-types": "off",
+      "@typescript-eslint/no-array-constructor": "off",
+      "no-unused-vars": "off",
+      "no-undef": "off",
+      "no-console": "off",
+      "react/*": "off",
+    },
+  },
 ];
 
 export default eslintConfig;
