@@ -16,7 +16,7 @@ type SignInResponse =
       error: string;
     };
 
-export const signInEmail = async (
+export const signIn = async (
   values: z.infer<typeof LoginSchema>
 ): Promise<SignInResponse> => {
   const { email, password } = values;
