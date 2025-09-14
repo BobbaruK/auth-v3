@@ -10,6 +10,9 @@ export const Navbar = () => {
   return (
     <nav className="flex w-full items-center justify-between">
       <div className="flex gap-x-2">
+        <Button asChild variant={pathname === "/" ? "default" : "outline"}>
+          <Link href={"/"}>Home</Link>
+        </Button>
         <Button
           asChild
           variant={pathname === "/server" ? "default" : "outline"}>
