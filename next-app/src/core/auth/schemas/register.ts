@@ -16,7 +16,7 @@ export const RegisterSchema = z.object({
     .max(MAX_USERNAME, {
       message: `Username must be ${MAX_USERNAME} or fewer characters long`,
     }),
-  email: z.string().email({ message: "Invalid email address" }),
+  email: z.email({ message: "Invalid email address" }),
   password: z
     .string()
     .min(MIN_PASSWORD, {
