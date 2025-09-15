@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import React, { useTransition } from "react";
+import { useTransition } from "react";
+import { signOut } from "../actions/sign-out";
 import { toast } from "sonner";
 
 export const SignOutButton = () => {
@@ -12,20 +12,36 @@ export const SignOutButton = () => {
 
   const handleClick = () => {
     startTransition(async () => {
-      await signOut({
-        fetchOptions: {
-          onError: (ctx) => {
-            toast.error(ctx.error.message);
-          },
-          onRequest: () => {
-            toast.warning("Logging out...");
-          },
-          onSuccess: () => {
-            toast.success("You have successfully logout");
+      // Client side sign out
+      // await signOut({
+      //   fetchOptions: {
+      //     onError: (ctx) => {
+      //       toast.error(ctx.error.message);
+      //     },
+      //     onRequest: () => {
+      //       toast.warning("Logging out...");
+      //     },
+      //     onSuccess: () => {
+      //       toast.success("You have successfully logout");
+      //       router.push("/login");
+      //     },
+      //   },
+      // });
+
+      // Server side sign out
+      signOut()
+        .then((data) => {
+          if (data.error) {
+            toast.error(data.error);
+          }
+          if (data.success) {
+            toast.success(data.success);
             router.push("/login");
-          },
-        },
-      });
+          }
+        })
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
     });
   };
 

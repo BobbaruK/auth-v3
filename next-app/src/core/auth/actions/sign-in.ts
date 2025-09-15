@@ -1,10 +1,11 @@
 "use server";
 
 import { auth } from "@/lib/auth";
+import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
-import { APIError } from "better-auth/api";
 
 type SignInResponse =
   | {
@@ -27,6 +28,7 @@ export const signIn = async (
         email,
         password,
       },
+      headers: await headers(),
       // asResponse : true
     });
 
@@ -51,8 +53,7 @@ export const signIn = async (
     //   });
     // }
 
-    revalidatePath("/");
-    console.log("rev");
+    revalidatePath("/login", "layout");
 
     return {
       success: "Login successful. Good to have you back.",

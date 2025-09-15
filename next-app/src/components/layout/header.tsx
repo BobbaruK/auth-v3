@@ -1,14 +1,14 @@
-"use client";
-
-import React from "react";
 import { Navbar } from "@/components/navbar";
 import { SignOutButton } from "@/core/auth/components/sign-out-button";
-import { useSession } from "@/lib/auth-client";
-import { Button } from "../ui/button";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
-export const Header = () => {
-  const { data: session } = useSession();
+export const Header = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   return (
     <header>
       <div className="container flex items-center justify-start py-4">
