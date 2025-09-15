@@ -9,7 +9,7 @@ export const DEFAULT_LOGIN_REDIRECT = "/settings";
  * These routes will redirect logged in users to /settings
  * @type {string[]}
  */
-export const AUTH_ROUTES = ["/login", "/register"];
+export const AUTH_ROUTES = ["/login", "/register", "/reset", "/new-password"];
 
 /**
  * The prefix for API authentication routes
