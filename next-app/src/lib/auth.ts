@@ -1,5 +1,6 @@
 import { ADMIN_EMAILS, OWNER_EMAILS } from "@/constants/admin";
 import { MIN_PASSWORD, SESSION_EXPIRES, VALID_DOMAINS } from "@/constants/misc";
+import { sendResetPasswordMail } from "@/core/mail/actions/reset-password-mail";
 import { sendVerificationMail } from "@/core/mail/actions/verification-mail";
 import { UserRole } from "@/generated/prisma";
 import { ac, roles } from "@/lib/permissions";
@@ -31,7 +32,20 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: MIN_PASSWORD,
     autoSignIn: false,
-    requireEmailVerification: false,
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url, token }) => {
+      await sendResetPasswordMail({
+        email: user.email,
+        name: user.name,
+        url,
+        token,
+      });
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onPasswordReset: async ({ user }) => {
+      // your logic here
+      // console.log(`Password for user ${user.email} has been reset.`);
+    },
   },
   emailVerification: {
     autoSignInAfterVerification: true,

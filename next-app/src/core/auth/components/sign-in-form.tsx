@@ -107,7 +107,7 @@ export const SignInForm = () => {
                       variant={"link"}
                       asChild
                       className="px-0 font-normal text-foreground ms-auto">
-                      <Link href={"/auth/reset"}>Forgot password?</Link>
+                      <Link href={"/reset"}>Forgot password?</Link>
                     </Button>
                   </div>
                   <FormControl>
