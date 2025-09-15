@@ -1,10 +1,14 @@
+import { ADMIN_EMAILS, OWNER_EMAILS } from "@/constants/admin";
 import { MIN_PASSWORD, SESSION_EXPIRES, VALID_DOMAINS } from "@/constants/misc";
 import { sendVerificationMail } from "@/core/mail/actions/verification-mail";
+import { UserRole } from "@/generated/prisma";
+import { ac, roles } from "@/lib/permissions";
 import prisma from "@/lib/prisma";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError, createAuthMiddleware } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
+import { admin } from "better-auth/plugins";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -27,7 +31,7 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: MIN_PASSWORD,
     autoSignIn: false,
-    requireEmailVerification: true,
+    requireEmailVerification: false,
   },
   emailVerification: {
     autoSignInAfterVerification: true,
@@ -63,10 +67,48 @@ export const auth = betterAuth({
       }
     }),
   },
+  databaseHooks: {
+    user: {
+      create: {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        before: async (user, context) => {
+          if (OWNER_EMAILS.includes(user.email))
+            return {
+              data: {
+                ...user,
+                role: UserRole.OWNER,
+              },
+            };
+
+          if (ADMIN_EMAILS.includes(user.email))
+            return {
+              data: {
+                ...user,
+                role: UserRole.ADMIN,
+              },
+            };
+
+          return {
+            data: {
+              ...user,
+            },
+          };
+        },
+      },
+    },
+  },
   advanced: {
     database: {
       generateId: false,
     },
   },
-  plugins: [nextCookies()],
+  plugins: [
+    nextCookies(),
+    admin({
+      defaultRole: UserRole.USER,
+      adminRoles: [UserRole.ADMIN, UserRole.OWNER],
+      ac,
+      roles: roles,
+    }),
+  ],
 });
