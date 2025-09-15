@@ -24,6 +24,9 @@ services:
       # Github
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      # Admin and Owner Emails
+      ADMIN_EMAILS: ${ADMIN_EMAILS}
+      OWNER_EMAILS: ${OWNER_EMAILS}
 
     restart: always
     ports:

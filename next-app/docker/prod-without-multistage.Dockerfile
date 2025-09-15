@@ -46,6 +46,10 @@ ARG GOOGLE_CLIENT_ID
 ENV GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
 ARG GOOGLE_CLIENT_SECRET
 ENV GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+ARG ADMIN_EMAILS
+ENV ADMIN_EMAILS=${ADMIN_EMAILS}
+ARG OWNER_EMAILS
+ENV OWNER_EMAILS=${OWNER_EMAILS}
 
 # Next.js collects completely anonymous telemetry data about general usage. Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line to disable telemetry at build time
