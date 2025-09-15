@@ -14,15 +14,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  USER
+  ADMIN
+  OWNER
+}
+
 model auth_user {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
   name          String
-  email         String  @unique
-  emailVerified Boolean @default(false)
+  email         String    @unique
+  emailVerified Boolean   @default(false)
   image         String?
+  role          UserRole  @default(USER)
+  banned        Boolean?  @default(false)
+  banReason     String?
+  banExpires    DateTime?
 
   sessions auth_session[]
   accounts auth_account[]
@@ -35,10 +45,11 @@ model auth_session {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  expiresAt DateTime
-  token     String   @unique
-  ipAddress String?
-  userAgent String?
+  expiresAt      DateTime
+  token          String   @unique
+  ipAddress      String?
+  userAgent      String?
+  impersonatedBy String?
 
   userId String
   user   auth_user @relation(fields: [userId], references: [id], onDelete: Cascade)
