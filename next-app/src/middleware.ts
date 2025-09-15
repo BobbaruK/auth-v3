@@ -1,5 +1,5 @@
 import { getSessionCookie } from "better-auth/cookies";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   API_AUTH_PREFIX,
   AUTH_ROUTES,
@@ -23,17 +23,19 @@ export async function middleware(request: NextRequest) {
 
   if (isApiAuthRoute) return;
 
-  if (isForbiddenRoute) return Response.redirect(new URL("/", request.url));
+  if (isForbiddenRoute) return NextResponse.redirect(new URL("/", request.url));
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, request.url));
+      return NextResponse.redirect(
+        new URL(DEFAULT_LOGIN_REDIRECT, request.url)
+      );
     }
     return;
   }
 
   if (isLoggedIn === false && !isPublicRoute) {
-    return Response.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return;
