@@ -11,6 +11,7 @@ export default async function ProtectedLayout({ children }: Props) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
   if (!session) {
     redirect("/login");
   }
