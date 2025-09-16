@@ -34,8 +34,9 @@ model auth_user {
   banReason     String?
   banExpires    DateTime?
 
-  sessions auth_session[]
-  accounts auth_account[]
+  sessions   auth_session[]
+  accounts   auth_account[]
+  twofactors auth_two_factor[]
 
   @@map("user")
 }
@@ -88,4 +89,14 @@ model auth_verification {
   expiresAt  DateTime
 
   @@map("verification")
+}
+
+model auth_two_factor {
+  id          String    @id
+  secret      String
+  backupCodes String
+  userId      String
+  auth_user   auth_user @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("two_factor")
 }
