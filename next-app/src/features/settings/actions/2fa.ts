@@ -40,8 +40,6 @@ export const verifyTOTP = async (code: string) => {
       headers: await headers(),
     });
 
-    console.log({ data });
-
     return {
       success: "Noice",
     };
@@ -51,8 +49,6 @@ export const verifyTOTP = async (code: string) => {
         error: error.message,
       };
     }
-
-    console.log({ error });
 
     return {
       error: "Internal Server Error",
@@ -69,8 +65,6 @@ export const disable2fa = async (pass: string) => {
       headers: await headers(),
     });
 
-    console.log({ data });
-
     return {
       success: "You have successfully disabled 2 factor authentication.",
     };
@@ -80,8 +74,6 @@ export const disable2fa = async (pass: string) => {
         error: error.message,
       };
     }
-
-    console.log({ error });
 
     return {
       error: "Internal Server Error",

@@ -56,8 +56,6 @@ export const NewPasswordForm = ({ token, error }: Props) => {
   };
 
   useEffect(() => {
-    console.log("error value:", error); // Check what error is on initial load
-
     const timeOut = setTimeout(() => {
       switch (error) {
         case "INVALID_TOKEN":

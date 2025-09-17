@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -25,7 +26,6 @@ import QRCode from "react-qr-code";
 import { toast } from "sonner";
 import z from "zod";
 import { OTP } from "../schemas/otp";
-import { Checkbox } from "@/components/ui/checkbox";
 
 interface Props {
   otpLink: string | null;
@@ -51,11 +51,6 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
           trustDevice: values.remember,
         });
 
-        console.log({
-          tfaData: data,
-          tfaError: error,
-        });
-
         if (error) {
           toast.error(error.message);
           return;
@@ -73,7 +68,6 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
         router.push(DEFAULT_LOGIN_REDIRECT);
         router.refresh();
       } catch (error) {
-        // console.log({ error });
         toast.error("Something went wrong!");
       }
     });
