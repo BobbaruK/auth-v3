@@ -1,9 +1,10 @@
+import { Header } from "@/components/layout/header";
+import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
-import { Header } from "@/components/layout/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,20 +30,22 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange>
-          <div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
-            <Header />
-            <main>{children}</main>
-            <footer>
-              <div className="container">Footer</div>
-            </footer>
-          </div>
-          <Toaster position="top-center" richColors />
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
+            <div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
+              <Header />
+              <main>{children}</main>
+              <footer>
+                <div className="container">Footer</div>
+              </footer>
+            </div>
+            <Toaster position="bottom-center" richColors />
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );
