@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
+import { Session } from "@/types/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,10 +19,14 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { signIn } from "../actions/sign-in";
 import { LoginSchema } from "../schemas/login";
+import { signIn } from "@/lib/auth-client";
 
-export const SignInForm = () => {
+interface Props {
+  session: Session | null;
+}
+
+export const SignInForm = ({ session }: Props) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -35,40 +40,35 @@ export const SignInForm = () => {
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(async () => {
-      //  Server side signup
-      signIn(values)
-        .then((data) => {
-          if (data.error) {
-            toast.error(data.error);
-          }
-          if (data.success) {
-            toast.success(data.success);
-            router.push(DEFAULT_LOGIN_REDIRECT);
-            router.refresh(); // not working
-          }
-        })
-        .catch(() => {
-          toast.error("Something went wrong!");
-        });
+      /**
+       * Client side signup
+       *
+       * for server side signup check ../actions/sign-in.ts > signIn
+       */
+      await signIn.email(
+        {
+          email: values.email,
+          password: values.password,
+        },
+        {
+          onRequest: () => {},
+          onResponse: () => {},
+          onError: (ctx) => {
+            toast.error(ctx.error.message);
+          },
+          onSuccess: (context) => {
+            if (context.data.twoFactorRedirect) {
+              toast.success("Enter OTP");
+              router.push("/two-factor-verification");
+              return;
+            }
 
-      //  Client side signup
-      // await signIn.email(
-      //   {
-      //     email: values.email,
-      //     password: values.password,
-      //   },
-      //   {
-      //     onRequest: () => {},
-      //     onResponse: () => {},
-      //     onError: (ctx) => {
-      //       toast.error(ctx.error.message);
-      //     },
-      //     onSuccess: () => {
-      //       toast.success("Login successful. Good to have you back.");
-      //       router.push(DEFAULT_LOGIN_REDIRECT);
-      //     },
-      //   }
-      // );
+            toast.success("Login successful. Good to have you back.");
+            router.push(DEFAULT_LOGIN_REDIRECT);
+            router.refresh();
+          },
+        }
+      );
     });
   };
 

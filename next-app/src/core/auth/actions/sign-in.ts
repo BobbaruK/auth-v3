@@ -10,6 +10,7 @@ import { LoginSchema } from "../schemas/login";
 type SignInResponse =
   | {
       success: string;
+      redirectOTP: boolean;
       error?: null;
     }
   | {
@@ -23,7 +24,7 @@ export const signIn = async (
   const { email, password } = values;
 
   try {
-    await auth.api.signInEmail({
+    const response = await auth.api.signInEmail({
       body: {
         email,
         password,
@@ -31,6 +32,14 @@ export const signIn = async (
       headers: await headers(),
       // asResponse : true
     });
+
+    revalidatePath("/login", "layout");
+
+    if ("twoFactorRedirect" in response)
+      return {
+        success: "Enter OTP",
+        redirectOTP: true,
+      };
 
     // manual set cookies
     // const setCookieHeader = res.headers.get("set-cookie");
@@ -53,10 +62,9 @@ export const signIn = async (
     //   });
     // }
 
-    revalidatePath("/login", "layout");
-
     return {
       success: "Login successful. Good to have you back.",
+      redirectOTP: false,
     };
   } catch (error) {
     if (error instanceof APIError) {
