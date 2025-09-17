@@ -18,6 +18,7 @@ const ProfilePage = async () => {
         <p>Ban: {JSON.stringify(session?.user.banned, null, 2)}</p>
         <p>Ban Reason: {session?.user.banReason || "no reason"}</p>
         <p>Ban Expires: {JSON.stringify(session?.user.banExpires)}</p>
+        <p>2FA: {JSON.stringify(session?.user.twoFactorEnabled)}</p>
       </div>
     </PageStructure>
   );
