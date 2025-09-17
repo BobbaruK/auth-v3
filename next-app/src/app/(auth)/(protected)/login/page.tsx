@@ -1,14 +1,20 @@
 import { PageStructure } from "@/components/page-structure";
 import { SignInForm } from "@/core/auth/components/sign-in-form";
 import SignInProviders from "@/core/auth/components/sign-in-providers";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Link from "next/link";
 
-const LoginPage = () => {
+const LoginPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   return (
     <PageStructure>
       <h1 className="text-3xl font-bold">Login</h1>
 
-      <SignInForm />
+      <SignInForm session={session} />
 
       <SignInProviders />
 
