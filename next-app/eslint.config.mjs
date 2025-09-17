@@ -38,6 +38,7 @@ const eslintConfig = [
           pattern: [
             "src/components/**/*",
             "src/constants/**/*",
+            "src/hooks/**/*",
             "src/lib/**/*",
             "src/providers/**/*",
             "src/types/**/*",
@@ -74,14 +75,10 @@ const eslintConfig = [
               from: ["core", "shared", "feature"],
               allow: ["core", "shared"],
             },
-            // {
-            //   from: "shared",
-            //   allow: ["core", "shared"],
-            // },
-            // {
-            //   from: "feature",
-            //   allow: ["core", "shared"],
-            // },
+            {
+              from: "feature",
+              allow: ["feature", { featureName: "${from.featureName}" }],
+            },
             {
               from: ["app", "neverImport"],
               allow: ["core", "shared", "feature"],
