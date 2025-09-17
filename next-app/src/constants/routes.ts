@@ -23,7 +23,7 @@ export const API_AUTH_PREFIX = "/api/auth";
  * These routes do not require authentication
  * @type {string[]}
  */
-export const PUBLIC_ROUTES = ["/"];
+export const PUBLIC_ROUTES = ["/", "/two-factor-verification"];
 
 /**
  * An array of routes that are forbidden to all users
