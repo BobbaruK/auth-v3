@@ -12,6 +12,7 @@ import { nextCookies } from "better-auth/next-js";
 import { admin, twoFactor } from "better-auth/plugins";
 
 export const auth = betterAuth({
+  appName: "Auth v3",
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
@@ -124,6 +125,22 @@ export const auth = betterAuth({
       ac,
       roles: roles,
     }),
-    twoFactor({}),
+    twoFactor({
+      schema: {
+        twoFactor: {
+          modelName: "auth_two_factor",
+        },
+        user: {
+          modelName: "auth_user",
+        },
+      },
+      totpOptions: {},
+      // skipVerificationOnEnable: true,
+      otpOptions: {
+        sendOTP: async ({ user, otp }) => {
+          console.log(`Send email to ${user.name} -  otp: ${otp}`);
+        },
+      },
+    }),
   ],
 });
