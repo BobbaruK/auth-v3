@@ -18,13 +18,9 @@ const TwoFactorVerificationPage = async ({ searchParams }: Props) => {
   const twoFactorCookie = cookieStore.get("better-auth.two_factor");
   const session = await auth.api.getSession({ headers: await headers() });
 
-  // if (!session && !twoFactorCookie) redirect(DEFAULT_LOGIN_REDIRECT);
+  if (session && !twoFactorFirstTime) redirect(DEFAULT_LOGIN_REDIRECT);
 
-  // if (session) redirect("/");
-
-  // if (!twoFactorCookie) {
-  //   redirect("/login");
-  // }
+  if (!twoFactorCookie && !twoFactorFirstTime) redirect("/login");
 
   return (
     <PageStructure>

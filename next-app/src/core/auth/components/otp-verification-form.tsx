@@ -25,6 +25,7 @@ import { useForm } from "react-hook-form";
 import QRCode from "react-qr-code";
 import { toast } from "sonner";
 import z from "zod";
+import { clearTwoFactorCookie } from "../actions/clear-two-factor-cookie";
 import { OTP } from "../schemas/otp";
 
 interface Props {
@@ -50,6 +51,10 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
           code: values.code,
           trustDevice: values.remember,
         });
+
+        if (data) {
+          await clearTwoFactorCookie("better-auth.two_factor");
+        }
 
         if (error) {
           toast.error(error.message);
