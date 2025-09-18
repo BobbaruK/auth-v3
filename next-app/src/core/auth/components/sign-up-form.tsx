@@ -139,7 +139,7 @@ export const SignUpForm = () => {
           />
         </div>
         <Button type="submit" className="w-full" disabled={isPending}>
-          Create an account
+          Register
         </Button>
       </form>
     </Form>

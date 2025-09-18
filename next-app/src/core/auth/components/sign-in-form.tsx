@@ -124,7 +124,7 @@ export const SignInForm = ({ session }: Props) => {
             />
           </div>
           <Button type="submit" className="w-full" disabled={isPending}>
-            Confirm
+            Login
           </Button>
         </form>
       </Form>

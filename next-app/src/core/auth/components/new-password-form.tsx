@@ -93,7 +93,7 @@ export const NewPasswordForm = ({ token, error }: Props) => {
           />
         </div>
         <Button type="submit" className="w-full" disabled={isPending}>
-          Reset password
+          Set password
         </Button>
       </form>
     </Form>
