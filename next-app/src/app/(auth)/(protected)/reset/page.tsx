@@ -1,12 +1,17 @@
 import { PageStructure } from "@/components/page-structure";
+import { AuthCard } from "@/core/auth/components/auth-card";
 import { ResetPasswordForm } from "@/core/auth/components/reset-password-form";
 
 const ResetPasswordPage = () => {
   return (
     <PageStructure>
-      <h1 className="text-3xl font-bold">Forgot password</h1>
-
-      <ResetPasswordForm />
+      <AuthCard
+        title={"Forgot Password"}
+        description={
+          "Enter your email address to receive a password reset link."
+        }>
+        <ResetPasswordForm />
+      </AuthCard>
     </PageStructure>
   );
 };

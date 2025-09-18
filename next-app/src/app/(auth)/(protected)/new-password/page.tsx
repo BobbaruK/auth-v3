@@ -1,4 +1,5 @@
 import { PageStructure } from "@/components/page-structure";
+import { AuthCard } from "@/core/auth/components/auth-card";
 import { NewPasswordForm } from "@/core/auth/components/new-password-form";
 import { ErrorCode } from "@/types/errors";
 
@@ -14,9 +15,13 @@ const NewPasswordPage = async ({ searchParams }: Props) => {
 
   return (
     <PageStructure>
-      <h1 className="text-3xl font-bold">New Password</h1>
-
-      <NewPasswordForm token={token} error={error as ErrorCode} />
+      <AuthCard
+        title={"Reset Password"}
+        description={
+          "Password must contain at least one of each: lowercase letters, uppercase letters, numbers and special characters"
+        }>
+        <NewPasswordForm token={token} error={error as ErrorCode} />
+      </AuthCard>
     </PageStructure>
   );
 };
