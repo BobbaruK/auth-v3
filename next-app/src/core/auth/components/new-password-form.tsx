@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { ErrorCode } from "@/types/errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -33,6 +33,7 @@ export const NewPasswordForm = ({ token, error }: Props) => {
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -78,13 +79,34 @@ export const NewPasswordForm = ({ token, error }: Props) => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel htmlFor="password">New Password</FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    type="password"
+                  <PasswordInput
+                    id="password"
                     placeholder="******"
-                    disabled={isPending}
+                    autoComplete="new-password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="confirmPassword">
+                  Confirm Password
+                </FormLabel>
+                <FormControl>
+                  <PasswordInput
+                    id="confirmPassword"
+                    placeholder="******"
+                    autoComplete="new-password"
+                    {...field}
                   />
                 </FormControl>
                 <FormMessage />

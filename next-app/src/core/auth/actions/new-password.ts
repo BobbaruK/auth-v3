@@ -23,7 +23,12 @@ export const newPassword = async (
 
   if (!validatedFields.success) return { error: "Invalid fields!" };
 
-  const { password } = validatedFields.data;
+  const { password, confirmPassword } = validatedFields.data;
+
+  if (password !== confirmPassword)
+    return {
+      error: "Passwords do not match!",
+    };
 
   if (!token)
     return {
