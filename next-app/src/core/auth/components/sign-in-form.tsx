@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
 import { signIn } from "@/lib/auth-client";
+import { PasswordInput } from "@/components/ui/password-input";
 
 interface Props {
   session: Session | null;
@@ -101,7 +102,7 @@ export const SignInForm = ({ session }: Props) => {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex flex-wrap items-center gap-4">
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel htmlFor="password">Password</FormLabel>
                     <Button
                       size={"sm"}
                       variant={"link"}
@@ -111,11 +112,12 @@ export const SignInForm = ({ session }: Props) => {
                     </Button>
                   </div>
                   <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
+                    <PasswordInput
+                      id="password"
                       placeholder="******"
+                      autoComplete="new-password"
                       disabled={isPending}
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />

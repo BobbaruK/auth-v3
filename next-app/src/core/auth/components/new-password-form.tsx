@@ -85,6 +85,7 @@ export const NewPasswordForm = ({ token, error }: Props) => {
                     id="password"
                     placeholder="******"
                     autoComplete="new-password"
+                    disabled={isPending}
                     {...field}
                   />
                 </FormControl>
@@ -106,6 +107,7 @@ export const NewPasswordForm = ({ token, error }: Props) => {
                     id="confirmPassword"
                     placeholder="******"
                     autoComplete="new-password"
+                    disabled={isPending}
                     {...field}
                   />
                 </FormControl>

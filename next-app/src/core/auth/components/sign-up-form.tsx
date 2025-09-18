@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import z from "zod";
 import { signUpEmail } from "../actions/sign-up-email";
 import { RegisterSchema } from "../schemas/register";
+import { PasswordInput } from "@/components/ui/password-input";
 
 export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -120,13 +121,14 @@ export const SignUpForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel htmlFor="password">Password</FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    type="password"
+                  <PasswordInput
+                    id="password"
                     placeholder="******"
-                    disabled={isPending}
+                    autoComplete="new-password"
+                      disabled={isPending}
+                    {...field}
                   />
                 </FormControl>
                 <FormMessage />

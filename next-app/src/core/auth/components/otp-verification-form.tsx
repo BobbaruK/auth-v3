@@ -79,8 +79,8 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
   };
 
   return (
-    <div>
-      {otpLink && <QRCode value={otpLink} />}
+    <div className="flex flex-col gap-4">
+      {otpLink && <QRCode value={otpLink} className="w-full" />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -132,7 +132,7 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
           />
 
           <Button type="submit" className="w-full mt-4" disabled={isPending}>
-            Submit
+            Verify
           </Button>
         </form>
       </Form>
