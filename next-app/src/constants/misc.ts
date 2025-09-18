@@ -8,7 +8,7 @@ export const MIN_PASSWORD = 6;
  * Maximum characters in a password
  * @type {number}
  */
-export const MAX_PASSWORD = 15;
+export const MAX_PASSWORD = 30;
 
 /**
  * Minumum characters in a username
