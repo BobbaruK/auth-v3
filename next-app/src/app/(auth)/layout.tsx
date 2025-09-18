@@ -5,5 +5,7 @@ interface Props {
 }
 
 export default function PublicAuthLayout({ children }: Props) {
-  return children;
+  return (
+    <div className="flex items-center justify-center min-h-dvh">{children}</div>
+  );
 }

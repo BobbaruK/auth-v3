@@ -36,13 +36,7 @@ export default function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange>
-            <div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
-              <Header />
-              <main>{children}</main>
-              <footer>
-                <div className="container">Footer</div>
-              </footer>
-            </div>
+            {children}
             <Toaster position="bottom-center" richColors />
           </ThemeProvider>
         </NuqsAdapter>
