@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import z from "zod";
 import { newPassword } from "../actions/new-password";
 import { NewPasswordSchema } from "../schemas/new-password";
+import { MESSAGES } from "@/constants/messages";
 
 interface Props {
   token: string;
@@ -51,7 +52,7 @@ export const NewPasswordForm = ({ token, error }: Props) => {
           }
         })
         .catch(() => {
-          toast.error("Something went wrong!");
+          toast.error(MESSAGES.SOMETHING_WRONG);
         });
     });
   };
@@ -60,7 +61,7 @@ export const NewPasswordForm = ({ token, error }: Props) => {
     const timeOut = setTimeout(() => {
       switch (error) {
         case "INVALID_TOKEN":
-          toast.error("Token is invalid.");
+          toast.error(MESSAGES.TOKEN_INVALID);
           break;
       }
     }, 200);

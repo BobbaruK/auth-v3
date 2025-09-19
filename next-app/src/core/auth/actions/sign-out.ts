@@ -1,5 +1,6 @@
 "use server";
 
+import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
@@ -24,17 +25,16 @@ export const signOut = async (): Promise<SignOutResponse> => {
     revalidatePath("/");
 
     return {
-      success: "You have successfully logout",
+      success: MESSAGES.LOGOUT_SUCCESS,
     };
   } catch (error) {
-    if (error instanceof APIError) {
+    console.error("Something went wrong: ", JSON.stringify(error));
+
+    if (error instanceof APIError)
       return {
         error: error.message,
       };
-    }
 
-    return {
-      error: "Internal Server Error",
-    };
+    throw error;
   }
 };

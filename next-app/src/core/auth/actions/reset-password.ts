@@ -1,9 +1,10 @@
 "use server";
 
-import z from "zod";
-import { ResetPasswordSchema } from "../schemas/reset-password";
+import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
+import z from "zod";
+import { ResetPasswordSchema } from "../schemas/reset-password";
 
 type ResetPasswordResponse =
   | {
@@ -20,7 +21,7 @@ export const resetPassword = async (
 ): Promise<ResetPasswordResponse> => {
   const validatedFields = ResetPasswordSchema.safeParse(values);
 
-  if (!validatedFields.success) return { error: "Invalid fields!" };
+  if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
 
   const { email } = validatedFields.data;
 
@@ -33,18 +34,16 @@ export const resetPassword = async (
     });
 
     return {
-      success:
-        "Success! An email has been sent to you to confirm password reset.",
+      success: MESSAGES.PASSWORD_RESET,
     };
   } catch (error) {
-    if (error instanceof APIError) {
+    console.error("Something went wrong: ", JSON.stringify(error));
+
+    if (error instanceof APIError)
       return {
         error: error.message,
       };
-    }
 
-    return {
-      error: "Internal Server Error",
-    };
+    throw error;
   }
 };

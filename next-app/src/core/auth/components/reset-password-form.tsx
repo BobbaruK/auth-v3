@@ -19,6 +19,7 @@ import z from "zod";
 import { resetPassword } from "../actions/reset-password";
 import { ResetPasswordSchema } from "../schemas/reset-password";
 import { CustomButton } from "@/components/custom-button";
+import { MESSAGES } from "@/constants/messages";
 
 export const ResetPasswordForm = () => {
   const router = useRouter();
@@ -44,7 +45,7 @@ export const ResetPasswordForm = () => {
           }
         })
         .catch(() => {
-          toast.error("Something went wrong!");
+          toast.error(MESSAGES.SOMETHING_WRONG);
         });
     });
   };

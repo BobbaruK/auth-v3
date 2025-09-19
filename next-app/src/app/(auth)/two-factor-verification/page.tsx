@@ -1,5 +1,6 @@
 import { PageStructure } from "@/components/page-structure";
 import { loadSearchParams } from "@/components/search-params";
+import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { AuthCard } from "@/core/auth/components/auth-card";
 import { OTPVerificationForm } from "@/core/auth/components/otp-verification-form";
@@ -28,9 +29,7 @@ const TwoFactorVerificationPage = async ({ searchParams }: Props) => {
       <AuthCard
         title={"2FA Verification"}
         description={
-          twoFactorFirstTime
-            ? "Scan the QR code below and enter OTP"
-            : "Enter OTP"
+          twoFactorFirstTime ? MESSAGES.QR_SCAN : MESSAGES.ENTER_OTP
         }>
         <OTPVerificationForm
           otpLink={twoFactor}

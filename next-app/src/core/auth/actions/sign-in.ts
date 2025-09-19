@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
+import { MESSAGES } from "@/constants/messages";
 
 type SignInResponse =
   | {
@@ -37,7 +38,7 @@ export const signIn = async (
 
     if ("twoFactorRedirect" in response)
       return {
-        success: "Enter OTP",
+        success: MESSAGES.ENTER_OTP,
         redirectOTP: true,
       };
 
@@ -63,18 +64,17 @@ export const signIn = async (
     // }
 
     return {
-      success: "Login successful. Good to have you back.",
+      success: MESSAGES.LOGIN_SUCCESS,
       redirectOTP: false,
     };
   } catch (error) {
-    if (error instanceof APIError) {
+    console.error("Something went wrong: ", JSON.stringify(error));
+
+    if (error instanceof APIError)
       return {
         error: error.message,
       };
-    }
 
-    return {
-      error: "Internal Server Error",
-    };
+    throw error;
   }
 };

@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
 import z from "zod";
 import { NewPasswordSchema } from "../schemas/new-password";
+import { MESSAGES } from "@/constants/messages";
 
 type NewPasswordResponse =
   | {
@@ -21,18 +22,18 @@ export const newPassword = async (
 ): Promise<NewPasswordResponse> => {
   const validatedFields = NewPasswordSchema.safeParse(values);
 
-  if (!validatedFields.success) return { error: "Invalid fields!" };
+  if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
 
   const { password, confirmPassword } = validatedFields.data;
 
   if (password !== confirmPassword)
     return {
-      error: "Passwords do not match!",
+      error: MESSAGES.PASSWORDS_NOT_MATCH,
     };
 
   if (!token)
     return {
-      error: "Missing token!",
+      error: MESSAGES.TOKEN_MISSING,
     };
 
   try {
@@ -44,18 +45,16 @@ export const newPassword = async (
     });
 
     return {
-      success:
-        "Your password has been reset. Please login with your new password.",
+      success: MESSAGES.PASSWORD_NEW,
     };
   } catch (error) {
-    if (error instanceof APIError) {
+    console.error("Something went wrong: ", JSON.stringify(error));
+
+    if (error instanceof APIError)
       return {
         error: error.message,
       };
-    }
 
-    return {
-      error: "Internal Server Error",
-    };
+    throw error;
   }
 };

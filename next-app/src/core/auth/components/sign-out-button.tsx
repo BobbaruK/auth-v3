@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { CustomButton } from "@/components/custom-button";
+import { MESSAGES } from "@/constants/messages";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { signOut } from "../actions/sign-out";
 import { toast } from "sonner";
-import { CustomButton } from "@/components/custom-button";
+import { signOut } from "../actions/sign-out";
 
 export const SignOutButton = () => {
   const router = useRouter();
@@ -13,23 +13,6 @@ export const SignOutButton = () => {
 
   const handleClick = () => {
     startTransition(async () => {
-      // Client side sign out
-      // await signOut({
-      //   fetchOptions: {
-      //     onError: (ctx) => {
-      //       toast.error(ctx.error.message);
-      //     },
-      //     onRequest: () => {
-      //       toast.warning("Logging out...");
-      //     },
-      //     onSuccess: () => {
-      //       toast.success("You have successfully logout");
-      //       router.push("/login");
-      //     },
-      //   },
-      // });
-
-      // Server side sign out
       signOut()
         .then((data) => {
           if (data.error) {
@@ -41,7 +24,7 @@ export const SignOutButton = () => {
           }
         })
         .catch(() => {
-          toast.error("Something went wrong!");
+          toast.error(MESSAGES.SOMETHING_WRONG);
         });
     });
   };

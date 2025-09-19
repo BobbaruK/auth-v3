@@ -6,6 +6,7 @@ import { ErrorCode } from "@/types/errors";
 import { APIError } from "better-auth/api";
 import z from "zod";
 import { RegisterSchema } from "../schemas/register";
+import { MESSAGES } from "@/constants/messages";
 
 type RegisterResponse =
   | {
@@ -33,9 +34,11 @@ export const signUpEmail = async (
     });
 
     return {
-      success: "Registration complete, please verify your email.",
+      success: MESSAGES.REGISTRATION_SUCCESS,
     };
   } catch (error) {
+    console.error("Something went wrong: ", JSON.stringify(error));
+
     if (error instanceof APIError) {
       const errCode = error.body?.code as ErrorCode;
 
@@ -52,8 +55,6 @@ export const signUpEmail = async (
       }
     }
 
-    return {
-      error: "Internal Server Error",
-    };
+    throw error;
   }
 };

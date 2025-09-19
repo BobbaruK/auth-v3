@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { signIn } from "@/lib/auth-client";
 import { Session } from "@/types/session";
@@ -60,12 +61,12 @@ export const SignInForm = ({ session }: Props) => {
           },
           onSuccess: (context) => {
             if (context.data.twoFactorRedirect) {
-              toast.success("Enter OTP");
+              toast.success(MESSAGES.ENTER_OTP);
               router.push("/two-factor-verification");
               return;
             }
 
-            toast.success("Login successful. Good to have you back.");
+            toast.success(MESSAGES.LOGIN_SUCCESS);
             router.push(DEFAULT_LOGIN_REDIRECT);
             router.refresh();
           },

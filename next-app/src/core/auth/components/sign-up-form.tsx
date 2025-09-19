@@ -22,6 +22,7 @@ import { signUpEmail } from "../actions/sign-up-email";
 import { RegisterSchema } from "../schemas/register";
 import { PasswordInput } from "@/components/ui/password-input";
 import { CustomButton } from "@/components/custom-button";
+import { MESSAGES } from "@/constants/messages";
 
 export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -51,30 +52,8 @@ export const SignUpForm = () => {
           }
         })
         .catch(() => {
-          toast.error("Something went wrong!");
+          toast.error(MESSAGES.SOMETHING_WRONG);
         });
-
-      //  Client side signup
-      // await signUp.email(
-      //   {
-      //     name: values.name,
-      //     email: values.email,
-      //     password: values.password,
-      //   },
-      //   {
-      //     onRequest: () => {
-      //       toast.warning("Sending data...");
-      //     },
-      //     onResponse: () => {},
-      //     onError: (ctx) => {
-      //       toast.error(ctx.error.message);
-      //     },
-      //     onSuccess: () => {
-      //       toast.success("You have successfully created an account.");
-      //       router.push(DEFAULT_LOGIN_REDIRECT);
-      //     },
-      //   }
-      // );
     });
   };
   return (

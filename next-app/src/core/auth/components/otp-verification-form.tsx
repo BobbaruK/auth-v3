@@ -27,6 +27,7 @@ import { toast } from "sonner";
 import z from "zod";
 import { clearTwoFactorCookie } from "../actions/clear-two-factor-cookie";
 import { OTP } from "../schemas/otp";
+import { MESSAGES } from "@/constants/messages";
 
 interface Props {
   otpLink: string | null;
@@ -61,19 +62,20 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
           return;
         }
 
+        // TODO: test this
         if (isFirstTime) {
-          await signOut();
-          toast.success("QR validated. You have been logged out.");
-          router.push("/login");
+          // await signOut();
+          toast.success(MESSAGES.QR_VALIDATED);
+          router.push(DEFAULT_LOGIN_REDIRECT);
           router.refresh();
           return;
         }
 
-        toast.success("Login successful. Good to have you back.");
+        toast.success(MESSAGES.LOGIN_SUCCESS);
         router.push(DEFAULT_LOGIN_REDIRECT);
         router.refresh();
       } catch (error) {
-        toast.error("Something went wrong!");
+        toast.error(MESSAGES.SOMETHING_WRONG);
       }
     });
   };
