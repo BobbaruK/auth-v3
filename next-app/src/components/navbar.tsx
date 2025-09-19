@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { BUTTON_EFFECT } from "@/constants/misc";
 import { usePathname } from "next/navigation";
+import { CustomButton } from "./custom-button";
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -10,32 +10,50 @@ export const Navbar = () => {
   return (
     <nav className="flex w-full items-center justify-between">
       <div className="flex gap-x-2">
-        <Button asChild variant={pathname === "/" ? "default" : "outline"}>
-          <Link href={"/"}>Home</Link>
-        </Button>
-        <Button
-          asChild
-          variant={pathname === "/server" ? "default" : "outline"}>
-          <Link href={"/server"}>Server</Link>
-        </Button>
-        <Button
-          asChild
-          variant={pathname === "/client" ? "default" : "outline"}>
-          <Link href={"/client"}>Client</Link>
-        </Button>
-        <Button asChild variant={pathname === "/admin" ? "default" : "outline"}>
-          <Link href={"/admin"}>Admin</Link>
-        </Button>
-        <Button
-          asChild
-          variant={pathname === "/profile" ? "default" : "outline"}>
-          <Link href={"/profile"}>Profile</Link>
-        </Button>
-        <Button
-          asChild
-          variant={pathname === "/settings" ? "default" : "outline"}>
-          <Link href={"/settings"}>Settings</Link>
-        </Button>
+        <CustomButton
+          buttonLabel={`Home`}
+          effect={pathname === "/" ? "gradientSlideShow" : BUTTON_EFFECT}
+          variant={"outline"}
+          className=""
+          linkHref="/"
+        />
+        <CustomButton
+          buttonLabel={`Server`}
+          effect={pathname === "/server" ? "gradientSlideShow" : BUTTON_EFFECT}
+          variant={"outline"}
+          className=""
+          linkHref="/server"
+        />
+        <CustomButton
+          buttonLabel={`Client`}
+          effect={pathname === "/client" ? "gradientSlideShow" : BUTTON_EFFECT}
+          variant={"outline"}
+          className=""
+          linkHref="/client"
+        />
+        <CustomButton
+          buttonLabel={`Admin`}
+          effect={pathname === "/admin" ? "gradientSlideShow" : BUTTON_EFFECT}
+          variant={"outline"}
+          className=""
+          linkHref="/admin"
+        />
+        <CustomButton
+          buttonLabel={`Profile`}
+          effect={pathname === "/profile" ? "gradientSlideShow" : BUTTON_EFFECT}
+          variant={"outline"}
+          className=""
+          linkHref="/profile"
+        />
+        <CustomButton
+          buttonLabel={`Settings`}
+          effect={
+            pathname === "/settings" ? "gradientSlideShow" : BUTTON_EFFECT
+          }
+          variant={"outline"}
+          className=""
+          linkHref="/settings"
+        />
       </div>
     </nav>
   );
