@@ -1,6 +1,7 @@
 import { PageStructure } from "@/components/page-structure";
 import { loadSearchParams } from "@/components/search-params";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
+import { AuthCard } from "@/core/auth/components/auth-card";
 import { OTPVerificationForm } from "@/core/auth/components/otp-verification-form";
 import { auth } from "@/lib/auth";
 import { cookies, headers } from "next/headers";
@@ -24,12 +25,18 @@ const TwoFactorVerificationPage = async ({ searchParams }: Props) => {
 
   return (
     <PageStructure>
-      <h1 className="text-3xl font-bold">2FA verification</h1>
-
-      <OTPVerificationForm
-        otpLink={twoFactor}
-        isFirstTime={twoFactorFirstTime}
-      />
+      <AuthCard
+        title={"2FA Verification"}
+        description={
+          twoFactorFirstTime
+            ? "Scan the QR code below and enter OTP"
+            : "Enter OTP"
+        }>
+        <OTPVerificationForm
+          otpLink={twoFactor}
+          isFirstTime={twoFactorFirstTime}
+        />
+      </AuthCard>
     </PageStructure>
   );
 };
