@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { CustomButton } from "@/components/custom-button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -114,16 +114,17 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
             name="remember"
             render={({ field }) => {
               return (
-                <FormItem className="flex flex-row items-center gap-2">
+                <FormItem className="flex flex-row items-center gap-2 ">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
+                      className="cursor-pointer"
                       onCheckedChange={(checked) => {
-                        form.setValue("remember", !field.value);
+                        form.setValue("remember", !!checked);
                       }}
                     />
                   </FormControl>
-                  <FormLabel className="text-sm font-normal">
+                  <FormLabel className="text-sm font-normal cursor-pointer">
                     Remember this device.
                   </FormLabel>
                 </FormItem>
@@ -131,9 +132,13 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
             }}
           />
 
-          <Button type="submit" className="w-full mt-4" disabled={isPending}>
-            Verify
-          </Button>
+          <CustomButton
+            buttonLabel={`Validate`}
+            type="submit"
+            className="w-full"
+            disabled={isPending}
+            skeletonClassName="w-full"
+          />
         </form>
       </Form>
     </div>

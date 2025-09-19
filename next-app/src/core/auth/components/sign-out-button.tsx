@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { signOut } from "../actions/sign-out";
 import { toast } from "sonner";
+import { CustomButton } from "@/components/custom-button";
 
 export const SignOutButton = () => {
   const router = useRouter();
@@ -46,12 +47,12 @@ export const SignOutButton = () => {
   };
 
   return (
-    <Button
+    <CustomButton
+      buttonLabel={`Sign Out`}
       onClick={handleClick}
       size={"sm"}
       variant={"destructive"}
-      disabled={isPending}>
-      Sign Out
-    </Button>
+      disabled={isPending}
+    />
   );
 };

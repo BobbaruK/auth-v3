@@ -21,6 +21,7 @@ import z from "zod";
 import { signUpEmail } from "../actions/sign-up-email";
 import { RegisterSchema } from "../schemas/register";
 import { PasswordInput } from "@/components/ui/password-input";
+import { CustomButton } from "@/components/custom-button";
 
 export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -127,7 +128,7 @@ export const SignUpForm = () => {
                     id="password"
                     placeholder="******"
                     autoComplete="new-password"
-                      disabled={isPending}
+                    disabled={isPending}
                     {...field}
                   />
                 </FormControl>
@@ -140,9 +141,14 @@ export const SignUpForm = () => {
             )}
           />
         </div>
-        <Button type="submit" className="w-full" disabled={isPending}>
-          Register
-        </Button>
+
+        <CustomButton
+          buttonLabel={`Register`}
+          type="submit"
+          className="w-full"
+          disabled={isPending}
+          skeletonClassName="w-full"
+        />
       </form>
     </Form>
   );

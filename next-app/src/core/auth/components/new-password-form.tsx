@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { CustomButton } from "@/components/custom-button";
 import {
   Form,
   FormControl,
@@ -116,9 +116,14 @@ export const NewPasswordForm = ({ token, error }: Props) => {
             )}
           />
         </div>
-        <Button type="submit" className="w-full" disabled={isPending}>
-          Set password
-        </Button>
+
+        <CustomButton
+          buttonLabel={`Set password`}
+          type="submit"
+          className="w-full"
+          disabled={isPending}
+          skeletonClassName="w-full"
+        />
       </form>
     </Form>
   );

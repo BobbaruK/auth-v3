@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import z from "zod";
-import { ResetPasswordSchema } from "../schemas/reset-password";
-import { resetPassword } from "../actions/reset-password";
 import { toast } from "sonner";
+import z from "zod";
+import { resetPassword } from "../actions/reset-password";
+import { ResetPasswordSchema } from "../schemas/reset-password";
+import { CustomButton } from "@/components/custom-button";
 
 export const ResetPasswordForm = () => {
   const router = useRouter();
@@ -73,9 +73,14 @@ export const ResetPasswordForm = () => {
               )}
             />
           </div>
-          <Button type="submit" className="w-full" disabled={isPending}>
-            Confirm
-          </Button>
+
+          <CustomButton
+            buttonLabel={`Confirm`}
+            type="submit"
+            className="w-full"
+            disabled={isPending}
+            skeletonClassName="w-full"
+          />
         </form>
       </Form>
     </>

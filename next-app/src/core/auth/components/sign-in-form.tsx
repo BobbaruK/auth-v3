@@ -1,5 +1,6 @@
 "use client";
 
+import { CustomButton } from "@/components/custom-button";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,7 +11,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
+import { signIn } from "@/lib/auth-client";
 import { Session } from "@/types/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -20,8 +23,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
-import { signIn } from "@/lib/auth-client";
-import { PasswordInput } from "@/components/ui/password-input";
 
 interface Props {
   session: Session | null;
@@ -125,9 +126,13 @@ export const SignInForm = ({ session }: Props) => {
               )}
             />
           </div>
-          <Button type="submit" className="w-full" disabled={isPending}>
-            Login
-          </Button>
+          <CustomButton
+            buttonLabel={`Login`}
+            type="submit"
+            className="w-full"
+            disabled={isPending}
+            skeletonClassName="w-full"
+          />
         </form>
       </Form>
     </>
