@@ -4,7 +4,7 @@ import { sendResetPasswordMail } from "@/core/mail/actions/reset-password-mail";
 import { sendVerificationMail } from "@/core/mail/actions/verification-mail";
 import { UserRole } from "@/generated/prisma";
 import { ac, roles } from "@/lib/permissions";
-import prisma from "@/lib/prisma";
+import db from "@/lib/prisma";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError, createAuthMiddleware } from "better-auth/api";
@@ -13,11 +13,25 @@ import { admin, twoFactor } from "better-auth/plugins";
 
 export const auth = betterAuth({
   appName: "Auth v3",
-  database: prismaAdapter(prisma, {
+  database: prismaAdapter(db, {
     provider: "postgresql",
   }),
   user: {
     modelName: "auth_user",
+    additionalFields: {
+      firstName: {
+        type: "string",
+        required: true,
+      },
+      lastName: {
+        type: "string",
+        required: true,
+      },
+      bio: {
+        type: "string",
+        required: false,
+      },
+    },
   },
   account: {
     modelName: "auth_account",
