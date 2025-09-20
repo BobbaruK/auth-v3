@@ -8,13 +8,21 @@ import { passwordRefine } from "@/core/auth/utils/password-refine";
 import { z } from "zod";
 
 export const RegisterSchema = z.object({
-  name: z
+  firstName: z
     .string()
     .min(MIN_USERNAME, {
-      message: `Username must be ${MIN_USERNAME} or more characters long`,
+      message: `First Name must be ${MIN_USERNAME} or more characters long`,
     })
     .max(MAX_USERNAME, {
-      message: `Username must be ${MAX_USERNAME} or fewer characters long`,
+      message: `First Name must be ${MAX_USERNAME} or fewer characters long`,
+    }),
+  lastName: z
+    .string()
+    .min(MIN_USERNAME, {
+      message: `First Name must be ${MIN_USERNAME} or more characters long`,
+    })
+    .max(MAX_USERNAME, {
+      message: `First Name must be ${MAX_USERNAME} or fewer characters long`,
     }),
   email: z.email({ message: "Invalid email address" }),
   password: z

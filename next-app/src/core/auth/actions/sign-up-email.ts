@@ -19,14 +19,16 @@ type RegisterResponse =
     };
 
 export const signUpEmail = async (
-  values: z.infer<typeof RegisterSchema>
+  values: z.infer<typeof RegisterSchema>,
 ): Promise<RegisterResponse> => {
-  const { email, name, password } = values;
+  const { email, firstName, lastName, password } = values;
 
   try {
     await auth.api.signUpEmail({
       body: {
-        name,
+        name: `${lastName} ${firstName}`,
+        firstName,
+        lastName,
         email,
         password,
         callbackURL: DEFAULT_LOGIN_REDIRECT,
