@@ -1,13 +1,13 @@
 import { CustomAvatar } from "@/components/custom-avatar";
 import { Badge } from "@/components/ui/badge";
+import { Prisma } from "@/generated/prisma";
 import { dateFormatter } from "@/lib/utils/format-date";
-import { UserSession } from "@/types/session";
 import Link from "next/link";
 import { GoCalendar, GoMail } from "react-icons/go";
 import { HiOutlineMapPin } from "react-icons/hi2";
 
 interface Props {
-  user?: UserSession;
+  user: Prisma.auth_userGetPayload<{}> | null;
 }
 
 export const ProfileHeader = ({ user }: Props) => {
@@ -20,7 +20,9 @@ export const ProfileHeader = ({ user }: Props) => {
       </div>
       <div className="space-y-2">
         <div className="flex flex-col gap-2 md:flex-row md:items-center">
-          <h1 className="text-2xl font-bold">{user.name}</h1>
+          <h1 className="text-2xl font-bold">
+            {user.lastName} {user.firstName}
+          </h1>
         </div>
         <Badge variant={"default"}>{user.role}</Badge>
         {/* <p className="text-muted-foreground">{user.role}</p> */}
