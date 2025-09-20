@@ -1,4 +1,6 @@
 import { PageStructure } from "@/components/page-structure";
+import { ProfileContent } from "@/features/profile/components/profile-content";
+import { ProfileHeader } from "@/features/profile/components/profile-header";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
@@ -9,17 +11,9 @@ const ProfilePage = async () => {
 
   return (
     <PageStructure>
-      <h1 className="text-3xl font-bold">{session?.user.name}</h1>
+      <ProfileHeader user={session?.user} />
 
-      <div>
-        <p>Role: {session?.user.role}</p>
-        <p>Email: {session?.user.email}</p>
-        <p>Image: {session?.user.image || "no image"}</p>
-        <p>Ban: {JSON.stringify(session?.user.banned, null, 2)}</p>
-        <p>Ban Reason: {session?.user.banReason || "no reason"}</p>
-        <p>Ban Expires: {JSON.stringify(session?.user.banExpires)}</p>
-        <p>2FA: {JSON.stringify(session?.user.twoFactorEnabled)}</p>
-      </div>
+      <ProfileContent />
     </PageStructure>
   );
 };
