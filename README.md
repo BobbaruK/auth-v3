@@ -15,18 +15,56 @@ This repository contains a **Next.js** application fully dockerized and built wi
   - [Examples](#examples)
   - [Notes](#notes)
 
-## Tech Stack
+## Tech Stack & Important Packages
 
-- **Next.js** – React framework for building full-stack web applications
-- **Prisma ORM** – Type-safe database toolkit and query builder
-- **PostgreSQL** – Relational database management system
-- **Resend** – Email sending functionality
-- **Docker** – Containerization for development and deployment
+### Core
+
+- **next** – Full-stack React framework (SSR, SSG, routing).
+- **react / react-dom** – React UI library and DOM renderer.
+
+### Database
+
+- **prisma / @prisma/client** – Type-safe ORM for PostgreSQL, migrations, and query building.
+
+### Forms & Validation
+
+- **react-hook-form** – Form management in React.
+- **@hookform/resolvers** – Integrates schema validation (e.g., Zod) with React Hook Form.
+- **zod** – Schema validation in TypeScript.
+
+### UI & Styling
+
+- **tailwindcss** – Utility-first CSS framework for rapid styling.
+- **tailwind-merge** – Combine and override Tailwind classes safely.
+- **clsx** – Utility for conditional class concatenation.
+- **class-variance-authority** – Manage UI class variants.
+- **shadcn/ui** – Accessible, customizable UI components.
+- **lucide-react / react-icons** – SVG icon libraries for React.
+- **sonner** – Elegant toast notifications.
+
+### Auth & Security
+
+- **better-auth** – Authentication with cookies / JWT.
+- **input-otp** – OTP input components for login flows.
+
+### Theming / Utilities
+
+- **next-themes** – Dark / light mode support.
+- **usehooks-ts** – Reusable React hooks written in TypeScript.
+
+### Email
+
+- **resend** – Sending emails via API.
+- **@react-email/components / @react-email/render** – Building and rendering emails in React.
+
+### Dev & Linting
+
+- **typescript** – TypeScript type system.
+- **eslint / eslint-config-next / eslint-plugin-boundaries** – Linting and best practices.
 
 ## Overview
 
-This project explores building a full-stack Next.js application with Docker, Prisma, and PostgreSQL.  
-It follows this tutorial ["Better Auth Full Tutorial with Next.js, Prisma ORM, PostgreSQL, Nodemailer"](https://www.youtube.com/watch?v=N4meIif7Jtc) and aims to provide a solid foundation for future production-ready applications.
+This project is a full-stack authentication system built with Next.js, designed to handle modern user workflows including login, registration, password reset, and email verification. It is fully containerized with Docker and connects to a PostgreSQL database via Prisma. The app demonstrates practical handling of sessions, JWTs, and secure authentication flows, structured in a way that could serve as a foundation for larger applications.
 
 ## Server Setup
 
