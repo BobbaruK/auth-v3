@@ -9,6 +9,7 @@ const MESSAGES_FN = (resource?: string) => {
     PASSWORD_RESET:
       "Success! A confirmation email has been sent to reset your password.",
     PASSWORDS_NOT_MATCH: "Passwords do not match.",
+    PROFILE_UPDATED: "Profile updated!",
     QR_SCAN: "Scan the QR code below and enter the OTP.",
     QR_VALIDATED: "QR code validated.",
     REGISTRATION_SUCCESS: "Registration complete. Please verify your email.",

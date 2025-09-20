@@ -25,6 +25,18 @@ export const MIN_USERNAME = 2;
 export const MAX_USERNAME = 50;
 
 /**
+ * Minumum characters in a bio
+ * @type {number}
+ */
+export const MIN_BIO = 2;
+
+/**
+ * Maximum characters in a bio
+ * @type {number}
+ */
+export const MAX_BIO = 260;
+
+/**
  * Session expiration time (seconds)
  * @type {number}
  */
