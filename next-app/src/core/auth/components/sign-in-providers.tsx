@@ -1,6 +1,7 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { signIn } from "@/lib/auth-client";
 import { FaGithub } from "react-icons/fa";
 import { GrGoogle } from "react-icons/gr";
@@ -9,12 +10,16 @@ const SignInProviders = () => {
   const handleGithubClick = async () => {
     await signIn.social({
       provider: "github",
+      errorCallbackURL: "/auth/error",
+      callbackURL: DEFAULT_LOGIN_REDIRECT,
     });
   };
 
   const handleGoogleClick = async () => {
     await signIn.social({
       provider: "google",
+      errorCallbackURL: "/auth/error",
+      callbackURL: DEFAULT_LOGIN_REDIRECT,
     });
   };
 

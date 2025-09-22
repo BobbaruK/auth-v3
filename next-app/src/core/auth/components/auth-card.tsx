@@ -12,11 +12,17 @@ interface Props {
   title: string;
   description: string;
   children: ReactNode;
+  showFooter?: boolean;
 }
 
-export const AuthCard = ({ title, description, children }: Props) => {
+export const AuthCard = ({
+  title,
+  description,
+  children,
+  showFooter = true,
+}: Props) => {
   return (
-    <div className="max-w-96 mx-auto flex flex-col gap-6 items-center">
+    <div className="mx-auto flex max-w-96 flex-col items-center gap-6">
       <Card className="w-full">
         <CardHeader className="text-center">
           <CardTitle className="text-xl">{title}</CardTitle>
@@ -27,7 +33,7 @@ export const AuthCard = ({ title, description, children }: Props) => {
         <CardContent className="space-y-6">{children}</CardContent>
       </Card>
 
-      <AuthFooter />
+      {showFooter && <AuthFooter />}
     </div>
   );
 };
