@@ -2,16 +2,35 @@
 
 import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
+import { EMAIL } from "@/schemas/form";
 import { APIError } from "better-auth/api";
 import { headers } from "next/headers";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
 
-// TODO: maybe combine these 2 functions in one and check here
-// const emailSchema = z.email();
-// const usernameSchema = z.string();
+const emailSchema = EMAIL;
+// const usernameSchema = USERNAME;
 
-export const signInEmail = async (values: z.infer<typeof LoginSchema>) => {
+type Response =
+  | {
+      success?: undefined;
+      redirectOTP?: undefined;
+      error: string;
+    }
+  | {
+      success: string;
+      redirectOTP: boolean;
+      error?: undefined;
+    }
+  | {
+      success: string;
+      redirectOTP?: undefined;
+      error?: undefined;
+    };
+
+export const signInEmail = async (
+  values: z.infer<typeof LoginSchema>,
+): Promise<Response> => {
   const { email, password } = values;
 
   try {
@@ -66,7 +85,9 @@ export const signInEmail = async (values: z.infer<typeof LoginSchema>) => {
   }
 };
 
-export const signInUsername = async (values: z.infer<typeof LoginSchema>) => {
+export const signInUsername = async (
+  values: z.infer<typeof LoginSchema>,
+): Promise<Response> => {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -100,4 +121,14 @@ export const signInUsername = async (values: z.infer<typeof LoginSchema>) => {
 
     throw error;
   }
+};
+
+export const signIn = async (
+  values: z.infer<typeof LoginSchema>,
+): Promise<Response> => {
+  if (emailSchema.safeParse(values.email).success) {
+    return await signInEmail(values);
+  }
+
+  return await signInUsername(values);
 };

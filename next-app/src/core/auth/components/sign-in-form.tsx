@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
-import { Session } from "@/types/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -22,17 +21,10 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { signInEmail, signInUsername } from "../actions/sign-in";
+import { signIn } from "../actions/sign-in";
 import { LoginSchema } from "../schemas/login";
 
-const emailSchema = z.email();
-const usernameSchema = z.string();
-
-interface Props {
-  session: Session | null;
-}
-
-export const SignInForm = ({ session }: Props) => {
+export const SignInForm = () => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -44,61 +36,29 @@ export const SignInForm = ({ session }: Props) => {
     },
   });
 
-  const signInEmailServer = async (values: z.infer<typeof LoginSchema>) =>
-    signInEmail(values)
-      .then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        }
-
-        if (data.success) {
-          if (data.redirectOTP) {
-            toast.success(MESSAGES.ENTER_OTP);
-            router.push("/two-factor-verification");
-            return;
-          }
-
-          toast.success(MESSAGES.LOGIN_SUCCESS);
-          router.push(DEFAULT_LOGIN_REDIRECT);
-          router.refresh();
-        }
-      })
-      .catch(() => {
-        toast.error(MESSAGES.SOMETHING_WRONG);
-      });
-
-  const signInUsernameServer = async (values: z.infer<typeof LoginSchema>) =>
-    signInUsername(values)
-      .then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        }
-
-        if (data.success) {
-          if (data.redirectOTP) {
-            toast.success(MESSAGES.ENTER_OTP);
-            router.push("/two-factor-verification");
-            return;
-          }
-
-          toast.success(MESSAGES.LOGIN_SUCCESS);
-          router.push(DEFAULT_LOGIN_REDIRECT);
-          router.refresh();
-        }
-      })
-      .catch(() => {
-        toast.error(MESSAGES.SOMETHING_WRONG);
-      });
-
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(async () => {
-      if (emailSchema.safeParse(values.email).success) {
-        await signInEmailServer(values);
+      signIn(values)
+        .then((data) => {
+          if (data.error) {
+            toast.error(data.error);
+          }
 
-        return;
-      }
+          if (data.success) {
+            if (data.redirectOTP) {
+              toast.success(MESSAGES.ENTER_OTP);
+              router.push("/two-factor-verification");
+              return;
+            }
 
-      await signInUsernameServer(values);
+            toast.success(MESSAGES.LOGIN_SUCCESS);
+            router.push(DEFAULT_LOGIN_REDIRECT);
+            router.refresh();
+          }
+        })
+        .catch(() => {
+          toast.error(MESSAGES.SOMETHING_WRONG);
+        });
     });
   };
 
