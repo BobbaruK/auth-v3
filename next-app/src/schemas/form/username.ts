@@ -1,7 +1,7 @@
 import { MAX_USERNAME, MIN_USERNAME } from "@/constants/misc";
 import z from "zod";
 
-export const USERNAME_SCHEMA = z
+export const USERNAME = z
   .string()
   .min(MIN_USERNAME, {
     message: `Username must be ${MIN_USERNAME} or more characters long`,
