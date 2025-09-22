@@ -1,5 +1,12 @@
 import { ADMIN_EMAILS, OWNER_EMAILS } from "@/constants/admin";
-import { MIN_PASSWORD, SESSION_EXPIRES, VALID_DOMAINS } from "@/constants/misc";
+import {
+  MAX_USERNAME,
+  MIN_PASSWORD,
+  MIN_USERNAME,
+  SESSION_EXPIRES,
+  VALID_DOMAINS,
+} from "@/constants/misc";
+import { sendChangeMail } from "@/core/mail/actions/change-email";
 import { sendResetPasswordMail } from "@/core/mail/actions/reset-password-mail";
 import { sendVerificationMail } from "@/core/mail/actions/verification-mail";
 import { UserRole } from "@/generated/prisma";
@@ -9,8 +16,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError, createAuthMiddleware } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
-import { admin, twoFactor } from "better-auth/plugins";
-import { username } from "better-auth/plugins";
+import { admin, twoFactor, username } from "better-auth/plugins";
 
 export const auth = betterAuth({
   appName: "Auth v3",
@@ -31,6 +37,18 @@ export const auth = betterAuth({
       bio: {
         type: "string",
         required: false,
+      },
+    },
+    changeEmail: {
+      enabled: true,
+      sendChangeEmailVerification: async ({ user, newEmail, url, token }) => {
+        await sendChangeMail({
+          name: user.name,
+          oldMail: user.email,
+          newMail: newEmail,
+          url,
+          token,
+        });
       },
     },
   },
@@ -78,10 +96,22 @@ export const auth = betterAuth({
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      mapProfileToUser: (profile) => ({
+        firstName: profile.name.split(" ")[0],
+        lastName: profile.name.split(" ")[1] || profile.name.split(" ")[0],
+        username: profile.login,
+        displayUsername: profile.login,
+      }),
     },
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      mapProfileToUser: (profile) => ({
+        firstName: profile.given_name,
+        lastName: profile.family_name,
+        username: profile.given_name,
+        displayUsername: profile.given_name,
+      }),
     },
   },
   hooks: {
@@ -127,6 +157,15 @@ export const auth = betterAuth({
       },
     },
   },
+  onAPIError: {
+    // throw: true,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onError: (error, ctx) => {
+      // Custom error handling
+      console.error("Auth error:", error);
+    },
+    errorURL: "/auth/error",
+  },
   advanced: {
     database: {
       generateId: false,
@@ -156,7 +195,10 @@ export const auth = betterAuth({
         },
       },
     }),
-    username(),
+    username({
+      minUsernameLength: MIN_USERNAME,
+      maxUsernameLength: MAX_USERNAME,
+    }),
     nextCookies(),
   ],
 });
