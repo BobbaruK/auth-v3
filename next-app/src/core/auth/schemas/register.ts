@@ -5,7 +5,7 @@ import {
   MIN_USERNAME,
 } from "@/constants/misc";
 import { passwordRefine } from "@/core/auth/utils/password-refine";
-import { USERNAME_SCHEMA } from "@/schemas/username";
+import { USERNAME_SCHEMA } from "@/schemas/form";
 import { z } from "zod";
 
 export const RegisterSchema = z.object({

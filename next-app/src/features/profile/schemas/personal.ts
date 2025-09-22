@@ -1,5 +1,5 @@
 import { MAX_BIO, MAX_USERNAME, MIN_BIO, MIN_USERNAME } from "@/constants/misc";
-import { USERNAME_SCHEMA } from "@/schemas/username";
+import { USERNAME_SCHEMA } from "@/schemas/form";
 import { z } from "zod";
 
 export const PersonalSchema = z.object({
