@@ -4,7 +4,6 @@ import { Prisma } from "@/generated/prisma";
 import { dateFormatter } from "@/lib/utils/format-date";
 import Link from "next/link";
 import { GoCalendar, GoMail } from "react-icons/go";
-import { HiOutlineMapPin } from "react-icons/hi2";
 
 interface Props {
   user: Prisma.auth_userGetPayload<{}> | null;
@@ -20,20 +19,16 @@ export const ProfileHeader = ({ user }: Props) => {
       </div>
       <div className="space-y-2">
         <div className="flex flex-col gap-2 md:flex-row md:items-center">
-          <h1 className="text-2xl font-bold">
-            {user.lastName} {user.firstName}
-          </h1>
+          <h1 className="text-2xl font-bold">{user.displayUsername}</h1>
+          <Badge variant={"default"}>{user.role}</Badge>
         </div>
-        <Badge variant={"default"}>{user.role}</Badge>
-        {/* <p className="text-muted-foreground">{user.role}</p> */}
+        <p className="text-muted-foreground">
+          {user.lastName} {user.firstName}
+        </p>
         <div className="text-muted-foreground flex flex-wrap gap-4 text-sm">
           <div className="flex items-center gap-1">
             <GoMail />
             <Link href={`mailto:${user.email}`}>{user.email}</Link>
-          </div>
-          <div className="flex items-center gap-1">
-            <HiOutlineMapPin />
-            San Francisco, CA
           </div>
           <div className="flex items-center gap-1">
             <GoCalendar />

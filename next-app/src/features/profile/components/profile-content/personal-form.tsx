@@ -33,6 +33,7 @@ export const PersonalForm = ({ user }: Props) => {
     defaultValues: {
       firstName: user?.firstName,
       lastName: user?.lastName,
+      userName: user?.displayUsername || undefined,
       email: user?.email,
       bio: user?.bio || undefined,
     },
@@ -96,10 +97,24 @@ export const PersonalForm = ({ user }: Props) => {
               </FormItem>
             )}
           />
-          <div className="space-y-2">
-            <Label htmlFor="userName">User Name X</Label>
-            <Input id="userName" defaultValue={user?.name || ""} />
-          </div>
+          <FormField
+            control={form.control}
+            name="userName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="text"
+                    placeholder="Doughnut"
+                    disabled={isPending}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -111,21 +126,13 @@ export const PersonalForm = ({ user }: Props) => {
                     {...field}
                     type="email"
                     placeholder="john.doe@example.com"
-                    disabled={isPending}
+                    disabled={true}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="space-y-2">
-            <Label htmlFor="location">Location X</Label>
-            <Input id="location" defaultValue="San Francisco, CA" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone X</Label>
-            <Input id="phone" defaultValue="+1 (555) 123-4567" />
-          </div>
         </div>
         <FormField
           control={form.control}

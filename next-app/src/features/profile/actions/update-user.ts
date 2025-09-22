@@ -24,13 +24,14 @@ export const updateUser = async (
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
 
-  const { firstName, lastName, bio } = validatedFields.data;
+  const { firstName, lastName, userName, bio } = validatedFields.data;
 
   try {
     await auth.api.updateUser({
       body: {
         firstName,
         lastName,
+        username: userName,
         name: `${lastName} ${firstName}`,
         bio,
       },
