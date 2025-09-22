@@ -41,6 +41,7 @@ const eslintConfig = [
             "src/hooks/**/*",
             "src/lib/**/*",
             "src/providers/**/*",
+            "src/schemas/**/*",
             "src/types/**/*",
           ],
         },
@@ -76,8 +77,8 @@ const eslintConfig = [
               allow: ["core", "shared"],
             },
             {
-              from: "feature",
-              allow: ["feature", { featureName: "${from.featureName}" }],
+              from: ["feature"],
+              allow: [["feature", { name: "${from.name}" }]],
             },
             {
               from: ["app", "neverImport"],
