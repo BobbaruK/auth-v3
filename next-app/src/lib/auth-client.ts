@@ -1,7 +1,12 @@
 import { ac, roles } from "@/lib/permissions";
-import { adminClient } from "better-auth/client/plugins";
+import {
+  adminClient,
+  inferAdditionalFields,
+  twoFactorClient,
+  usernameClient,
+} from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
-import { twoFactorClient } from "better-auth/client/plugins";
+import { auth } from "./auth";
 
 const authClient = createAuthClient({
   /** The base URL of the server (optional if you're using the same domain) */
@@ -12,6 +17,8 @@ const authClient = createAuthClient({
       roles: roles,
     }),
     twoFactorClient(),
+    usernameClient(),
+    inferAdditionalFields<typeof auth>(),
   ],
 });
 
