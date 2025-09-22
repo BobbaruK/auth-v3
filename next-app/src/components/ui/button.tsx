@@ -17,6 +17,11 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+
+        danger: "bg-danger text-danger-foreground hover:bg-danger/90",
+        warning: "bg-warning text-warning-foreground hover:bg-warning/90",
+        success: "bg-success text-success-foreground hover:bg-success/90",
+        info: "bg-info text-info-foreground hover:bg-info/90",
       },
       effect: {
         expandIcon: "group gap-0 relative",
@@ -48,7 +53,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 interface IconProps {
@@ -84,14 +89,15 @@ const Button = React.forwardRef<
       asChild = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, effect, size, className }))}
         ref={ref}
-        {...props}>
+        {...props}
+      >
         {Icon &&
           iconPlacement === "left" &&
           (effect === "expandIcon" ? (
@@ -113,7 +119,7 @@ const Button = React.forwardRef<
           ))}
       </Comp>
     );
-  }
+  },
 );
 Button.displayName = "Button";
 
