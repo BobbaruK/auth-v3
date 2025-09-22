@@ -19,7 +19,9 @@ export const ProfileHeader = ({ user }: Props) => {
       </div>
       <div className="space-y-2">
         <div className="flex flex-col gap-2 md:flex-row md:items-center">
-          <h1 className="text-2xl font-bold">{user.displayUsername}</h1>
+          <h1 className="text-2xl font-bold">
+            {user.displayUsername || user.firstName}
+          </h1>
           <Badge variant={"default"}>{user.role}</Badge>
         </div>
         <p className="text-muted-foreground">
