@@ -33,6 +33,7 @@ export const SignUpForm = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
+      userName: "",
       email: "",
       password: process.env.NEXT_PUBLIC_DEFAULT_REGISTER_PASSWORD || "",
     },
@@ -90,6 +91,24 @@ export const SignUpForm = () => {
                     {...field}
                     type="text"
                     placeholder="Doe"
+                    disabled={isPending}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="userName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="text"
+                    placeholder="Doughnut"
                     disabled={isPending}
                   />
                 </FormControl>

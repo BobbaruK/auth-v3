@@ -1,27 +1,17 @@
 "use server";
 
+import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
-import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
-import { MESSAGES } from "@/constants/messages";
 
-type SignInResponse =
-  | {
-      success: string;
-      redirectOTP: boolean;
-      error?: null;
-    }
-  | {
-      success?: null;
-      error: string;
-    };
+// TODO: maybe combine these 2 functions in one and check here
+// const emailSchema = z.email();
+// const usernameSchema = z.string();
 
-export const signIn = async (
-  values: z.infer<typeof LoginSchema>
-): Promise<SignInResponse> => {
+export const signInEmail = async (values: z.infer<typeof LoginSchema>) => {
   const { email, password } = values;
 
   try {
@@ -33,8 +23,6 @@ export const signIn = async (
       headers: await headers(),
       // asResponse : true
     });
-
-    revalidatePath("/login", "layout");
 
     if ("twoFactorRedirect" in response)
       return {
@@ -65,7 +53,42 @@ export const signIn = async (
 
     return {
       success: MESSAGES.LOGIN_SUCCESS,
-      redirectOTP: false,
+    };
+  } catch (error) {
+    console.error("Something went wrong: ", JSON.stringify(error));
+
+    if (error instanceof APIError)
+      return {
+        error: error.message,
+      };
+
+    throw error;
+  }
+};
+
+export const signInUsername = async (values: z.infer<typeof LoginSchema>) => {
+  const validatedFields = LoginSchema.safeParse(values);
+
+  if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
+
+  const { email: username, password } = validatedFields.data;
+
+  try {
+    const data = await auth.api.signInUsername({
+      body: {
+        username,
+        password,
+      },
+    });
+
+    if (data && "twoFactorRedirect" in data)
+      return {
+        success: MESSAGES.ENTER_OTP,
+        redirectOTP: true,
+      };
+
+    return {
+      success: MESSAGES.LOGIN_SUCCESS,
     };
   } catch (error) {
     console.error("Something went wrong: ", JSON.stringify(error));

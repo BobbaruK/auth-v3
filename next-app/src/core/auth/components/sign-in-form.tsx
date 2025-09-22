@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
-import { signIn } from "@/lib/auth-client";
 import { Session } from "@/types/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -23,7 +22,11 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { signInEmail, signInUsername } from "../actions/sign-in";
 import { LoginSchema } from "../schemas/login";
+
+const emailSchema = z.email();
+const usernameSchema = z.string();
 
 interface Props {
   session: Session | null;
@@ -41,37 +44,61 @@ export const SignInForm = ({ session }: Props) => {
     },
   });
 
+  const signInEmailServer = async (values: z.infer<typeof LoginSchema>) =>
+    signInEmail(values)
+      .then((data) => {
+        if (data.error) {
+          toast.error(data.error);
+        }
+
+        if (data.success) {
+          if (data.redirectOTP) {
+            toast.success(MESSAGES.ENTER_OTP);
+            router.push("/two-factor-verification");
+            return;
+          }
+
+          toast.success(MESSAGES.LOGIN_SUCCESS);
+          router.push(DEFAULT_LOGIN_REDIRECT);
+          router.refresh();
+        }
+      })
+      .catch(() => {
+        toast.error(MESSAGES.SOMETHING_WRONG);
+      });
+
+  const signInUsernameServer = async (values: z.infer<typeof LoginSchema>) =>
+    signInUsername(values)
+      .then((data) => {
+        if (data.error) {
+          toast.error(data.error);
+        }
+
+        if (data.success) {
+          if (data.redirectOTP) {
+            toast.success(MESSAGES.ENTER_OTP);
+            router.push("/two-factor-verification");
+            return;
+          }
+
+          toast.success(MESSAGES.LOGIN_SUCCESS);
+          router.push(DEFAULT_LOGIN_REDIRECT);
+          router.refresh();
+        }
+      })
+      .catch(() => {
+        toast.error(MESSAGES.SOMETHING_WRONG);
+      });
+
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(async () => {
-      /**
-       * Client side signup
-       *
-       * for server side signup check ../actions/sign-in.ts > signIn
-       */
-      await signIn.email(
-        {
-          email: values.email,
-          password: values.password,
-        },
-        {
-          onRequest: () => {},
-          onResponse: () => {},
-          onError: (ctx) => {
-            toast.error(ctx.error.message);
-          },
-          onSuccess: (context) => {
-            if (context.data.twoFactorRedirect) {
-              toast.success(MESSAGES.ENTER_OTP);
-              router.push("/two-factor-verification");
-              return;
-            }
+      if (emailSchema.safeParse(values.email).success) {
+        await signInEmailServer(values);
 
-            toast.success(MESSAGES.LOGIN_SUCCESS);
-            router.push(DEFAULT_LOGIN_REDIRECT);
-            router.refresh();
-          },
-        }
-      );
+        return;
+      }
+
+      await signInUsernameServer(values);
     });
   };
 
@@ -85,11 +112,11 @@ export const SignInForm = ({ session }: Props) => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Username or Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      type="email"
+                      type="text"
                       placeholder="john.doe@example.com"
                       disabled={isPending}
                     />
@@ -109,7 +136,8 @@ export const SignInForm = ({ session }: Props) => {
                       size={"sm"}
                       variant={"link"}
                       asChild
-                      className="px-0 font-normal text-foreground ms-auto">
+                      className="text-foreground ms-auto px-0 font-normal"
+                    >
                       <Link href={"/reset"}>Forgot password?</Link>
                     </Button>
                   </div>

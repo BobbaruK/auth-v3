@@ -1,9 +1,10 @@
 import { MAX_PASSWORD, MIN_PASSWORD } from "@/constants/misc";
 import { z } from "zod";
 import { passwordRefine } from "../utils/password-refine";
+import { USERNAME_SCHEMA } from "@/schemas/username";
 
 export const LoginSchema = z.object({
-  email: z.email({ message: "Invalid email address" }),
+  email: z.union([z.email(), USERNAME_SCHEMA]),
   password: z
     .string()
     .min(MIN_PASSWORD, {
