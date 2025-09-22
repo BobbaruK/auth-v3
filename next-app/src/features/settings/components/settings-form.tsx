@@ -2,13 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { toast } from "sonner";
 import { disable2fa, enable2fa } from "../actions/2fa";
 
 export const SettingsForm = () => {
   const [isPending, startTransition] = useTransition();
-  const [totpURI, setTotpURI] = useState<string | null>(null);
   const router = useRouter();
 
   const add2fa = () => {
@@ -21,7 +20,7 @@ export const SettingsForm = () => {
           if (data.success) {
             toast.success(data.success);
             router.push(
-              `/two-factor-verification?twoFactor=${encodeURIComponent(data.totpURI)}&twoFactorFirstTime=true`
+              `/two-factor-verification?twoFactor=${encodeURIComponent(data.totpURI)}&twoFactorFirstTime=true`,
             );
           }
         })

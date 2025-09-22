@@ -13,11 +13,11 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Prisma } from "@/generated/prisma";
+import { auth_user } from "@/generated/prisma";
 import { PersonalForm } from "./personal-form";
 
 interface Props {
-  user: Prisma.auth_userGetPayload<{}> | null;
+  user: auth_user | null;
 }
 
 export const ProfileContent = ({ user }: Props) => {

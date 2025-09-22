@@ -72,11 +72,13 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
         }
 
         toast.success(
-          isFirstTime ? MESSAGES.QR_VALIDATED : MESSAGES.LOGIN_SUCCESS
+          isFirstTime ? MESSAGES.QR_VALIDATED : MESSAGES.LOGIN_SUCCESS,
         );
         router.push(DEFAULT_LOGIN_REDIRECT);
         router.refresh();
       } catch (error) {
+        if (error instanceof Error) console.error(error.message);
+
         toast.error(MESSAGES.SOMETHING_WRONG);
       }
     });
@@ -95,6 +97,8 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
         });
       })
       .catch((error) => {
+        if (error instanceof Error) console.error(error.message);
+
         toast.error("Failed to copy!");
       });
   };
@@ -117,8 +121,8 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
             If you can&apos;t use the QR code, enter this secret key manually in
             your authenticator app.
           </p>
-          <div className="flex gap-2 items-center">
-            <p className={cn("truncate w-full")}>{secret}</p>
+          <div className="flex items-center gap-2">
+            <p className={cn("w-full truncate")}>{secret}</p>
             <CustomButton
               buttonLabel={`Copy secret`}
               variant={"secondary"}
@@ -164,7 +168,7 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
             name="remember"
             render={({ field }) => {
               return (
-                <FormItem className="flex flex-row items-center gap-2 ">
+                <FormItem className="flex flex-row items-center gap-2">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -174,7 +178,7 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
                       }}
                     />
                   </FormControl>
-                  <FormLabel className="text-sm font-normal cursor-pointer">
+                  <FormLabel className="cursor-pointer text-sm font-normal">
                     Remember this device.
                   </FormLabel>
                 </FormItem>

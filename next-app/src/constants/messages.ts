@@ -1,4 +1,4 @@
-const MESSAGES_FN = (resource?: string) => {
+const MESSAGES_FN = () => {
   return {
     ENTER_OTP: "Enter the OTP.",
     INVALID_FIELDS: "Some fields are invalid.",

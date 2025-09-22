@@ -1,7 +1,6 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
-import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/auth-client";
 import { FaGithub } from "react-icons/fa";
 import { GrGoogle } from "react-icons/gr";
@@ -21,7 +20,7 @@ const SignInProviders = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex gap-4 items-center flex-wrap">
+      <div className="flex flex-wrap items-center gap-4">
         <CustomButton
           buttonLabel={`Login with GitHub`}
           variant="outline"

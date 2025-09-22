@@ -1,12 +1,12 @@
 import { CustomAvatar } from "@/components/custom-avatar";
 import { Badge } from "@/components/ui/badge";
-import { Prisma } from "@/generated/prisma";
+import { auth_user } from "@/generated/prisma";
 import { dateFormatter } from "@/lib/utils/format-date";
 import Link from "next/link";
 import { GoCalendar, GoMail } from "react-icons/go";
 
 interface Props {
-  user: Prisma.auth_userGetPayload<{}> | null;
+  user: auth_user | null;
 }
 
 export const ProfileHeader = ({ user }: Props) => {

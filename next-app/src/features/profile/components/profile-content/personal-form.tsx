@@ -10,20 +10,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Prisma } from "@/generated/prisma";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { use, useTransition } from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
-import { PersonalSchema } from "../../schemas/personal";
-import { updateUser } from "../../actions/update-user";
-import { toast } from "sonner";
 import { MESSAGES } from "@/constants/messages";
+import { auth_user } from "@/generated/prisma";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
+import { updateUser } from "../../actions/update-user";
+import { PersonalSchema } from "../../schemas/personal";
 
 interface Props {
-  user: Prisma.auth_userGetPayload<{}> | null;
+  user: auth_user | null;
 }
 
 export const PersonalForm = ({ user }: Props) => {

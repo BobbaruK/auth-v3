@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { CustomButton } from "@/components/custom-button";
 import {
   Form,
   FormControl,
@@ -11,6 +11,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
+import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -20,9 +22,6 @@ import { toast } from "sonner";
 import z from "zod";
 import { signUpEmail } from "../actions/sign-up-email";
 import { RegisterSchema } from "../schemas/register";
-import { PasswordInput } from "@/components/ui/password-input";
-import { CustomButton } from "@/components/custom-button";
-import { MESSAGES } from "@/constants/messages";
 
 export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();

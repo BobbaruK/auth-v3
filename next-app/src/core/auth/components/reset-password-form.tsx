@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { CustomButton } from "@/components/custom-button";
 import {
   Form,
   FormControl,
@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { MESSAGES } from "@/constants/messages";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -18,8 +19,6 @@ import { toast } from "sonner";
 import z from "zod";
 import { resetPassword } from "../actions/reset-password";
 import { ResetPasswordSchema } from "../schemas/reset-password";
-import { CustomButton } from "@/components/custom-button";
-import { MESSAGES } from "@/constants/messages";
 
 export const ResetPasswordForm = () => {
   const router = useRouter();
