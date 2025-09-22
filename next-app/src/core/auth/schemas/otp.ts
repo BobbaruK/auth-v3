@@ -1,8 +1,7 @@
+import { CODE } from "@/schemas/form";
 import z from "zod";
 
 export const OTP = z.object({
-  code: z.string().min(6, {
-    message: "Your one-time password must be 6 characters.",
-  }),
+  code: CODE,
   remember: z.boolean(),
 });
