@@ -1,5 +1,6 @@
 const MESSAGES_FN = () => {
   return {
+    EMAIL_CHANGED: "Your email has been changed. Please verify your email.",
     ENTER_OTP: "Enter the OTP.",
     INVALID_FIELDS: "Some fields are invalid.",
     LOGIN_SUCCESS: "Login successful. Welcome back!",
