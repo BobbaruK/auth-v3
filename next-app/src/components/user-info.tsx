@@ -54,8 +54,14 @@ export const UserInfo = ({ user }: Props) => {
         </div>
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <p className="text-sm font-medium">2FA</p>
-          <Badge variant={user?.twoFactorEnabled ? "default" : "destructive"}>
+          <Badge variant={user?.twoFactorEnabled ? "success" : "destructive"}>
             {user?.twoFactorEnabled ? "ON" : "OFF"}
+          </Badge>
+        </div>
+        <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+          <p className="text-sm font-medium">Public account</p>
+          <Badge variant={user?.isAccountVisible ? "success" : "destructive"}>
+            {user?.isAccountVisible ? "ON" : "OFF"}
           </Badge>
         </div>
       </CardContent>
