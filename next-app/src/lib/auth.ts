@@ -8,6 +8,7 @@ import {
   VALID_DOMAINS,
 } from "@/constants/misc";
 import { sendChangeMail } from "@/core/mail/actions/change-email";
+import { confirmDeleteAccountMail } from "@/core/mail/actions/confirm-delete-account-email";
 import { sendResetPasswordMail } from "@/core/mail/actions/reset-password-mail";
 import { sendVerificationMail } from "@/core/mail/actions/verification-mail";
 import { UserRole } from "@/generated/prisma";
@@ -52,6 +53,17 @@ export const auth = betterAuth({
           oldMail: user.email,
           newMail: newEmail,
           url,
+          token,
+        });
+      },
+    },
+    deleteUser: {
+      enabled: true,
+      sendDeleteAccountVerification: async ({ user, url, token }) => {
+        await confirmDeleteAccountMail({
+          name: user.name,
+          url,
+          email: user.email,
           token,
         });
       },
