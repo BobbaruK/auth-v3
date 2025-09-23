@@ -39,6 +39,7 @@ model auth_user {
   banReason        String?
   banExpires       DateTime?
   twoFactorEnabled Boolean?  @default(false)
+  isAccountVisible Boolean?  @default(true)
 
   sessions   auth_session[]
   accounts   auth_account[]
