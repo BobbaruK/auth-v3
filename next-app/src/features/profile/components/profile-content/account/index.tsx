@@ -1,8 +1,8 @@
 import { CustomButton } from "@/components/custom-button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import { auth_user } from "@/generated/prisma";
+import { AccountVisibility } from "./account-visibility";
 import { ChangeEmail } from "./change-email";
 
 interface Props {
@@ -26,15 +26,7 @@ export const Account = ({ user }: Props) => {
       <Separator />
       <ChangeEmail user={user} />
       <Separator />
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
-          <p className="text-base font-medium">Account Visibility</p>
-          <p className="text-muted-foreground text-sm">
-            Make your profile visible to other users
-          </p>
-        </div>
-        <Switch defaultChecked />
-      </div>
+      <AccountVisibility user={user} />
       <Separator />
       <div className="flex items-center justify-between">
         <div className="space-y-1">
