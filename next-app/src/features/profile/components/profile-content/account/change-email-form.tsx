@@ -100,13 +100,24 @@ export const ChangeEmailForm = ({ onChangeEmail, ...restProps }: Props) => {
           />
         </div>
 
-        <CustomButton
-          buttonLabel={`Confirm`}
-          type="submit"
-          className="w-full"
-          disabled={isPending}
-          skeletonClassName="w-full"
-        />
+        <div className="flex flex-wrap items-center gap-6">
+          <CustomButton
+            buttonLabel={`Confirm`}
+            type="submit"
+            className="grow"
+            disabled={isPending}
+            skeletonClassName="grow"
+          />
+          <CustomButton
+            buttonLabel={`Cancel`}
+            type="button"
+            className="grow"
+            variant={"outline"}
+            disabled={isPending}
+            skeletonClassName="grow"
+            onClick={onChangeEmail}
+          />
+        </div>
       </form>
     </Form>
   );

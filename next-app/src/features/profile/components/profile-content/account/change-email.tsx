@@ -3,20 +3,14 @@
 import { CustomButton } from "@/components/custom-button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -48,17 +42,8 @@ export const ChangeEmail = ({ user }: Props) => {
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Change your email address</DialogTitle>
-              <DialogDescription>
-                Make changes to your profile here. Click save when you&apos;re
-                done.
-              </DialogDescription>
-              <ChangeEmailForm onChangeEmail={() => setOpen(false)} />
             </DialogHeader>
-            <DialogFooter className="sm:justify-start">
-              <DialogClose asChild>
-                <CustomButton buttonLabel="Cancel" variant="outline" />
-              </DialogClose>
-            </DialogFooter>
+            <ChangeEmailForm onChangeEmail={() => setOpen(false)} />
           </DialogContent>
         </Dialog>
       </div>
@@ -77,20 +62,11 @@ export const ChangeEmail = ({ user }: Props) => {
         <DrawerContent>
           <DrawerHeader className="text-left">
             <DrawerTitle>Change your email address</DrawerTitle>
-            <DrawerDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DrawerDescription>
           </DrawerHeader>
           <ChangeEmailForm
-            className="px-4"
+            className="mb-4 px-4"
             onChangeEmail={() => setOpen(false)}
           />
-          <DrawerFooter className="pt-2">
-            <DrawerClose asChild>
-              <CustomButton buttonLabel="Cancel" variant="outline" />
-            </DrawerClose>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </div>
