@@ -39,6 +39,10 @@ export const auth = betterAuth({
         type: "string",
         required: false,
       },
+      isAccountVisible: {
+        type: "boolean",
+        required: false,
+      },
     },
     changeEmail: {
       enabled: true,
