@@ -40,7 +40,13 @@ export const MAX_BIO = 260;
  * Session expiration time (seconds)
  * @type {number}
  */
-export const SESSION_EXPIRES = 60 * 60 * 24 * 30;
+export const SESSION_EXPIRES = 60 * 60 * 24 * 30; // 30 days
+
+/**
+ * Session freshness time (seconds)
+ * @type {number}
+ */
+export const SESSION_FRESH_AGE = 60 * 60 * 12; // 12 hours
 
 /**
  * Valid email domains

@@ -4,6 +4,7 @@ import {
   MIN_PASSWORD,
   MIN_USERNAME,
   SESSION_EXPIRES,
+  SESSION_FRESH_AGE,
   VALID_DOMAINS,
 } from "@/constants/misc";
 import { sendChangeMail } from "@/core/mail/actions/change-email";
@@ -58,6 +59,7 @@ export const auth = betterAuth({
   session: {
     modelName: "auth_session",
     expiresIn: SESSION_EXPIRES,
+    freshAge: SESSION_FRESH_AGE,
   },
   verification: {
     modelName: "auth_verification",
