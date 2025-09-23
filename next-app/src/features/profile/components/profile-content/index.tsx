@@ -11,8 +11,9 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { auth_user } from "@/generated/prisma";
-import { Key, Shield, Trash2 } from "lucide-react";
+import { Key, Shield } from "lucide-react";
 import { Account } from "./account";
+import { DeleteAccount } from "./account/delete-account";
 import { PersonalForm } from "./personal-form";
 
 interface Props {
@@ -57,7 +58,7 @@ export const ProfileContent = ({ user }: Props) => {
           </CardContent>
         </Card>
 
-        <Card className="border-destructive/50">
+        <Card className="border-destructive/50 shadow-danger">
           <CardHeader>
             <CardTitle className="text-destructive">Danger Zone</CardTitle>
             <CardDescription>
@@ -65,18 +66,7 @@ export const ProfileContent = ({ user }: Props) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <Label className="text-base">Delete Account</Label>
-                <p className="text-muted-foreground text-sm">
-                  Permanently delete your account and all data
-                </p>
-              </div>
-              <Button variant="destructive">
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete Account
-              </Button>
-            </div>
+            <DeleteAccount />
           </CardContent>
         </Card>
       </TabsContent>
