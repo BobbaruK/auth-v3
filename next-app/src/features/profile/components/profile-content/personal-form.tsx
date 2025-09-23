@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MESSAGES } from "@/constants/messages";
 import { auth_user } from "@/generated/prisma";
+import { useSession } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -37,10 +38,11 @@ export const PersonalForm = ({ user }: Props) => {
       bio: user?.bio || undefined,
     },
   });
+  const { refetch } = useSession();
 
   const onSubmit = (values: z.infer<typeof PersonalSchema>) => {
     startTransition(async () => {
-      await updateUser(values)
+      updateUser(values)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
@@ -49,6 +51,8 @@ export const PersonalForm = ({ user }: Props) => {
           if (data.success) {
             toast.success(data.success);
           }
+
+          refetch();
         })
         .catch(() => {
           toast.error(MESSAGES.SOMETHING_WRONG);
