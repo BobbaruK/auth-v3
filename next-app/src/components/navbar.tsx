@@ -45,15 +45,6 @@ export const Navbar = () => {
           className=""
           linkHref="/profile"
         />
-        <CustomButton
-          buttonLabel={`Settings`}
-          effect={
-            pathname === "/settings" ? "gradientSlideShow" : BUTTON_EFFECT
-          }
-          variant={"outline"}
-          className=""
-          linkHref="/settings"
-        />
       </div>
     </nav>
   );
