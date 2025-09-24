@@ -6,6 +6,7 @@ import { APIError } from "better-auth/api";
 import z from "zod";
 import { ChangeEmailSchema } from "../schemas/change-email";
 import { headers } from "next/headers";
+import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 
 export const changeEmail = async (
   values: z.infer<typeof ChangeEmailSchema>,
@@ -20,6 +21,7 @@ export const changeEmail = async (
     await auth.api.changeEmail({
       body: {
         newEmail: email,
+        callbackURL: DEFAULT_LOGIN_REDIRECT,
       },
       headers: await headers(),
     });
