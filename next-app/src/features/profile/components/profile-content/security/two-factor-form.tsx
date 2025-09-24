@@ -45,7 +45,6 @@ export const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
               toast.error(data.error);
             }
             if (data.success) {
-              closeDialog();
               toast.success(data.success);
               router.push(
                 `/two-factor-verification?twoFactor=${encodeURIComponent(data.totpURI)}&twoFactorFirstTime=true`,
@@ -66,7 +65,7 @@ export const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
             toast.error(data.error);
           }
           if (data.success) {
-            router.refresh();
+            // router.refresh();
             toast.success(data.success);
             closeDialog();
           }

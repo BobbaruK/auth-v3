@@ -86,7 +86,11 @@ export const TwoFactor = ({ user }: Props) => {
                 </DrawerDescription>
               </DrawerHeader>
 
-              <TwoFactorForm closeDialog={() => setOpen(false)} />
+              <TwoFactorForm
+                className="mb-4 px-4"
+                twoFA={user?.twoFactorEnabled}
+                closeDialog={() => setOpen(false)}
+              />
             </DrawerContent>
           </Drawer>
         )}

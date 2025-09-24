@@ -25,6 +25,7 @@ const ProfilePage = async () => {
           </AlertDescription>
         </Alert>
       )}
+      {/* TODO: create a context around these 2 components (user, isPending, startTransition)  */}
       <ProfileHeader user={user} />
       <ProfileContent user={user} />
     </PageStructure>
