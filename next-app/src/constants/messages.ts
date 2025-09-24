@@ -17,12 +17,8 @@ const MESSAGES_FN = () => {
     SOMETHING_WRONG: "Something went wrong. Please try again later.",
     TOKEN_INVALID: "The token is invalid.",
     TOKEN_MISSING: "Token is missing.",
-
-    VISIBILITY_UPDATED: {
-      BASE: "Account visibility updated.",
-      POSITIVE: "Other users can see your profile.",
-      NEGATIVE: "Other users cannot see your profile.",
-    },
+    TWO_FACTOR_DISABLED:
+      "You have successfully disabled 2 factor authentication.",
   };
 };
 
