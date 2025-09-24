@@ -3,6 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { Key, Shield } from "lucide-react";
 import { TwoFactor } from "./two-factor";
 import { auth_user } from "@/generated/prisma";
+import { ChangePassword } from "./change-password";
 
 interface Props {
   user: auth_user | null;
@@ -11,18 +12,7 @@ interface Props {
 export const Security = ({ user }: Props) => {
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
-          <p className="text-base font-medium">Password</p>
-          <p className="text-muted-foreground text-sm">
-            Last changed 3 months ago
-          </p>
-        </div>
-        <Button variant="outline">
-          <Key className="mr-2 h-4 w-4" />
-          Change Password
-        </Button>
-      </div>
+      <ChangePassword user={user} />
       <Separator />
       <TwoFactor user={user} />
       <Separator />
