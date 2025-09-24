@@ -43,7 +43,7 @@ export const ChangeEmail = ({ user }: Props) => {
             <DialogHeader>
               <DialogTitle>Change your email address</DialogTitle>
             </DialogHeader>
-            <ChangeEmailForm onChangeEmail={() => setOpen(false)} />
+            <ChangeEmailForm closeDialog={() => setOpen(false)} />
           </DialogContent>
         </Dialog>
       </div>
@@ -65,7 +65,7 @@ export const ChangeEmail = ({ user }: Props) => {
           </DrawerHeader>
           <ChangeEmailForm
             className="mb-4 px-4"
-            onChangeEmail={() => setOpen(false)}
+            closeDialog={() => setOpen(false)}
           />
         </DrawerContent>
       </Drawer>

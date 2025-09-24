@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { MESSAGES } from "@/constants/messages";
 import { auth_user } from "@/generated/prisma";
@@ -23,11 +24,6 @@ export const AccountVisibility = ({ user }: Props) => {
         .then(({ data, error }) => {
           if (data?.status) {
             setIsChecked(!isChecked);
-            toast.success(MESSAGES.VISIBILITY_UPDATED.BASE, {
-              description: !isChecked
-                ? MESSAGES.VISIBILITY_UPDATED.POSITIVE
-                : MESSAGES.VISIBILITY_UPDATED.NEGATIVE,
-            });
           }
 
           if (error) {
@@ -48,11 +44,18 @@ export const AccountVisibility = ({ user }: Props) => {
           Make your profile visible to other users
         </p>
       </div>
-      <Switch
-        checked={isChecked}
-        onCheckedChange={handleCheck}
-        disabled={isPending}
-      />
+      <div className="flex items-center gap-2">
+        <Badge variant={!isChecked ? "danger" : "success"}>
+          {!isChecked ? "Private" : "Visible"}
+        </Badge>
+        <Switch
+          id="account-switch"
+          className="cursor-pointer"
+          checked={isChecked}
+          onCheckedChange={handleCheck}
+          disabled={isPending}
+        />
+      </div>
     </div>
   );
 };

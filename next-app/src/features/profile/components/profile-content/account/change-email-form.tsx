@@ -21,10 +21,10 @@ import { toast } from "sonner";
 import z from "zod";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLFormElement> {
-  onChangeEmail: () => void;
+  closeDialog: () => void;
 }
 
-export const ChangeEmailForm = ({ onChangeEmail, ...restProps }: Props) => {
+export const ChangeEmailForm = ({ closeDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof ChangeEmailSchema>>({
@@ -42,15 +42,16 @@ export const ChangeEmailForm = ({ onChangeEmail, ...restProps }: Props) => {
           if (data.error) {
             toast.error(data.error);
           }
+
           if (data.success) {
             toast.success(data.success);
           }
 
-          onChangeEmail();
+          closeDialog();
         })
         .catch(() => {
           toast.error(MESSAGES.SOMETHING_WRONG);
-          onChangeEmail();
+          closeDialog();
         });
     });
   };
@@ -115,7 +116,7 @@ export const ChangeEmailForm = ({ onChangeEmail, ...restProps }: Props) => {
             variant={"outline"}
             disabled={isPending}
             skeletonClassName="grow"
-            onClick={onChangeEmail}
+            onClick={closeDialog}
           />
         </div>
       </form>
