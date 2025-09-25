@@ -2,7 +2,7 @@
  * The default redirect path after logging in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/profile";
+export const DEFAULT_LOGIN_REDIRECT = "/settings";
 
 /**
  * An array of routes that are used for authentication
