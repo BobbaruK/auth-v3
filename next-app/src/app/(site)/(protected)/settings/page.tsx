@@ -1,8 +1,8 @@
 import { PageStructure } from "@/components/page-structure";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { getUser } from "@/core/user/data/get-user";
 import { ProfileContent } from "@/features/settings/components/profile-content";
 import { ProfileHeader } from "@/features/settings/components/profile-header";
-import { getUser } from "@/features/settings/data/get-user";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { MdOutlineEmail } from "react-icons/md";
