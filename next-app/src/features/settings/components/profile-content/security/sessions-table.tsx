@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MESSAGES } from "@/constants/messages";
-import { getSessions } from "@/features/profile/data/get-sessions";
+import { getSessions } from "@/features/settings/data/get-sessions";
 import {
   revokeOtherSessions,
   revokeSession,

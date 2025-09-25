@@ -22,7 +22,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { MESSAGES } from "@/constants/messages";
-import { deleteUser } from "@/features/profile/actions/delete-user";
+import { deleteUser } from "@/features/settings/actions/delete-user";
 import { useState, useTransition } from "react";
 import { GoTrash } from "react-icons/go";
 import { toast } from "sonner";

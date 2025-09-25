@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
-import { disable2fa, enable2fa } from "@/features/profile/actions/handle-2fa";
-import { Handle2faSchema } from "@/features/profile/schemas/handle-2fa";
+import { disable2fa, enable2fa } from "@/features/settings/actions/handle-2fa";
+import { Handle2faSchema } from "@/features/settings/schemas/handle-2fa";
 import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";

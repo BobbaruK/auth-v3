@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
-import { changePassword } from "@/features/profile/actions/change-password";
-import { ChangePasswordSchema } from "@/features/profile/schemas/change-password";
+import { changePassword } from "@/features/settings/actions/change-password";
+import { ChangePasswordSchema } from "@/features/settings/schemas/change-password";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";

@@ -1,13 +1,13 @@
 import { PageStructure } from "@/components/page-structure";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { ProfileContent } from "@/features/profile/components/profile-content";
-import { ProfileHeader } from "@/features/profile/components/profile-header";
-import { getUser } from "@/features/profile/data/get-user";
+import { ProfileContent } from "@/features/settings/components/profile-content";
+import { ProfileHeader } from "@/features/settings/components/profile-header";
+import { getUser } from "@/features/settings/data/get-user";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { MdOutlineEmail } from "react-icons/md";
 
-const ProfilePage = async () => {
+const SettingsPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -32,4 +32,4 @@ const ProfilePage = async () => {
   );
 };
 
-export default ProfilePage;
+export default SettingsPage;
