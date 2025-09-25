@@ -10,17 +10,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { MESSAGES } from "@/constants/messages";
+import { signOut } from "@/core/auth/actions/sign-out";
 import { UserSession } from "@/types/session";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { startTransition, useState } from "react";
+import { CiUser } from "react-icons/ci";
 import { IoIosLogIn } from "react-icons/io";
 import { IoExitOutline, IoSettingsOutline } from "react-icons/io5";
-import { CustomAvatar } from "./custom-avatar";
-import { MESSAGES } from "@/constants/messages";
 import { toast } from "sonner";
-import { signOut } from "@/core/auth/actions/sign-out";
-import { usePathname, useRouter } from "next/navigation";
+import { CustomAvatar } from "./custom-avatar";
 
 interface Props {
   user: UserSession | undefined;
@@ -53,7 +54,7 @@ export const UserButton = ({ user }: Props) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger >
         <CustomAvatar image={user?.image || ""} className="cursor-pointer" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
@@ -73,6 +74,20 @@ export const UserButton = ({ user }: Props) => {
               ) : (
                 <span className="flex cursor-pointer items-center justify-start gap-2 p-2">
                   <IoSettingsOutline /> Settings
+                </span>
+              )}
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              {pathname !== `/profile/${user.id}` ? (
+                <Link
+                  href={`/profile/${user.id}`}
+                  className="flex cursor-pointer items-center justify-start gap-2 p-2"
+                >
+                  <CiUser /> Profile
+                </Link>
+              ) : (
+                <span className="flex cursor-pointer items-center justify-start gap-2 p-2">
+                  <CiUser /> Profile
                 </span>
               )}
             </DropdownMenuItem>
