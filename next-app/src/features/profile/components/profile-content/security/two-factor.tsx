@@ -79,10 +79,11 @@ export const TwoFactor = ({ user }: Props) => {
             </DrawerTrigger>
             <DrawerContent>
               <DrawerHeader className="text-left">
-                <DrawerTitle>Delete Account</DrawerTitle>
+                <DrawerTitle>
+                  {user?.twoFactorEnabled ? "Deactivate" : "Activate"} 2FA
+                </DrawerTitle>
                 <DrawerDescription>
-                  Are you sure you want to delete your account? This action
-                  cannot be undone.
+                  Enter your password below.
                 </DrawerDescription>
               </DrawerHeader>
 
