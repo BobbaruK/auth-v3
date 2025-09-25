@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   API_AUTH_PREFIX,
   AUTH_ROUTES,
-  DEFAULT_LOGIN_REDIRECT,
   FORBIDDEN_ROUTES,
   PUBLIC_ROUTES,
 } from "./constants/routes";
@@ -26,11 +25,11 @@ export async function middleware(request: NextRequest) {
   if (isForbiddenRoute) return NextResponse.redirect(new URL("/", request.url));
 
   if (isAuthRoute) {
-    if (isLoggedIn) {
-      return NextResponse.redirect(
-        new URL(DEFAULT_LOGIN_REDIRECT, request.url)
-      );
-    }
+    // if (isLoggedIn) {
+    //   return NextResponse.redirect(
+    //     new URL(DEFAULT_LOGIN_REDIRECT, request.url)
+    //   );
+    // }
     return;
   }
 
