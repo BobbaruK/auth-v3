@@ -79,8 +79,9 @@ docker compose -f compose.dev.yaml up --watch
 Alternatively, you can run only the Postgres container with Docker and start the Next.js app locally:
 
 ```bash
-docker compose -f compose.dev.yaml up db
+docker compose -f compose.dev.yaml up db -d
 cd ./next-app
+npx prisma db push # or npx prisma generate
 npm run dev
 ```
 
