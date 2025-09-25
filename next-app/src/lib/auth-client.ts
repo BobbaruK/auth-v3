@@ -30,4 +30,8 @@ export const {
   twoFactor,
   updateUser,
   deleteUser,
+  listSessions,
+  revokeSession,
+  revokeOtherSessions,
+  revokeSessions,
 } = authClient;
