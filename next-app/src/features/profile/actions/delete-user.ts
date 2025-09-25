@@ -1,6 +1,5 @@
 "use server";
 
-import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth";
 import { headers } from "next/headers";

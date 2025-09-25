@@ -11,7 +11,7 @@ interface Props {
 export const Security = ({ user }: Props) => {
   return (
     <div className="space-y-4">
-      <ChangePassword user={user} />
+      <ChangePassword />
       <Separator />
       <TwoFactor user={user} />
       <Separator />

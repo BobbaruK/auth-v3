@@ -13,8 +13,6 @@ export const getSessions = async () => {
       headers: await headers(),
     });
 
-    console.log({ sessions, currentSession });
-
     return { sessions, currentSession };
   } catch (error) {
     console.error("Something went wrong: ", JSON.stringify(error));

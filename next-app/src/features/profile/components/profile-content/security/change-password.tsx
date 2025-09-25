@@ -15,17 +15,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { auth_user } from "@/generated/prisma";
 import { Key } from "lucide-react";
 import { useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { ChangePasswordForm } from "./change-password-form";
 
-interface Props {
-  user: auth_user | null;
-}
-
-export const ChangePassword = ({ user }: Props) => {
+export const ChangePassword = () => {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 

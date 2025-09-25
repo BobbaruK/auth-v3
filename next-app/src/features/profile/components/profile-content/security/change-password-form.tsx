@@ -11,7 +11,6 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
 import { changePassword } from "@/features/profile/actions/change-password";
 import { ChangePasswordSchema } from "@/features/profile/schemas/change-password";
-import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -27,7 +26,6 @@ interface Props extends React.ButtonHTMLAttributes<HTMLFormElement> {
 export const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const { refetch } = useSession();
   const form = useForm<z.infer<typeof ChangePasswordSchema>>({
     resolver: zodResolver(ChangePasswordSchema),
     defaultValues: {
