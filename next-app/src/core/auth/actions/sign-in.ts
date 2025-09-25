@@ -100,6 +100,7 @@ export const signInUsername = async (
         username,
         password,
       },
+      headers: await headers(),
     });
 
     if (data && "twoFactorRedirect" in data)
