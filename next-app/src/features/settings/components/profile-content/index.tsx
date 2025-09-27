@@ -13,7 +13,7 @@ import { PersonalForm } from "./personal-form";
 import { Security } from "./security";
 
 interface Props {
-  user: auth_user | null;
+  user: auth_user;
 }
 
 export const ProfileContent = ({ user }: Props) => {
