@@ -26,7 +26,6 @@ import { RegisterSchema } from "../schemas/register";
 export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -39,10 +38,15 @@ export const SignUpForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    startTransition(() => {
-      //  Server side signup
-      signUpEmail(values)
+    startTransition(async () => {
+      await signUpEmail(values)
         .then((data) => {
+          if (data.username_error) {
+            form.setError("userName", {
+              message: MESSAGES.USERNAME_NOT_AVAILABLE,
+            });
+          }
+
           if (data.error) {
             toast.error(data.error);
           }
@@ -57,6 +61,7 @@ export const SignUpForm = () => {
         });
     });
   };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

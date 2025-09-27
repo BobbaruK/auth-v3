@@ -8,22 +8,30 @@ import z from "zod";
 import { RegisterSchema } from "../schemas/register";
 import { MESSAGES } from "@/constants/messages";
 
-type RegisterResponse =
-  | {
-      success: string;
-      error?: null;
-    }
-  | {
-      success?: null;
-      error: string;
-    };
+// type RegisterResponse =
+//   | {
+//       success: string;
+//       error?: null;
+//     }
+//   | {
+//       success?: null;
+//       error: string;
+//     };
 
-export const signUpEmail = async (
-  values: z.infer<typeof RegisterSchema>,
-): Promise<RegisterResponse> => {
+export const signUpEmail = async (values: z.infer<typeof RegisterSchema>) => {
   const { firstName, lastName, userName, email, password } = values;
 
   try {
+    const { available } = await auth.api.isUsernameAvailable({
+      body: {
+        username: userName,
+      },
+    });
+
+    if (!available) {
+      return { error: MESSAGES.USERNAME_NOT_AVAILABLE, username_error: true };
+    }
+
     await auth.api.signUpEmail({
       body: {
         name: `${lastName} ${firstName}`,
