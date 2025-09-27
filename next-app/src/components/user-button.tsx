@@ -29,9 +29,9 @@ interface Props {
 
 export const UserButton = ({ user }: Props) => {
   const { setTheme, theme } = useTheme();
-  const router = useRouter();
   const [theTheme, setTheTheme] = useState(theme);
   const pathname = usePathname();
+  const router = useRouter();
 
   const logOut = () => {
     startTransition(async () => {
@@ -54,7 +54,7 @@ export const UserButton = ({ user }: Props) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger >
+      <DropdownMenuTrigger>
         <CustomAvatar image={user?.image || ""} className="cursor-pointer" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
@@ -124,6 +124,7 @@ export const UserButton = ({ user }: Props) => {
             <DropdownMenuItem
               className="flex cursor-pointer items-center justify-start gap-3 p-2"
               onClick={logOut}
+              variant="destructive"
             >
               <IoExitOutline /> Logout
             </DropdownMenuItem>
