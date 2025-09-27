@@ -44,6 +44,12 @@ export const PersonalForm = ({ user }: Props) => {
     startTransition(async () => {
       updateUser(values)
         .then((data) => {
+          if (data.username_error) {
+            form.setError("userName", {
+              message: MESSAGES.USERNAME_NOT_AVAILABLE,
+            });
+          }
+
           if (data.error) {
             toast.error(data.error);
           }

@@ -7,19 +7,7 @@ import { headers } from "next/headers";
 import z from "zod";
 import { PersonalSchema } from "../schemas/personal";
 
-type UpdateUserResponse =
-  | {
-      success: string;
-      error?: null;
-    }
-  | {
-      success?: null;
-      error: string;
-    };
-
-export const updateUser = async (
-  values: z.infer<typeof PersonalSchema>,
-): Promise<UpdateUserResponse> => {
+export const updateUser = async (values: z.infer<typeof PersonalSchema>) => {
   const validatedFields = PersonalSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -27,6 +15,16 @@ export const updateUser = async (
   const { firstName, lastName, userName, bio } = validatedFields.data;
 
   try {
+    const { available } = await auth.api.isUsernameAvailable({
+      body: {
+        username: userName,
+      },
+    });
+
+    if (!available) {
+      return { error: MESSAGES.USERNAME_NOT_AVAILABLE, username_error: true };
+    }
+
     await auth.api.updateUser({
       body: {
         firstName,
