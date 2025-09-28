@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MESSAGES } from "@/constants/messages";
-import { auth_user } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
@@ -23,7 +23,15 @@ import { updateUser } from "../../actions/update-user";
 import { PersonalSchema } from "../../schemas/personal";
 
 interface Props {
-  user: auth_user | null;
+  user: Prisma.auth_userGetPayload<{
+    include: {
+      accounts: {
+        select: {
+          providerId: true;
+        };
+      };
+    };
+  }>;
 }
 
 export const PersonalForm = ({ user }: Props) => {
@@ -42,7 +50,7 @@ export const PersonalForm = ({ user }: Props) => {
 
   const onSubmit = (values: z.infer<typeof PersonalSchema>) => {
     startTransition(async () => {
-      updateUser(values)
+      updateUser(values, user?.displayUsername || "")
         .then((data) => {
           if (data.username_error) {
             form.setError("userName", {

@@ -1,17 +1,25 @@
 import { Separator } from "@/components/ui/separator";
-import { auth_user } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma";
 import { ChangePassword } from "./change-password";
 import { ActiveSessions as Sessions } from "./sessions";
 import { TwoFactor } from "./two-factor";
 
 interface Props {
-  user: auth_user | null;
+  user: Prisma.auth_userGetPayload<{
+    include: {
+      accounts: {
+        select: {
+          providerId: true;
+        };
+      };
+    };
+  }>;
 }
 
 export const Security = ({ user }: Props) => {
   return (
     <div className="space-y-4">
-      <ChangePassword />
+      <ChangePassword user={user} />
       <Separator />
       <TwoFactor user={user} />
       <Separator />

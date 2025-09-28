@@ -15,14 +15,31 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Prisma } from "@/generated/prisma";
 import { Key } from "lucide-react";
 import { useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { ChangePasswordForm } from "./change-password-form";
+import { SetPasswordForm } from "./set-password-form";
 
-export const ChangePassword = () => {
+interface Props {
+  user: Prisma.auth_userGetPayload<{
+    include: {
+      accounts: {
+        select: {
+          providerId: true;
+        };
+      };
+    };
+  }>;
+}
+
+export const ChangePassword = ({ user }: Props) => {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  const userProviders = user.accounts.map((provider) => provider.providerId);
+  const hasCredential = userProviders.includes("credential");
 
   return (
     <div className="flex items-center justify-between">
@@ -37,7 +54,7 @@ export const ChangePassword = () => {
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <CustomButton
-              buttonLabel={"Change Password"}
+              buttonLabel={`${hasCredential ? "Change" : "Set"} Password`}
               variant={"outline"}
               icon={Key}
               iconPlacement="left"
@@ -46,16 +63,22 @@ export const ChangePassword = () => {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Change your password</DialogTitle>
+              <DialogTitle>
+                {hasCredential ? "Change" : "Set"} your password
+              </DialogTitle>
             </DialogHeader>
-            <ChangePasswordForm closeDialog={() => setOpen(false)} />
+            {hasCredential ? (
+              <ChangePasswordForm closeDialog={() => setOpen(false)} />
+            ) : (
+              <SetPasswordForm closeDialog={() => setOpen(false)} />
+            )}
           </DialogContent>
         </Dialog>
       ) : (
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger asChild>
             <CustomButton
-              buttonLabel={"Change Password"}
+              buttonLabel={`${hasCredential ? "Change" : "Set"} Password`}
               variant={"outline"}
               icon={Key}
               iconPlacement="left"
@@ -64,13 +87,22 @@ export const ChangePassword = () => {
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader className="text-left">
-              <DrawerTitle>Change your password</DrawerTitle>
+              <DrawerTitle>
+                {hasCredential ? "Change" : "Set"} your password
+              </DrawerTitle>
             </DrawerHeader>
 
-            <ChangePasswordForm
-              className="mb-4 px-4"
-              closeDialog={() => setOpen(false)}
-            />
+            {hasCredential ? (
+              <ChangePasswordForm
+                className="mb-4 px-4"
+                closeDialog={() => setOpen(false)}
+              />
+            ) : (
+              <SetPasswordForm
+                className="mb-4 px-4"
+                closeDialog={() => setOpen(false)}
+              />
+            )}
           </DrawerContent>
         </Drawer>
       )}

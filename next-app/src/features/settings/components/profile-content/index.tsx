@@ -6,14 +6,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { auth_user } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma";
 import { Account } from "./account";
 import { DeleteAccount } from "./account/delete-account";
 import { PersonalForm } from "./personal-form";
 import { Security } from "./security";
 
 interface Props {
-  user: auth_user;
+  user: Prisma.auth_userGetPayload<{
+    include: {
+      accounts: {
+        select: {
+          providerId: true;
+        };
+      };
+    };
+  }>;
 }
 
 export const ProfileContent = ({ user }: Props) => {
