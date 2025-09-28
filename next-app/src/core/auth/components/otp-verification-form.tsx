@@ -29,7 +29,7 @@ import QRCode from "react-qr-code";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 import z from "zod";
-import { clearTwoFactorCookie } from "../actions/clear-two-factor-cookie";
+import { clearCookie } from "../actions/clear-cookie";
 import { OTP } from "../schemas/otp";
 
 interface Props {
@@ -56,6 +56,7 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
 
   const onSubmit = (values: z.infer<typeof OTP>) => {
     startTransition(async () => {
+      // TODO: maybe do this via server actions
       try {
         const { data, error } = await twoFactor.verifyTotp({
           code: values.code,
@@ -63,7 +64,7 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
         });
 
         if (data) {
-          await clearTwoFactorCookie("better-auth.two_factor");
+          await clearCookie("better-auth.two_factor");
         }
 
         if (error) {

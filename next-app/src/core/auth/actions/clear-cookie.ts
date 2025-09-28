@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-export const clearTwoFactorCookie = async (cookie: string) => {
+export const clearCookie = async (cookie: string) => {
   const cookieStore = await cookies();
 
   cookieStore.set(cookie, "", {
