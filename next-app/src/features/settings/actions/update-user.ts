@@ -7,7 +7,10 @@ import { headers } from "next/headers";
 import z from "zod";
 import { PersonalSchema } from "../schemas/personal";
 
-export const updateUser = async (values: z.infer<typeof PersonalSchema>) => {
+export const updateUser = async (
+  values: z.infer<typeof PersonalSchema>,
+  userUsername: string,
+) => {
   const validatedFields = PersonalSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -21,8 +24,11 @@ export const updateUser = async (values: z.infer<typeof PersonalSchema>) => {
       },
     });
 
-    if (!available) {
-      return { error: MESSAGES.USERNAME_NOT_AVAILABLE, username_error: true };
+    if (!available && userUsername !== userName) {
+      return {
+        error: MESSAGES.USERNAME_NOT_AVAILABLE,
+        username_error: true,
+      };
     }
 
     await auth.api.updateUser({
