@@ -44,16 +44,15 @@ export const SignInForm = () => {
             toast.error(data.error);
           }
 
-          if (data.success) {
-            if (data.redirectOTP) {
-              toast.success(MESSAGES.ENTER_OTP);
-              router.push("/two-factor-verification");
-              return;
-            }
+          if (data.redirectOTP) {
+            toast.success(MESSAGES.ENTER_OTP);
+            router.push("/two-factor-verification");
+            return;
+          }
 
+          if (data.success) {
             toast.success(MESSAGES.LOGIN_SUCCESS);
             router.push(DEFAULT_LOGIN_REDIRECT);
-            router.refresh();
           }
         })
         .catch(() => {

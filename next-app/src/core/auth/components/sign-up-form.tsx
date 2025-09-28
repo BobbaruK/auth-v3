@@ -13,7 +13,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
-import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -43,7 +42,7 @@ export const SignUpForm = () => {
         .then((data) => {
           if (data.username_error) {
             form.setError("userName", {
-              message: MESSAGES.USERNAME_NOT_AVAILABLE,
+              message: data.error,
             });
           }
 
@@ -53,7 +52,7 @@ export const SignUpForm = () => {
 
           if (data.success) {
             toast.success(data.success);
-            router.push(DEFAULT_LOGIN_REDIRECT);
+            router.push("/login");
           }
         })
         .catch(() => {

@@ -33,8 +33,8 @@ export const NewPasswordForm = ({ token, error }: Props) => {
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      password: "",
-      confirmPassword: "",
+      password: process.env.NEXT_PUBLIC_DEFAULT_REGISTER_PASSWORD || "",
+      confirmPassword: process.env.NEXT_PUBLIC_DEFAULT_REGISTER_PASSWORD || "",
     },
   });
 
