@@ -1,25 +1,40 @@
 "use server";
 
+import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { auth } from "@/lib/auth";
 import { ErrorCode } from "@/types/errors";
 import { APIError } from "better-auth/api";
+import { revalidatePath } from "next/cache";
 import z from "zod";
 import { RegisterSchema } from "../schemas/register";
-import { MESSAGES } from "@/constants/messages";
 
-// type RegisterResponse =
-//   | {
-//       success: string;
-//       error?: null;
-//     }
-//   | {
-//       success?: null;
-//       error: string;
-//     };
+type SignUpResponse =
+  | {
+      success: string;
+      error?: undefined;
+      username_error?: undefined;
+    }
+  | {
+      error: string;
+      username_error?: undefined;
+      success?: undefined;
+    }
+  | {
+      error: string;
+      username_error: boolean;
+      success?: undefined;
+    };
 
-export const signUpEmail = async (values: z.infer<typeof RegisterSchema>) => {
-  const { firstName, lastName, userName, email, password } = values;
+export const signUpEmail = async (
+  values: z.infer<typeof RegisterSchema>,
+): Promise<SignUpResponse> => {
+  const validatedFields = RegisterSchema.safeParse(values);
+
+  if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
+
+  const { firstName, lastName, userName, email, password } =
+    validatedFields.data;
 
   try {
     const { available } = await auth.api.isUsernameAvailable({
@@ -43,6 +58,8 @@ export const signUpEmail = async (values: z.infer<typeof RegisterSchema>) => {
         callbackURL: DEFAULT_LOGIN_REDIRECT,
       },
     });
+
+    revalidatePath("/");
 
     return {
       success: MESSAGES.REGISTRATION_SUCCESS,

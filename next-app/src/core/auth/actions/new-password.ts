@@ -1,10 +1,11 @@
 "use server";
 
+import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
+import { revalidatePath } from "next/cache";
 import z from "zod";
 import { NewPasswordSchema } from "../schemas/new-password";
-import { MESSAGES } from "@/constants/messages";
 
 type NewPasswordResponse =
   | {
@@ -18,7 +19,7 @@ type NewPasswordResponse =
 
 export const newPassword = async (
   values: z.infer<typeof NewPasswordSchema>,
-  token: string
+  token: string,
 ): Promise<NewPasswordResponse> => {
   const validatedFields = NewPasswordSchema.safeParse(values);
 
@@ -39,10 +40,12 @@ export const newPassword = async (
   try {
     await auth.api.resetPassword({
       body: {
-        newPassword: password, // required
-        token, // required
+        newPassword: password,
+        token,
       },
     });
+
+    revalidatePath("/");
 
     return {
       success: MESSAGES.PASSWORD_NEW,

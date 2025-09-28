@@ -3,6 +3,7 @@
 import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
+import { revalidatePath } from "next/cache";
 import z from "zod";
 import { ResetPasswordSchema } from "../schemas/reset-password";
 
@@ -17,7 +18,7 @@ type ResetPasswordResponse =
     };
 
 export const resetPassword = async (
-  values: z.infer<typeof ResetPasswordSchema>
+  values: z.infer<typeof ResetPasswordSchema>,
 ): Promise<ResetPasswordResponse> => {
   const validatedFields = ResetPasswordSchema.safeParse(values);
 
@@ -32,6 +33,8 @@ export const resetPassword = async (
         redirectTo: `${process.env.NEXT_PUBLIC_API_URL}/new-password`,
       },
     });
+
+    revalidatePath("/");
 
     return {
       success: MESSAGES.PASSWORD_RESET,

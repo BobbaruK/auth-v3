@@ -8,9 +8,19 @@ import { NewPasswordSchema } from "../schemas/new-password";
 import { MESSAGES } from "@/constants/messages";
 import { revalidatePath } from "next/cache";
 
+type SetPasswordResponse =
+  | {
+      error: string;
+      success?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+    };
+
 export const setPassword = async (
   values: z.infer<typeof NewPasswordSchema>,
-) => {
+): Promise<SetPasswordResponse> => {
   const validatedFields = NewPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };

@@ -4,6 +4,7 @@ import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { EMAIL } from "@/schemas/form";
 import { APIError } from "better-auth/api";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
@@ -11,7 +12,7 @@ import { LoginSchema } from "../schemas/login";
 const emailSchema = EMAIL;
 // const usernameSchema = USERNAME;
 
-type Response =
+type SignInResponse =
   | {
       success?: undefined;
       redirectOTP?: undefined;
@@ -28,10 +29,14 @@ type Response =
       error?: undefined;
     };
 
-export const signInEmail = async (
+const signInEmail = async (
   values: z.infer<typeof LoginSchema>,
-): Promise<Response> => {
-  const { email, password } = values;
+): Promise<SignInResponse> => {
+  const validatedFields = LoginSchema.safeParse(values);
+
+  if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
+
+  const { email, password } = validatedFields.data;
 
   try {
     const response = await auth.api.signInEmail({
@@ -70,6 +75,8 @@ export const signInEmail = async (
     //   });
     // }
 
+    revalidatePath("/");
+
     return {
       success: MESSAGES.LOGIN_SUCCESS,
     };
@@ -85,9 +92,9 @@ export const signInEmail = async (
   }
 };
 
-export const signInUsername = async (
+const signInUsername = async (
   values: z.infer<typeof LoginSchema>,
-): Promise<Response> => {
+): Promise<SignInResponse> => {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -126,7 +133,7 @@ export const signInUsername = async (
 
 export const signIn = async (
   values: z.infer<typeof LoginSchema>,
-): Promise<Response> => {
+): Promise<SignInResponse> => {
   if (emailSchema.safeParse(values.email).success) {
     return await signInEmail(values);
   }

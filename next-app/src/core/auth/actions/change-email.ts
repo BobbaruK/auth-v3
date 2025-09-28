@@ -1,16 +1,27 @@
 "use server";
 
 import { MESSAGES } from "@/constants/messages";
+import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import z from "zod";
 import { ChangeEmailSchema } from "../schemas/change-email";
-import { headers } from "next/headers";
-import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
+
+type ChangeEmailResponse =
+  | {
+      error: string;
+      success?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+    };
 
 export const changeEmail = async (
   values: z.infer<typeof ChangeEmailSchema>,
-) => {
+): Promise<ChangeEmailResponse> => {
   const validatedFields = ChangeEmailSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -25,6 +36,8 @@ export const changeEmail = async (
       },
       headers: await headers(),
     });
+
+    revalidatePath("/");
 
     return {
       success: MESSAGES.EMAIL_CHANGED,
