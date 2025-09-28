@@ -6,6 +6,13 @@ export const getUser = async (id: string) => {
       where: {
         id,
       },
+      include: {
+        accounts: {
+          select: {
+            providerId: true,
+          },
+        },
+      },
     });
 
     return user;
