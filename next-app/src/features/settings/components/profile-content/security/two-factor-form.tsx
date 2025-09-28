@@ -53,6 +53,8 @@ export const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
           })
           .catch(() => {
             toast.error(MESSAGES.SOMETHING_WRONG);
+          })
+          .finally(() => {
             closeDialog();
           });
 
@@ -67,13 +69,14 @@ export const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
           if (data.success) {
             // router.refresh();
             toast.success(data.success);
-            closeDialog();
           }
 
           refetch();
         })
         .catch(() => {
           toast.error(MESSAGES.SOMETHING_WRONG);
+        })
+        .finally(() => {
           closeDialog();
         });
     });

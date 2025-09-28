@@ -44,11 +44,12 @@ export const DeleteAccount = () => {
           if (data.success) {
             toast.success(data.success);
           }
-
-          setOpen(false);
         })
         .catch(() => {
           toast.error(MESSAGES.SOMETHING_WRONG);
+        })
+        .finally(() => {
+          setOpen(false);
         });
     });
   };

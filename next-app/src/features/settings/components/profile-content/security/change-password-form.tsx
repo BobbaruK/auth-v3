@@ -25,7 +25,6 @@ interface Props extends React.ButtonHTMLAttributes<HTMLFormElement> {
 
 export const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
   const form = useForm<z.infer<typeof ChangePasswordSchema>>({
     resolver: zodResolver(ChangePasswordSchema),
     defaultValues: {
@@ -44,16 +43,11 @@ export const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
             toast.error(data.error);
           }
           if (data.success) {
-            router.refresh();
-
-            setTimeout(() => {
-              toast.success(data.success);
-            }, 200);
+            toast.success(data.success);
           }
         })
         .catch(() => {
           toast.error(MESSAGES.SOMETHING_WRONG);
-          closeDialog();
         })
         .finally(() => {
           closeDialog();

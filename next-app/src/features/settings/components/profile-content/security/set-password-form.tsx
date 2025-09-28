@@ -13,7 +13,6 @@ import { setPassword } from "@/core/auth/actions/set-password";
 import { NewPasswordSchema } from "@/core/auth/schemas/new-password";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,7 +24,6 @@ interface Props extends React.ButtonHTMLAttributes<HTMLFormElement> {
 
 export const SetPasswordForm = ({ closeDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
@@ -42,11 +40,7 @@ export const SetPasswordForm = ({ closeDialog, ...restProps }: Props) => {
             toast.error(data.error);
           }
           if (data.success) {
-            router.refresh();
-
-            setTimeout(() => {
-              toast.success(data.success);
-            }, 200);
+            toast.success(data.success);
           }
         })
         .catch(() => {
