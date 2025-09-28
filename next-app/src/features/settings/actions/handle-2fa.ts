@@ -1,11 +1,12 @@
 "use server";
 
+import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import { Handle2faSchema } from "../schemas/handle-2fa";
 import z from "zod";
-import { MESSAGES } from "@/constants/messages";
+import { Handle2faSchema } from "../schemas/handle-2fa";
 
 export const enable2fa = async (values: z.infer<typeof Handle2faSchema>) => {
   const validatedFields = Handle2faSchema.safeParse(values);
@@ -21,6 +22,8 @@ export const enable2fa = async (values: z.infer<typeof Handle2faSchema>) => {
       },
       headers: await headers(),
     });
+
+    revalidatePath("/");
 
     return {
       success: "QR code generated. Scan with your phone.",
@@ -52,6 +55,8 @@ export const disable2fa = async (values: z.infer<typeof Handle2faSchema>) => {
       },
       headers: await headers(),
     });
+
+    revalidatePath("/");
 
     return {
       success: MESSAGES.TWO_FACTOR_DISABLED,

@@ -3,13 +3,24 @@
 import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth/api";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
 import { ChangePasswordSchema } from "../schemas/change-password";
 
+type ChangePasswordResponse =
+  | {
+      error: string;
+      success?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+    };
+
 export const changePassword = async (
   values: z.infer<typeof ChangePasswordSchema>,
-) => {
+): Promise<ChangePasswordResponse> => {
   const validatedFields = ChangePasswordSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -32,6 +43,8 @@ export const changePassword = async (
       },
       headers: await headers(),
     });
+
+    revalidatePath("/");
 
     return {
       success: MESSAGES.PASSWORD_NEW,

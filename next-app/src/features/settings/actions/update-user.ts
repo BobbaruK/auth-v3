@@ -3,6 +3,7 @@
 import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
 import { PersonalSchema } from "../schemas/personal";
@@ -41,6 +42,8 @@ export const updateUser = async (
       },
       headers: await headers(),
     });
+
+    revalidatePath("/");
 
     return {
       success: MESSAGES.PROFILE_UPDATED,

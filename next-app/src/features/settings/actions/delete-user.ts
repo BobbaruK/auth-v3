@@ -2,6 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import { APIError } from "better-auth";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
 type DeleteUserResponse =
@@ -22,6 +23,8 @@ export const deleteUser = async (): Promise<DeleteUserResponse> => {
       },
       headers: await headers(),
     });
+
+    revalidatePath("/");
 
     return {
       success: data.message,
