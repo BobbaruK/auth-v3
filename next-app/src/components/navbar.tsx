@@ -38,6 +38,13 @@ export const Navbar = () => {
           className=""
           linkHref="/admin"
         />
+        <CustomButton
+          buttonLabel={`Icons`}
+          effect={pathname === "/icons" ? "gradientSlideShow" : BUTTON_EFFECT}
+          variant={"outline"}
+          className=""
+          linkHref="/icons"
+        />
       </div>
     </nav>
   );
