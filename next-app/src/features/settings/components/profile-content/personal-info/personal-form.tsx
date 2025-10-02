@@ -12,6 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MESSAGES } from "@/constants/messages";
+import { updateUser } from "@/features/settings/actions/update-user";
+import { PersonalSchema } from "@/features/settings/schemas/personal";
 import { Prisma } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,8 +21,6 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { updateUser } from "../../actions/update-user";
-import { PersonalSchema } from "../../schemas/personal";
 
 interface Props {
   user: Prisma.auth_userGetPayload<{

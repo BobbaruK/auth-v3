@@ -80,10 +80,10 @@ const SessionsTable = ({ closeDialog, ...restProps }: Props) => {
                     </CardHeader>
                     <CardContent>
                       <p>
-                        Last accessed on{" "}
+                        Created on{" "}
                         <strong>
                           {dateFormatter({
-                            date: session.updatedAt,
+                            date: session.createdAt,
                             options: {
                               dateStyle: "medium",
                               timeStyle: "short",
@@ -92,10 +92,10 @@ const SessionsTable = ({ closeDialog, ...restProps }: Props) => {
                         </strong>
                       </p>
                       <p>
-                        Signed in on{" "}
+                        Expires on{" "}
                         <strong>
                           {dateFormatter({
-                            date: session.createdAt,
+                            date: session.expiresAt,
                             options: {
                               dateStyle: "medium",
                               timeStyle: "short",
@@ -135,7 +135,7 @@ const SessionsTable = ({ closeDialog, ...restProps }: Props) => {
             await revokeSessions()
               .then(async ({ data, error }) => {
                 if (data?.status) {
-                  toast.success("All sessions have been sucsefuly revoked.");
+                  toast.success("All sessions have been successfully revoked.");
                   await signOut();
                   router.push("/login");
                   toast.success(MESSAGES.LOGOUT_SUCCESS);

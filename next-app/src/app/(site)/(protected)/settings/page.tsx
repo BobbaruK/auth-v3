@@ -29,7 +29,7 @@ const SettingsPage = async () => {
 
   return (
     <PageStructure>
-      {!user?.emailVerified && (
+      {!user.emailVerified && (
         <Alert variant="destructive">
           <MdOutlineEmail />
           <AlertTitle>Verify your email</AlertTitle>

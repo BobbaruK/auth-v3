@@ -1,3 +1,10 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Prisma } from "@/generated/prisma";
 import { ChangePassword } from "./change-password";
@@ -18,12 +25,22 @@ interface Props {
 
 export const Security = ({ user }: Props) => {
   return (
-    <div className="space-y-4">
-      <ChangePassword user={user} />
-      <Separator />
-      <TwoFactor user={user} />
-      <Separator />
-      <Sessions />
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Security Settings</CardTitle>
+        <CardDescription>
+          Manage your account security and authentication.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="space-y-4">
+          <ChangePassword user={user} />
+          <Separator />
+          <TwoFactor user={user} />
+          <Separator />
+          <Sessions />
+        </div>
+      </CardContent>
+    </Card>
   );
 };
