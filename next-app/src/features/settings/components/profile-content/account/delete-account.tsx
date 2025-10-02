@@ -1,6 +1,7 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import { TrashIcon } from "@/components/icons/trash";
 import {
   Dialog,
   DialogClose,
@@ -24,7 +25,6 @@ import {
 import { MESSAGES } from "@/constants/messages";
 import { deleteUser } from "@/features/settings/actions/delete-user";
 import { useState, useTransition } from "react";
-import { GoTrash } from "react-icons/go";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -67,7 +67,7 @@ export const DeleteAccount = () => {
           <DialogTrigger asChild>
             <CustomButton
               buttonLabel="Delete Account"
-              icon={GoTrash}
+              icon={TrashIcon}
               variant={"danger"}
               iconPlacement="left"
               hideLabelOnMobile={false}
@@ -85,7 +85,7 @@ export const DeleteAccount = () => {
             <DialogFooter>
               <CustomButton
                 buttonLabel="Delete Account"
-                icon={GoTrash}
+                icon={TrashIcon}
                 variant={"danger"}
                 iconPlacement="left"
                 hideLabelOnMobile={false}
@@ -107,7 +107,7 @@ export const DeleteAccount = () => {
           <DrawerTrigger asChild>
             <CustomButton
               buttonLabel="Delete Account"
-              icon={GoTrash}
+              icon={TrashIcon}
               variant={"danger"}
               iconPlacement="left"
               hideLabelOnMobile={false}
@@ -125,7 +125,7 @@ export const DeleteAccount = () => {
             <DrawerFooter className="flex flex-row flex-wrap items-center gap-4">
               <CustomButton
                 buttonLabel="Delete Account"
-                icon={GoTrash}
+                icon={TrashIcon}
                 variant={"danger"}
                 iconPlacement="left"
                 hideLabelOnMobile={false}

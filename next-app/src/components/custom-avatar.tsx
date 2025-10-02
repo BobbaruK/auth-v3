@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { FaUser } from "react-icons/fa";
+import { UserIcon } from "./icons/user";
 
 interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   image?: string | null;
@@ -69,7 +69,7 @@ export const CustomAvatar = ({
         )}
       />
       <AvatarFallback className="rounded-none">
-        {icon || <FaUser className="h-[55%] w-[55%]" />}
+        {icon || <UserIcon className="h-[55%] w-[55%]" />}
       </AvatarFallback>
     </Avatar>
   );

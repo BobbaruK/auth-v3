@@ -1,6 +1,7 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import { CopyIcon } from "@/components/icons/copy";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -24,7 +25,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { IoIosCopy } from "react-icons/io";
 import QRCode from "react-qr-code";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
@@ -128,7 +128,7 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
               buttonLabel={`Copy secret`}
               variant={"secondary"}
               size={"icon"}
-              icon={IoIosCopy}
+              icon={CopyIcon}
               iconPlacement="left"
               className="size-10 min-w-10"
               onClick={handleCopy(secret)}

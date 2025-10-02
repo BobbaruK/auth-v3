@@ -1,4 +1,5 @@
 import { CustomAlert } from "@/components/custom-alert";
+import { EnvelopeIcon } from "@/components/icons/envelope";
 import { PageStructure } from "@/components/page-structure";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { MESSAGES } from "@/constants/messages";
@@ -7,7 +8,6 @@ import { ProfileContent } from "@/features/settings/components/profile-content";
 import { ProfileHeader } from "@/features/settings/components/profile-header";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { MdOutlineEmail } from "react-icons/md";
 
 const SettingsPage = async () => {
   const session = await auth.api.getSession({
@@ -31,7 +31,7 @@ const SettingsPage = async () => {
     <PageStructure>
       {!user.emailVerified && (
         <Alert variant="destructive">
-          <MdOutlineEmail />
+          <EnvelopeIcon />
           <AlertTitle>Verify your email</AlertTitle>
           <AlertDescription>
             <p>Please confirm your new email address.</p>

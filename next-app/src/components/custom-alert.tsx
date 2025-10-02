@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/alert";
 import { VariantProps } from "class-variance-authority";
 import { ReactNode } from "react";
-import { FaTerminal } from "react-icons/fa6";
+import { TerminalIcon } from "./icons/terminal";
 
 interface Props extends VariantProps<typeof alertVariants> {
   title: string;
@@ -22,7 +22,7 @@ export const CustomAlert = ({
 }: Props) => {
   return (
     <Alert variant={restProps.variant}>
-      {icon || <FaTerminal />}
+      {icon || <TerminalIcon />}
       <AlertTitle>{title}</AlertTitle>
       {description && (
         <AlertDescription className="text-foreground">

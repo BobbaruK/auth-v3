@@ -1,10 +1,10 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import { GithubIcon } from "@/components/icons/github";
+import { GoogleIcon } from "@/components/icons/google";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { signIn } from "@/lib/auth-client";
-import { FaGithub } from "react-icons/fa";
-import { GrGoogle } from "react-icons/gr";
 
 const SignInProviders = () => {
   const handleGithubClick = async () => {
@@ -29,7 +29,7 @@ const SignInProviders = () => {
         <CustomButton
           buttonLabel={`Login with GitHub`}
           variant="outline"
-          icon={FaGithub}
+          icon={GithubIcon}
           iconPlacement="left"
           className="grow"
           onClick={handleGithubClick}
@@ -39,7 +39,7 @@ const SignInProviders = () => {
         <CustomButton
           buttonLabel={`Login with Google`}
           variant="outline"
-          icon={GrGoogle}
+          icon={GoogleIcon}
           iconPlacement="left"
           className="grow"
           onClick={handleGoogleClick}

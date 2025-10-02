@@ -1,6 +1,7 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import { ShieldIcon } from "@/components/icons/shield";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +17,6 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Shield } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 const SessionsTable = lazy(() => import("./sessions-table"));
@@ -40,7 +40,7 @@ export const ActiveSessions = () => {
               buttonLabel={"View Sessions"}
               variant={"outline"}
               size={"sm"}
-              icon={Shield}
+              icon={ShieldIcon}
               iconPlacement="left"
               hideLabelOnMobile={false}
             />
@@ -62,7 +62,7 @@ export const ActiveSessions = () => {
               buttonLabel={"View Sessions"}
               variant={"outline"}
               size={"sm"}
-              icon={Shield}
+              icon={ShieldIcon}
               iconPlacement="left"
               hideLabelOnMobile={false}
             />

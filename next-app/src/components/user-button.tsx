@@ -17,11 +17,12 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { startTransition, useState } from "react";
-import { CiUser } from "react-icons/ci";
-import { IoIosLogIn } from "react-icons/io";
-import { IoExitOutline, IoSettingsOutline } from "react-icons/io5";
 import { toast } from "sonner";
 import { CustomAvatar } from "./custom-avatar";
+import { CogIcon } from "./icons/cog";
+import { LoginIcon } from "./icons/login";
+import { LogoutIcon } from "./icons/logout";
+import { UserIcon } from "./icons/user";
 
 interface Props {
   user: UserSession | undefined;
@@ -69,11 +70,11 @@ export const UserButton = ({ user }: Props) => {
                   href={"/settings"}
                   className="flex cursor-pointer items-center justify-start gap-2 p-2"
                 >
-                  <IoSettingsOutline /> Settings
+                  <CogIcon /> Settings
                 </Link>
               ) : (
                 <span className="flex cursor-pointer items-center justify-start gap-2 p-2">
-                  <IoSettingsOutline /> Settings
+                  <CogIcon /> Settings
                 </span>
               )}
             </DropdownMenuItem>
@@ -83,11 +84,11 @@ export const UserButton = ({ user }: Props) => {
                   href={`/profile/${user.id}`}
                   className="flex cursor-pointer items-center justify-start gap-2 p-2"
                 >
-                  <CiUser /> Profile
+                  <UserIcon /> Profile
                 </Link>
               ) : (
                 <span className="flex cursor-pointer items-center justify-start gap-2 p-2">
-                  <CiUser /> Profile
+                  <UserIcon /> Profile
                 </span>
               )}
             </DropdownMenuItem>
@@ -126,7 +127,7 @@ export const UserButton = ({ user }: Props) => {
               onClick={logOut}
               variant="destructive"
             >
-              <IoExitOutline /> Logout
+              <LogoutIcon /> Logout
             </DropdownMenuItem>
           </>
         ) : (
@@ -137,7 +138,7 @@ export const UserButton = ({ user }: Props) => {
                 className="flex cursor-pointer items-center justify-start gap-3 p-2"
                 href={"/login"}
               >
-                <IoIosLogIn /> Login
+                <LoginIcon /> Login
               </Link>
             </DropdownMenuItem>
           </>

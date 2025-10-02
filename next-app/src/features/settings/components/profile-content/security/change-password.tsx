@@ -1,6 +1,7 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import { KeyIcon } from "@/components/icons/key";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +17,6 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Prisma } from "@/generated/prisma";
-import { Key } from "lucide-react";
 import { useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { ChangePasswordForm } from "./change-password-form";
@@ -56,7 +56,7 @@ export const ChangePassword = ({ user }: Props) => {
             <CustomButton
               buttonLabel={`${hasCredential ? "Change" : "Set"} Password`}
               variant={"outline"}
-              icon={Key}
+              icon={KeyIcon}
               iconPlacement="left"
               hideLabelOnMobile={false}
             />
@@ -80,7 +80,7 @@ export const ChangePassword = ({ user }: Props) => {
             <CustomButton
               buttonLabel={`${hasCredential ? "Change" : "Set"} Password`}
               variant={"outline"}
-              icon={Key}
+              icon={KeyIcon}
               iconPlacement="left"
               hideLabelOnMobile={false}
             />

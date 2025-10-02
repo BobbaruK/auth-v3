@@ -1,11 +1,11 @@
 import { CustomAlert } from "@/components/custom-alert";
+import { AccountIcon } from "@/components/icons/account";
 import { PageStructure } from "@/components/page-structure";
 import { MESSAGES } from "@/constants/messages";
 import { getUser } from "@/core/user/data/get-user";
 import { ProfileHeader } from "@/features/settings/components/profile-header";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { MdOutlineAccountBox } from "react-icons/md";
 
 interface Props {
   params: Promise<{ userId: string }>;
@@ -40,7 +40,7 @@ const ProfilePage = async ({ params }: Props) => {
           title={"Attention!"}
           description={"Your account visibility is set tot private."}
           variant="warning"
-          icon={<MdOutlineAccountBox />}
+          icon={<AccountIcon />}
         />
       )}
       <ProfileHeader

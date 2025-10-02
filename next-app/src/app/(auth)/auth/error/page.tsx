@@ -1,6 +1,6 @@
+import { ErrorIcon } from "@/components/icons/error";
 import { PageStructure } from "@/components/page-structure";
 import { AuthCard } from "@/core/auth/components/auth-card";
-import { MdError } from "react-icons/md";
 
 interface Props {
   searchParams: Promise<{
@@ -32,7 +32,7 @@ const AuthErrorPage = async ({ searchParams }: Props) => {
         showFooter={false}
       >
         <div className="flex w-full flex-col items-center justify-center gap-4">
-          <MdError size={40} className="text-destructive" />
+          <ErrorIcon size={40} className="text-destructive" />
           <p>Error: {error}</p>
         </div>
       </AuthCard>

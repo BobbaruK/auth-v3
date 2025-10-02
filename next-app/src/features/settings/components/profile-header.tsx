@@ -1,8 +1,9 @@
 import { CustomAvatar } from "@/components/custom-avatar";
+import { CalendarIcon } from "@/components/icons/calendar";
+import { EnvelopeIcon } from "@/components/icons/envelope";
 import { Badge } from "@/components/ui/badge";
 import { dateFormatter } from "@/lib/utils/format-date";
 import Link from "next/link";
-import { GoCalendar, GoMail } from "react-icons/go";
 
 interface Props {
   data: {
@@ -38,13 +39,13 @@ export const ProfileHeader = ({
           <div className="text-muted-foreground flex flex-wrap gap-4 text-sm">
             {meta.email && (
               <div className="flex items-center gap-1">
-                <GoMail />
+                <EnvelopeIcon />
                 <Link href={`mailto:${meta.email}`}>{meta.email}</Link>
               </div>
             )}
             {meta.joined && (
               <div className="flex items-center gap-1">
-                <GoCalendar />
+                <CalendarIcon />
                 Joined{" "}
                 {dateFormatter({
                   date: meta.joined,
