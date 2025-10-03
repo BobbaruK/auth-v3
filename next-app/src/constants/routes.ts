@@ -28,6 +28,7 @@ export const PUBLIC_ROUTES = [
   "/two-factor-verification",
   "/auth/error",
   "/goodbye",
+  "/recover-account",
 ];
 
 /**
