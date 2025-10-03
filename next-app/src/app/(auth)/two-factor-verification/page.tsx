@@ -3,7 +3,7 @@ import { loadSearchParams } from "@/components/search-params";
 import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { AuthCard } from "@/core/auth/components/auth-card";
-import { OTPVerificationForm } from "@/core/auth/components/otp-verification-form";
+import OTPVerificationForm from "@/core/auth/components/otp-verification-form";
 import { auth } from "@/lib/auth";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -28,12 +28,12 @@ const TwoFactorVerificationPage = async ({ searchParams }: Props) => {
     <PageStructure>
       <AuthCard
         title={"2FA Verification"}
-        description={
-          twoFactorFirstTime ? MESSAGES.QR_SCAN : MESSAGES.ENTER_OTP
-        }>
+        description={twoFactorFirstTime ? MESSAGES.QR_SCAN : MESSAGES.ENTER_OTP}
+      >
         <OTPVerificationForm
           otpLink={twoFactor}
           isFirstTime={twoFactorFirstTime}
+          closeScanQRDialog={() => {}} // TODO: solve this
         />
       </AuthCard>
     </PageStructure>
