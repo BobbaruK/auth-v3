@@ -31,6 +31,7 @@ import { useCopyToClipboard } from "usehooks-ts";
 import z from "zod";
 import { clearCookie } from "../actions/clear-cookie";
 import { OTP } from "../schemas/otp";
+import TextSeparator from "@/components/text-separator";
 
 interface Props {
   otpLink: string | null;
@@ -127,15 +128,14 @@ const OTPVerificationForm = ({
             value={otpLink}
             className="h-auto w-full max-w-[300px] self-center border-8 border-white"
           />
-          <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-            <span className="bg-card text-muted-foreground relative z-10 px-2">
-              OR
-            </span>
-          </div>
+
+          <TextSeparator label="OR" />
+
           <p>
             If you can&apos;t use the QR code, enter this secret key manually in
             your authenticator app.
           </p>
+
           <div className="grid grid-cols-[1fr_50px] items-center gap-2">
             <p className={cn("w-full truncate")}>{secret}</p>
             <CustomButton

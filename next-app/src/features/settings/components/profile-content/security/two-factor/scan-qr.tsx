@@ -1,4 +1,5 @@
 import { CustomButton } from "@/components/custom-button";
+import TextSeparator from "@/components/text-separator";
 import {
   Dialog,
   DialogContent,
@@ -120,24 +121,25 @@ function TwoFactorScanQRSkeleton({
   return (
     <div className={cn("flex flex-col gap-4", className)} {...restProps}>
       <Skeleton className="aspect-square w-full max-w-[300px] self-center" />
-      <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-        <span className="bg-card text-muted-foreground relative z-10 px-2">
-          OR
-        </span>
-      </div>
+
+      <TextSeparator label="OR" />
+
       <div className="flex h-12 flex-col items-center justify-around gap-1">
         <Skeleton className="h-5 w-full" />
         <Skeleton className="h-5 w-full" />
       </div>
+
       <div className="flex h-10 gap-2">
         <Skeleton className="h-full w-full" />
         <Skeleton className="h-full w-full max-w-10" />
       </div>
+
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-9 w-full" />
         </div>
+
         <Skeleton className="h-5 w-full" />
       </div>
       <Skeleton className="h-10 w-full" />
