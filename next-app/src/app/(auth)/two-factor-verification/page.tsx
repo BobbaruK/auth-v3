@@ -1,11 +1,13 @@
 import { PageStructure } from "@/components/page-structure";
 import { loadSearchParams } from "@/components/search-params";
+import { Button } from "@/components/ui/button";
 import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { AuthCard } from "@/core/auth/components/auth-card";
 import OTPVerificationForm from "@/core/auth/components/otp-verification-form";
 import { auth } from "@/lib/auth";
 import { cookies, headers } from "next/headers";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SearchParams } from "nuqs/server";
 
@@ -34,6 +36,20 @@ const TwoFactorVerificationPage = async ({ searchParams }: Props) => {
           otpLink={twoFactor}
           isFirstTime={twoFactorFirstTime}
         />
+
+        <div className="flex flex-wrap items-center gap-1">
+          <p className="text-muted-foreground text-sm">
+            You can recover your account
+          </p>
+          <Button
+            size={"sm"}
+            variant={"link"}
+            asChild
+            className="text-foreground px-0 font-normal"
+          >
+            <Link href={"/recover-account"}>here</Link>
+          </Button>
+        </div>
       </AuthCard>
     </PageStructure>
   );
