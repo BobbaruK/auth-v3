@@ -16,7 +16,7 @@ export const enable2fa = async (values: z.infer<typeof Handle2faSchema>) => {
   const { password } = validatedFields.data;
 
   try {
-    const data = await auth.api.enableTwoFactor({
+    const { totpURI, backupCodes } = await auth.api.enableTwoFactor({
       body: {
         password,
       },
@@ -27,7 +27,8 @@ export const enable2fa = async (values: z.infer<typeof Handle2faSchema>) => {
 
     return {
       success: "QR code generated. Scan with your phone.",
-      totpURI: data.totpURI,
+      totpURI,
+      backupCodes,
     };
   } catch (error) {
     console.error("Something went wrong: ", JSON.stringify(error));
