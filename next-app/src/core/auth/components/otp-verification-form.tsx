@@ -34,10 +34,15 @@ import { OTP } from "../schemas/otp";
 
 interface Props {
   otpLink: string | null;
-  isFirstTime: boolean;
+  isFirstTime?: boolean;
+  closeScanQRDialog: () => void;
 }
 
-export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
+const OTPVerificationForm = ({
+  otpLink,
+  isFirstTime,
+  closeScanQRDialog,
+}: Props) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -75,8 +80,14 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
         toast.success(
           isFirstTime ? MESSAGES.QR_VALIDATED : MESSAGES.LOGIN_SUCCESS,
         );
-        router.push(DEFAULT_LOGIN_REDIRECT);
-        router.refresh();
+
+        if (!isFirstTime) {
+          router.push(DEFAULT_LOGIN_REDIRECT);
+        } else {
+          closeScanQRDialog();
+        }
+
+        // router.refresh();
       } catch (error) {
         if (error instanceof Error) console.error(error.message);
 
@@ -94,7 +105,7 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
     copy(text)
       .then(() => {
         toast.success("Copied", {
-          description: <div className="line-clamp-1">{copiedText}</div>,
+          description: <div className="line-clamp-1">{copiedText || text}</div>,
         });
       })
       .catch((error) => {
@@ -112,7 +123,10 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
     <div className="flex flex-col gap-4">
       {otpLink && (
         <>
-          <QRCode value={otpLink} className="w-full" />
+          <QRCode
+            value={otpLink}
+            className="h-auto w-full max-w-[300px] self-center border-8 border-white"
+          />
           <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
             <span className="bg-card text-muted-foreground relative z-10 px-2">
               OR
@@ -122,7 +136,7 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
             If you can&apos;t use the QR code, enter this secret key manually in
             your authenticator app.
           </p>
-          <div className="flex items-center gap-2">
+          <div className="grid grid-cols-[1fr_50px] items-center gap-2">
             <p className={cn("w-full truncate")}>{secret}</p>
             <CustomButton
               buttonLabel={`Copy secret`}
@@ -130,12 +144,13 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
               size={"icon"}
               icon={CopyIcon}
               iconPlacement="left"
-              className="size-10 min-w-10"
+              className="ms-auto size-10 min-w-10"
               onClick={handleCopy(secret)}
             />
           </div>
         </>
       )}
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -188,7 +203,7 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
           />
 
           <CustomButton
-            buttonLabel={`Validate`}
+            buttonLabel={isFirstTime ? "Get the codes" : "Validate"}
             type="submit"
             className="w-full"
             disabled={isPending}
@@ -199,3 +214,5 @@ export const OTPVerificationForm = ({ otpLink, isFirstTime }: Props) => {
     </div>
   );
 };
+
+export default OTPVerificationForm;
