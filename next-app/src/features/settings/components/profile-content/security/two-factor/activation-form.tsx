@@ -1,3 +1,5 @@
+"use client";
+
 import { CustomButton } from "@/components/custom-button";
 import {
   Form,
@@ -14,20 +16,24 @@ import { Handle2faSchema } from "@/features/settings/schemas/handle-2fa";
 import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-interface Props extends React.ButtonHTMLAttributes<HTMLFormElement> {
+interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   twoFA?: boolean | null;
-  closeDialog: () => void;
+  closeDialog: ({
+    totpURI,
+    backupCodes,
+  }: {
+    totpURI: string;
+    backupCodes: string[];
+  }) => void;
 }
 
-export const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
+const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
   const { refetch } = useSession();
   const form = useForm<z.infer<typeof Handle2faSchema>>({
     resolver: zodResolver(Handle2faSchema),
@@ -46,16 +52,21 @@ export const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
             }
             if (data.success) {
               toast.success(data.success);
-              router.push(
-                `/two-factor-verification?twoFactor=${encodeURIComponent(data.totpURI)}&twoFactorFirstTime=true`,
-              );
+
+              closeDialog({
+                totpURI: data.totpURI,
+                backupCodes: data.backupCodes,
+              });
+              // router.push(
+              //   `/two-factor-verification?twoFactor=${encodeURIComponent(data.totpURI)}&twoFactorFirstTime=true`,
+              // );
             }
           })
           .catch(() => {
             toast.error(MESSAGES.SOMETHING_WRONG);
           })
           .finally(() => {
-            closeDialog();
+            // closeDialog();
           });
 
         return;
@@ -67,7 +78,6 @@ export const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
             toast.error(data.error);
           }
           if (data.success) {
-            // router.refresh();
             toast.success(data.success);
           }
 
@@ -77,7 +87,10 @@ export const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
           toast.error(MESSAGES.SOMETHING_WRONG);
         })
         .finally(() => {
-          closeDialog();
+          closeDialog({
+            totpURI: "",
+            backupCodes: [],
+          });
         });
     });
   };
@@ -126,10 +139,17 @@ export const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
             variant={"outline"}
             disabled={isPending}
             skeletonClassName="grow"
-            onClick={closeDialog}
+            onClick={() =>
+              closeDialog({
+                totpURI: "",
+                backupCodes: [],
+              })
+            }
           />
         </div>
       </form>
     </Form>
   );
 };
+
+export default TwoFactorForm;
