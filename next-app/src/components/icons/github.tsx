@@ -1,6 +1,6 @@
+import { ReactIconsProps } from "@/types/icons";
 import { FaGithub } from "react-icons/fa";
-import { IconBaseProps } from "react-icons/lib";
 
-export const GithubIcon = ({ ...props }: IconBaseProps) => {
-  return <FaGithub {...props} />;
+export const GithubIcon = ({ ...props }: ReactIconsProps) => {
+  return <FaGithub {...props} strokeWidth={0} />;
 };

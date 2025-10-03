@@ -1,7 +1,6 @@
-import { Gamepad2, LucideProps } from "lucide-react";
+import { LucideIconProps } from "@/types/icons";
+import { Gamepad2 } from "lucide-react";
 
-type Props = Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>;
-
-export const GamepadIcon = ({ ...props }: Props) => {
+export const GamepadIcon = ({ ...props }: LucideIconProps) => {
   return <Gamepad2 {...props} />;
 };

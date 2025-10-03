@@ -1,6 +1,6 @@
-import { FaRegUser } from "react-icons/fa";
-import { IconBaseProps } from "react-icons/lib";
+import { LucideIconProps } from "@/types/icons";
+import { UserRound } from "lucide-react";
 
-export const UserIcon = ({ ...props }: IconBaseProps) => {
-  return <FaRegUser {...props} />;
+export const UserIcon = ({ ...props }: LucideIconProps) => {
+  return <UserRound {...props} />;
 };

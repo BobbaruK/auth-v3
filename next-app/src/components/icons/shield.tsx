@@ -1,6 +1,6 @@
-import { IconBaseProps } from "react-icons/lib";
-import { MdOutlineShield } from "react-icons/md";
+import { LucideIconProps } from "@/types/icons";
+import { Shield } from "lucide-react";
 
-export const ShieldIcon = ({ ...props }: IconBaseProps) => {
-  return <MdOutlineShield {...props} />;
+export const ShieldIcon = ({ ...props }: LucideIconProps) => {
+  return <Shield {...props} />;
 };

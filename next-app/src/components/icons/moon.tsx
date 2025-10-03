@@ -1,6 +1,6 @@
-import { FaRegMoon } from "react-icons/fa";
-import { IconBaseProps } from "react-icons/lib";
+import { LucideIconProps } from "@/types/icons";
+import { Moon } from "lucide-react";
 
-export const MoonIcon = ({ ...props }: IconBaseProps) => {
-  return <FaRegMoon {...props} />;
+export const MoonIcon = ({ ...props }: LucideIconProps) => {
+  return <Moon {...props} />;
 };

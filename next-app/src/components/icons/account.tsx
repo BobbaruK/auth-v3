@@ -1,6 +1,6 @@
-import { IconBaseProps } from "react-icons/lib";
-import { MdOutlineAccountBox } from "react-icons/md";
+import { LucideIconProps } from "@/types/icons";
+import { ContactRound } from "lucide-react";
 
-export const AccountIcon = ({ ...props }: IconBaseProps) => {
-  return <MdOutlineAccountBox {...props} />;
+export const AccountIcon = ({ ...props }: LucideIconProps) => {
+  return <ContactRound {...props} />;
 };

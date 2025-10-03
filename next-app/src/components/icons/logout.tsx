@@ -1,7 +1,6 @@
-import { IconBaseProps } from "react-icons/lib";
-import { MdOutlineLogout } from "react-icons/md";
+import { LucideIconProps } from "@/types/icons";
+import { LogOut } from "lucide-react";
 
-export const LogoutIcon = ({ ...props }: IconBaseProps) => {
-  return <MdOutlineLogout {...props} />;
+export const LogoutIcon = ({ ...props }: LucideIconProps) => {
+  return <LogOut {...props} />;
 };
-

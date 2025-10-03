@@ -1,7 +1,6 @@
-import { LucideProps, Watch } from "lucide-react";
+import { LucideIconProps } from "@/types/icons";
+import { Watch } from "lucide-react";
 
-type Props = Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>;
-
-export const WatchIcon = ({ ...props }: Props) => {
+export const WatchIcon = ({ ...props }: LucideIconProps) => {
   return <Watch {...props} />;
 };

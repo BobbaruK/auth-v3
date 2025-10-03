@@ -1,6 +1,6 @@
-import { FaTerminal } from "react-icons/fa6";
-import { IconBaseProps } from "react-icons/lib";
+import { LucideIconProps } from "@/types/icons";
+import { Terminal } from "lucide-react";
 
-export const TerminalIcon = ({ ...props }: IconBaseProps) => {
-  return <FaTerminal {...props} />;
+export const TerminalIcon = ({ ...props }: LucideIconProps) => {
+  return <Terminal {...props} />;
 };

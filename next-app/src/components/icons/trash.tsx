@@ -1,6 +1,6 @@
-import { IoTrashOutline } from "react-icons/io5";
-import { IconBaseProps } from "react-icons/lib";
+import { LucideIconProps } from "@/types/icons";
+import { Trash2 } from "lucide-react";
 
-export const TrashIcon = ({ ...props }: IconBaseProps) => {
-  return <IoTrashOutline {...props} />;
+export const TrashIcon = ({ ...props }: LucideIconProps) => {
+  return <Trash2 {...props} />;
 };

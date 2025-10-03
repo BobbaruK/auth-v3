@@ -1,6 +1,6 @@
-import { FaRegEnvelope } from "react-icons/fa";
-import { IconBaseProps } from "react-icons/lib";
+import { LucideIconProps } from "@/types/icons";
+import { Mail } from "lucide-react";
 
-export const EnvelopeIcon = ({ ...props }: IconBaseProps) => {
-  return <FaRegEnvelope {...props} />;
+export const EnvelopeIcon = ({ ...props }: LucideIconProps) => {
+  return <Mail {...props} />;
 };

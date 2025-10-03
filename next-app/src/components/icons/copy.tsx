@@ -1,6 +1,6 @@
-import { FaRegCopy } from "react-icons/fa";
-import { IconBaseProps } from "react-icons/lib";
+import { LucideIconProps } from "@/types/icons";
+import { Files } from "lucide-react";
 
-export const CopyIcon = ({ ...props }: IconBaseProps) => {
-  return <FaRegCopy {...props} />;
+export const CopyIcon = ({ ...props }: LucideIconProps) => {
+  return <Files {...props} />;
 };

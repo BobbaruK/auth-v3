@@ -1,6 +1,6 @@
-import { FaRegCalendar } from "react-icons/fa";
-import { IconBaseProps } from "react-icons/lib";
+import { LucideIconProps } from "@/types/icons";
+import { Calendar } from "lucide-react";
 
-export const CalendarIcon = ({ ...props }: IconBaseProps) => {
-  return <FaRegCalendar {...props} />;
+export const CalendarIcon = ({ ...props }: LucideIconProps) => {
+  return <Calendar {...props} />;
 };

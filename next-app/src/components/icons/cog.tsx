@@ -1,6 +1,6 @@
-import { HiOutlineCog } from "react-icons/hi";
-import { IconBaseProps } from "react-icons/lib";
+import { LucideIconProps } from "@/types/icons";
+import { Settings } from "lucide-react";
 
-export const CogIcon = ({ ...props }: IconBaseProps) => {
-  return <HiOutlineCog {...props} />;
+export const CogIcon = ({ ...props }: LucideIconProps) => {
+  return <Settings {...props} />;
 };

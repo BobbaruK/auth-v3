@@ -1,4 +1,5 @@
 import { AccountIcon } from "@/components/icons/account";
+import { AirplayIcon } from "@/components/icons/airplay";
 import { CalendarIcon } from "@/components/icons/calendar";
 import { CogIcon } from "@/components/icons/cog";
 import { CopyIcon } from "@/components/icons/copy";
@@ -6,11 +7,13 @@ import { EnvelopeIcon } from "@/components/icons/envelope";
 import { ErrorIcon } from "@/components/icons/error";
 import { GamepadIcon } from "@/components/icons/gamepad";
 import { GithubIcon } from "@/components/icons/github";
+import { GogglesIcon } from "@/components/icons/goggles";
 import { GoogleIcon } from "@/components/icons/google";
 import { KeyIcon } from "@/components/icons/key";
 import { LoginIcon } from "@/components/icons/login";
 import { LogoutIcon } from "@/components/icons/logout";
 import { MobileIcon } from "@/components/icons/mobile";
+import { MonitorIcon } from "@/components/icons/monitor";
 import { MoonIcon } from "@/components/icons/moon";
 import { ShieldIcon } from "@/components/icons/shield";
 import { TabletIcon } from "@/components/icons/tablet";
@@ -112,6 +115,18 @@ const IconsPage = () => {
       name: "WatchIcon",
       icon: WatchIcon,
     },
+    {
+      name: "AirplayIcon",
+      icon: AirplayIcon,
+    },
+    {
+      name: "GogglesIcon",
+      icon: GogglesIcon,
+    },
+    {
+      name: "MonitorIcon",
+      icon: MonitorIcon,
+    },
   ];
 
   return (
@@ -131,8 +146,9 @@ const IconsPage = () => {
             <Card key={icon.name}>
               <CardContent className="grid place-items-center gap-2">
                 {React.createElement(icon.icon, {
-                  size: 40,
+                  size: 80,
                   strokeWidth: 1,
+                  // absoluteStrokeWidth: true,
                 })}
 
                 <p>{icon.name}</p>

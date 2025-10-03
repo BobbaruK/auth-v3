@@ -1,7 +1,6 @@
-import { LucideProps, Smartphone } from "lucide-react";
+import { LucideIconProps } from "@/types/icons";
+import { Smartphone } from "lucide-react";
 
-type Props = Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>;
-
-export const MobileIcon = ({ ...props }: Props) => {
+export const MobileIcon = ({ ...props }: LucideIconProps) => {
   return <Smartphone {...props} />;
 };

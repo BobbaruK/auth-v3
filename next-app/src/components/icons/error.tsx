@@ -1,6 +1,6 @@
-import { IconBaseProps } from "react-icons/lib";
-import { MdErrorOutline } from "react-icons/md";
+import { LucideIconProps } from "@/types/icons";
+import { CircleX } from "lucide-react";
 
-export const ErrorIcon = ({ ...props }: IconBaseProps) => {
-  return <MdErrorOutline {...props} />;
+export const ErrorIcon = ({ ...props }: LucideIconProps) => {
+  return <CircleX {...props} />;
 };

@@ -1,7 +1,6 @@
-import { LucideProps, Tablet } from "lucide-react";
+import { LucideIconProps } from "@/types/icons";
+import { Tablet } from "lucide-react";
 
-type Props = Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>;
-
-export const TabletIcon = ({ ...props }: Props) => {
+export const TabletIcon = ({ ...props }: LucideIconProps) => {
   return <Tablet {...props} />;
 };
