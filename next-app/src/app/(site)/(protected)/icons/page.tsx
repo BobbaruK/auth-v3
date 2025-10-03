@@ -4,16 +4,21 @@ import { CogIcon } from "@/components/icons/cog";
 import { CopyIcon } from "@/components/icons/copy";
 import { EnvelopeIcon } from "@/components/icons/envelope";
 import { ErrorIcon } from "@/components/icons/error";
+import { GamepadIcon } from "@/components/icons/gamepad";
 import { GithubIcon } from "@/components/icons/github";
 import { GoogleIcon } from "@/components/icons/google";
 import { KeyIcon } from "@/components/icons/key";
 import { LoginIcon } from "@/components/icons/login";
 import { LogoutIcon } from "@/components/icons/logout";
+import { MobileIcon } from "@/components/icons/mobile";
 import { MoonIcon } from "@/components/icons/moon";
 import { ShieldIcon } from "@/components/icons/shield";
+import { TabletIcon } from "@/components/icons/tablet";
 import { TerminalIcon } from "@/components/icons/terminal";
 import { TrashIcon } from "@/components/icons/trash";
+import { TVIcon } from "@/components/icons/tv";
 import { UserIcon } from "@/components/icons/user";
+import { WatchIcon } from "@/components/icons/watch";
 import { PageStructure } from "@/components/page-structure";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
@@ -87,14 +92,33 @@ const IconsPage = () => {
       name: "CopyIcon",
       icon: CopyIcon,
     },
+    {
+      name: "ConsoleControllerIcon",
+      icon: GamepadIcon,
+    },
+    {
+      name: "MobileIcon",
+      icon: MobileIcon,
+    },
+    {
+      name: "TVIcon",
+      icon: TVIcon,
+    },
+    {
+      name: "TabletIcon",
+      icon: TabletIcon,
+    },
+    {
+      name: "WatchIcon",
+      icon: WatchIcon,
+    },
   ];
 
-  
   return (
     <PageStructure>
       <h1 className="text-3xl font-bold">Icons ({icons.length})</h1>
 
-      <div className="grid grid-cols-[repeat(auto-fit,_minmax(150px,_1fr))] gap-4">
+      <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4">
         {icons
           .sort((a, b) => {
             const nameA = a.name.toUpperCase();
@@ -108,6 +132,7 @@ const IconsPage = () => {
               <CardContent className="grid place-items-center gap-2">
                 {React.createElement(icon.icon, {
                   size: 40,
+                  strokeWidth: 1,
                 })}
 
                 <p>{icon.name}</p>
