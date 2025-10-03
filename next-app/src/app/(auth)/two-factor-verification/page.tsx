@@ -33,7 +33,6 @@ const TwoFactorVerificationPage = async ({ searchParams }: Props) => {
         <OTPVerificationForm
           otpLink={twoFactor}
           isFirstTime={twoFactorFirstTime}
-          closeScanQRDialog={() => {}} // TODO: solve this
         />
       </AuthCard>
     </PageStructure>

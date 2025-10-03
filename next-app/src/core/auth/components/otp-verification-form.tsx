@@ -35,7 +35,7 @@ import { OTP } from "../schemas/otp";
 interface Props {
   otpLink: string | null;
   isFirstTime?: boolean;
-  closeScanQRDialog: () => void;
+  closeScanQRDialog?: () => void;
 }
 
 const OTPVerificationForm = ({
@@ -84,7 +84,7 @@ const OTPVerificationForm = ({
         if (!isFirstTime) {
           router.push(DEFAULT_LOGIN_REDIRECT);
         } else {
-          closeScanQRDialog();
+          closeScanQRDialog?.();
         }
 
         // router.refresh();
