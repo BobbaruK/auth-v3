@@ -117,8 +117,8 @@ export const auth = betterAuth({
       mapProfileToUser: (profile) => ({
         firstName: profile.name.split(" ")[0],
         lastName: profile.name.split(" ")[1] || profile.name.split(" ")[0],
-        username: profile.login,
-        displayUsername: profile.login,
+        username: `${profile.login}_${new Date().getTime()}`,
+        displayUsername: `${profile.login}_${new Date().getTime()}`,
       }),
     },
     google: {
@@ -127,8 +127,8 @@ export const auth = betterAuth({
       mapProfileToUser: (profile) => ({
         firstName: profile.given_name,
         lastName: profile.family_name,
-        username: profile.given_name,
-        displayUsername: profile.given_name,
+        username: `${profile.given_name}_${new Date().getTime()}`,
+        displayUsername: `${profile.given_name}_${new Date().getTime()}`,
       }),
     },
   },
@@ -150,6 +150,7 @@ export const auth = betterAuth({
       create: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         before: async (user, context) => {
+          // Emails
           if (OWNER_EMAILS.includes(user.email))
             return {
               data: {
