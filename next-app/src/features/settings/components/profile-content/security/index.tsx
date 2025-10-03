@@ -8,7 +8,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Prisma } from "@/generated/prisma";
 import { ChangePassword } from "./change-password";
-import { ActiveSessions as Sessions } from "./sessions";
+import { Sessions } from "./sessions";
 import { TwoFactor } from "./two-factor";
 
 interface Props {

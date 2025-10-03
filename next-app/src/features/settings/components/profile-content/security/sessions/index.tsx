@@ -21,7 +21,7 @@ import { lazy, Suspense, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 const SessionsTable = lazy(() => import("./sessions-table"));
 
-export const ActiveSessions = () => {
+export const Sessions = () => {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 

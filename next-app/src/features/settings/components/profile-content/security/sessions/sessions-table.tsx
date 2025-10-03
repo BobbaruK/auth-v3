@@ -1,6 +1,14 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import { AirplayIcon } from "@/components/icons/airplay";
+import { GamepadIcon } from "@/components/icons/gamepad";
+import { GogglesIcon } from "@/components/icons/goggles";
+import { MobileIcon } from "@/components/icons/mobile";
+import { MonitorIcon } from "@/components/icons/monitor";
+import { TabletIcon } from "@/components/icons/tablet";
+import { TVIcon } from "@/components/icons/tv";
+import { WatchIcon } from "@/components/icons/watch";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -37,8 +45,6 @@ const SessionsTable = ({ closeDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  // const ses = use(getSessions());
-
   useEffect(() => {
     const fetchSessions = () =>
       startTransition(async () => {
@@ -61,12 +67,17 @@ const SessionsTable = ({ closeDialog, ...restProps }: Props) => {
           ) : (
             <>
               {sessions?.map((session) => {
-                const { browser, os } = UAParser(session.userAgent || "");
+                const { browser, os, device } = UAParser(
+                  session.userAgent || "",
+                );
                 return (
                   <Card key={session.id}>
                     <CardHeader>
                       <CardTitle className="flex flex-wrap items-center gap-2">
+                        <DeviceIcon deviceType={device.type} />
+
                         <span>{session.ipAddress}</span>
+
                         {session.id === activeSession?.session.id && (
                           <Badge>Active</Badge>
                         )}
@@ -178,3 +189,17 @@ const SessionsTable = ({ closeDialog, ...restProps }: Props) => {
 };
 
 export default SessionsTable;
+
+function DeviceIcon({ deviceType }: { deviceType: UAParser.IDevice["type"] }) {
+  if (deviceType === "wearable") return <WatchIcon />;
+  if (deviceType === "mobile") return <MobileIcon />;
+  if (deviceType === "tablet") return <TabletIcon />;
+  if (deviceType === "desktop") return <MonitorIcon />;
+  if (deviceType === "smarttv") return <TVIcon />;
+  if (deviceType === "console") return <GamepadIcon />;
+
+  if (deviceType === "embedded") return <AirplayIcon />;
+  if (deviceType === "xr") return <GogglesIcon />;
+
+  return <MonitorIcon />;
+}
