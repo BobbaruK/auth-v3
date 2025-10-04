@@ -16,7 +16,6 @@ import { Handle2faSchema } from "@/core/auth/schemas/handle-2fa";
 import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -36,7 +35,6 @@ interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
 const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { refetch } = useSession();
-  const router = useRouter();
   const form = useForm<z.infer<typeof Handle2faSchema>>({
     resolver: zodResolver(Handle2faSchema),
     defaultValues: {
@@ -66,9 +64,6 @@ const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
           })
           .catch(() => {
             toast.error(MESSAGES.SOMETHING_WRONG);
-          })
-          .finally(() => {
-            // closeDialog();
           });
 
         return;

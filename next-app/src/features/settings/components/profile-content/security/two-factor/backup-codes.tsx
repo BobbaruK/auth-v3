@@ -28,6 +28,7 @@ const TwoFactorBackupCodes = ({
   openBackupCodes,
   setOpenBackupCodes,
 }: Props) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [copiedText, copy] = useCopyToClipboard();
 
   const handleCopy = (text: string) => () => {
