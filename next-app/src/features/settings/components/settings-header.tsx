@@ -6,24 +6,22 @@ import { EnvelopeIcon } from "@/components/icons/envelope";
 import { Badge } from "@/components/ui/badge";
 import { dateFormatter } from "@/lib/utils/format-date";
 import Link from "next/link";
+import { useProfileContext } from "../providers/settings";
 
-interface Props {
-  data: {
-    image: string | null;
-    username: string;
-    role?: string;
-    firstName?: string;
-    lastName?: string;
-    meta?: {
-      email?: string;
-      joined?: Date;
-    };
+export const SettingsHeader = () => {
+  const { user } = useProfileContext();
+  const { firstName, image, lastName, meta, role, username } = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    username: user.displayUsername || user.firstName,
+    role: user.role,
+    image: user.image,
+    meta: {
+      email: user.email,
+      joined: user.createdAt,
+    },
   };
-}
 
-export const ProfileHeader = ({
-  data: { firstName, lastName, username, image, role, meta },
-}: Props) => {
   return (
     <div className="bg-card text-card-foreground flex w-full flex-row flex-wrap items-center gap-6 rounded-xl border p-4 py-6 shadow-sm lg:p-6">
       <div className="size-24">

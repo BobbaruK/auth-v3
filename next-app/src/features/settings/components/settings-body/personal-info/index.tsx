@@ -5,22 +5,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Prisma } from "@/generated/prisma";
 import { PersonalForm } from "./personal-form";
 
-interface Props {
-  user: Prisma.auth_userGetPayload<{
-    include: {
-      accounts: {
-        select: {
-          providerId: true;
-        };
-      };
-    };
-  }>;
-}
-
-export const PersonalInformation = ({ user }: Props) => {
+export const PersonalInformation = () => {
   return (
     <Card>
       <CardHeader>
@@ -30,7 +17,7 @@ export const PersonalInformation = ({ user }: Props) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <PersonalForm user={user} />
+        <PersonalForm />
       </CardContent>
     </Card>
   );

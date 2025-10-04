@@ -24,7 +24,12 @@ import { twoFactor } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useTransition } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useTransition,
+} from "react";
 import { useForm } from "react-hook-form";
 import QRCode from "react-qr-code";
 import { toast } from "sonner";
@@ -33,15 +38,17 @@ import z from "zod";
 import { OTP } from "../schemas/otp";
 
 interface Props {
-  otpLink: string | null;
+  otpLink: string;
   isFirstTime?: boolean;
-  closeScanQRDialog?: () => void;
+  setOpenBackupCodesDialog?: Dispatch<SetStateAction<boolean>>;
+  setOpenScanQRCodeDialog?: Dispatch<SetStateAction<boolean>>;
 }
 
 const OTPVerificationForm = ({
   otpLink,
   isFirstTime,
-  closeScanQRDialog,
+  setOpenBackupCodesDialog,
+  setOpenScanQRCodeDialog,
 }: Props) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -84,7 +91,8 @@ const OTPVerificationForm = ({
         if (!isFirstTime) {
           router.push(DEFAULT_LOGIN_REDIRECT);
         } else {
-          closeScanQRDialog?.();
+          setOpenScanQRCodeDialog?.(false);
+          setOpenBackupCodesDialog?.(true);
         }
 
         router.refresh();

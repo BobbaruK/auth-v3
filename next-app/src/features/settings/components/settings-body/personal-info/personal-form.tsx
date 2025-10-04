@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { MESSAGES } from "@/constants/messages";
 import { updateUser } from "@/core/auth/actions/update-user";
 import { PersonalSchema } from "@/core/auth/schemas/personal";
-import { Prisma } from "@/generated/prisma";
+import { useProfileContext } from "@/features/settings/providers/settings";
 import { useSession } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
@@ -22,19 +22,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-interface Props {
-  user: Prisma.auth_userGetPayload<{
-    include: {
-      accounts: {
-        select: {
-          providerId: true;
-        };
-      };
-    };
-  }>;
-}
-
-export const PersonalForm = ({ user }: Props) => {
+export const PersonalForm = () => {
+  const { user } = useProfileContext();
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof PersonalSchema>>({
     resolver: zodResolver(PersonalSchema),

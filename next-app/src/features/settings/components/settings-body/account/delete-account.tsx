@@ -24,13 +24,15 @@ import {
 } from "@/components/ui/drawer";
 import { MESSAGES } from "@/constants/messages";
 import { deleteUser } from "@/core/auth/actions/delete-user";
-import { useState, useTransition } from "react";
+import { useProfileContext } from "@/features/settings/providers/settings";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";
 
 export const DeleteAccount = () => {
+  const { isLoading, startTransition } = useProfileContext();
   const [open, setOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
+
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const handleDelete = () => {
@@ -71,7 +73,7 @@ export const DeleteAccount = () => {
               variant={"danger"}
               iconPlacement="left"
               hideLabelOnMobile={false}
-              disabled={isPending}
+              disabled={isLoading}
             />
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
@@ -90,13 +92,13 @@ export const DeleteAccount = () => {
                 iconPlacement="left"
                 hideLabelOnMobile={false}
                 onClick={handleDelete}
-                disabled={isPending}
+                disabled={isLoading}
               />
               <DialogClose asChild>
                 <CustomButton
                   buttonLabel="Cancel"
                   variant={"outline"}
-                  disabled={isPending}
+                  disabled={isLoading}
                 />
               </DialogClose>
             </DialogFooter>
@@ -111,7 +113,7 @@ export const DeleteAccount = () => {
               variant={"danger"}
               iconPlacement="left"
               hideLabelOnMobile={false}
-              disabled={isPending}
+              disabled={isLoading}
             />
           </DrawerTrigger>
           <DrawerContent>
@@ -131,14 +133,14 @@ export const DeleteAccount = () => {
                 hideLabelOnMobile={false}
                 className="grow"
                 onClick={handleDelete}
-                disabled={isPending}
+                disabled={isLoading}
               />
               <DrawerClose asChild>
                 <CustomButton
                   buttonLabel="Cancel"
                   variant={"outline"}
                   className="grow"
-                  disabled={isPending}
+                  disabled={isLoading}
                 />
               </DrawerClose>
             </DrawerFooter>

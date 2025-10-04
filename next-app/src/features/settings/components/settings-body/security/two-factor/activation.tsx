@@ -16,38 +16,27 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Prisma } from "@/generated/prisma";
+import { useProfileContext } from "@/features/settings/providers/settings";
+import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
-import { Dispatch, lazy, SetStateAction, Suspense } from "react";
-const TwoFactorForm = lazy(() => import("./activation-form"));
+import { lazy, Suspense } from "react";
+const ActivationTwoFactorForm = lazy(
+  () => import("@/core/auth/components/activation-2fa-form"),
+);
 
-interface Props {
-  isDesktop: boolean;
-  openActivate2faDialog: boolean;
-  setOpenActivate2faDialog: Dispatch<SetStateAction<boolean>>;
-  setOpenScanQR: Dispatch<SetStateAction<boolean>>;
-  setTotpURI: Dispatch<SetStateAction<string>>;
-  emitBackupCodes: (backupCodes: string[]) => void;
-  user: Prisma.auth_userGetPayload<{
-    include: {
-      accounts: {
-        select: {
-          providerId: true;
-        };
-      };
-    };
-  }>;
-}
+const TwoFactorActivation = () => {
+  const {
+    openActivate2faDialog,
+    setOpenActivate2faDialog,
+    user,
+    startTransition,
+    totpURI,
+    setBackupCodes,
+    setTotpURI,
+    setOpenScanQRCodeDialog,
+  } = useProfileContext();
+  const isDesktop = useCustomMediaQuery();
 
-const TwoFactorActivation = ({
-  isDesktop,
-  openActivate2faDialog,
-  setOpenActivate2faDialog,
-  setOpenScanQR,
-  setTotpURI,
-  emitBackupCodes,
-  user,
-}: Props) => {
   return isDesktop ? (
     <>
       <Dialog
@@ -69,17 +58,15 @@ const TwoFactorActivation = ({
             <DialogDescription>Enter your password below.</DialogDescription>
           </DialogHeader>
           <Suspense fallback={<TwoFASkeleton />}>
-            <TwoFactorForm
-              twoFA={user.twoFactorEnabled}
-              closeDialog={({ totpURI, backupCodes }) => {
-                setTotpURI(totpURI);
-
-                emitBackupCodes(backupCodes);
-
-                setOpenActivate2faDialog(false);
-
-                setOpenScanQR(totpURI ? true : false);
-              }}
+            <ActivationTwoFactorForm
+              user={user}
+              isLoading={false}
+              startTransition={startTransition}
+              totpURI={totpURI}
+              setTotpURI={setTotpURI}
+              setOpenActivate2faDialog={setOpenActivate2faDialog}
+              setBackupCodes={setBackupCodes}
+              setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
             />
           </Suspense>
         </DialogContent>
@@ -107,18 +94,16 @@ const TwoFactorActivation = ({
           </DrawerHeader>
 
           <Suspense fallback={<TwoFASkeleton className="mb-4 px-4" />}>
-            <TwoFactorForm
-              twoFA={user.twoFactorEnabled}
+            <ActivationTwoFactorForm
               className="p-4"
-              closeDialog={({ totpURI, backupCodes }) => {
-                setTotpURI(totpURI);
-
-                emitBackupCodes(backupCodes);
-
-                setOpenActivate2faDialog(false);
-
-                setOpenScanQR(totpURI ? true : false);
-              }}
+              user={user}
+              isLoading={false}
+              startTransition={startTransition}
+              totpURI={totpURI}
+              setTotpURI={setTotpURI}
+              setOpenActivate2faDialog={setOpenActivate2faDialog}
+              setBackupCodes={setBackupCodes}
+              setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
             />
           </Suspense>
         </DrawerContent>

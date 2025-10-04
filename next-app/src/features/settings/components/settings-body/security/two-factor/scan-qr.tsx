@@ -18,41 +18,30 @@ import {
 } from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MESSAGES } from "@/constants/messages";
-import { Prisma } from "@/generated/prisma";
+import { useProfileContext } from "@/features/settings/providers/settings";
+import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
-import { Dispatch, lazy, SetStateAction, Suspense } from "react";
+import { lazy, Suspense } from "react";
 const OTPVerificationForm = lazy(
   () => import("@/core/auth/components/otp-verification-form"),
 );
 
-interface Props {
-  totpURI: string;
-  isDesktop: boolean;
-  openScanQR: boolean;
-  setOpenScanQR: Dispatch<SetStateAction<boolean>>;
-  setOpenBackupCodes: Dispatch<SetStateAction<boolean>>;
-  user: Prisma.auth_userGetPayload<{
-    include: {
-      accounts: {
-        select: {
-          providerId: true;
-        };
-      };
-    };
-  }>;
-}
+const TwoFactorScanQR = () => {
+  const {
+    user,
+    totpURI,
+    openScanQRCodeDialog,
+    setOpenScanQRCodeDialog,
+    setOpenBackupCodesDialog,
+  } = useProfileContext();
+  const isDesktop = useCustomMediaQuery();
 
-const TwoFactorScanQR = ({
-  totpURI,
-  isDesktop,
-  openScanQR,
-  setOpenScanQR,
-  setOpenBackupCodes,
-  user,
-}: Props) => {
   return isDesktop ? (
     <>
-      <Dialog open={openScanQR} onOpenChange={setOpenScanQR}>
+      <Dialog
+        open={openScanQRCodeDialog}
+        onOpenChange={setOpenScanQRCodeDialog}
+      >
         <DialogTrigger asChild hidden>
           <CustomButton
             buttonLabel={user?.twoFactorEnabled ? "Disable" : "Enable"}
@@ -68,11 +57,9 @@ const TwoFactorScanQR = ({
           <Suspense fallback={<TwoFactorScanQRSkeleton />}>
             <OTPVerificationForm
               otpLink={totpURI}
-              closeScanQRDialog={() => {
-                setOpenScanQR(false);
-                setOpenBackupCodes(true);
-              }}
               isFirstTime
+              setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
+              setOpenBackupCodesDialog={setOpenBackupCodesDialog}
             />
           </Suspense>
         </DialogContent>
@@ -80,7 +67,10 @@ const TwoFactorScanQR = ({
     </>
   ) : (
     <>
-      <Drawer open={openScanQR} onOpenChange={setOpenScanQR}>
+      <Drawer
+        open={openScanQRCodeDialog}
+        onOpenChange={setOpenScanQRCodeDialog}
+      >
         <DrawerTrigger asChild hidden>
           <CustomButton
             buttonLabel={user?.twoFactorEnabled ? "Disable" : "Enable"}
@@ -99,11 +89,9 @@ const TwoFactorScanQR = ({
           >
             <OTPVerificationForm
               otpLink={totpURI}
-              closeScanQRDialog={() => {
-                setOpenScanQR(false);
-                setOpenBackupCodes(true);
-              }}
               isFirstTime
+              setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
+              setOpenBackupCodesDialog={setOpenBackupCodesDialog}
             />
           </Suspense>
         </DrawerContent>

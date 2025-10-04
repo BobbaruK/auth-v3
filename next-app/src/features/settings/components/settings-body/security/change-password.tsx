@@ -17,28 +17,26 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Prisma } from "@/generated/prisma";
+import { useProfileContext } from "@/features/settings/providers/settings";
+import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
-import { lazy, Suspense, useState } from "react";
-import { useMediaQuery } from "usehooks-ts";
-const ChangePasswordForm = lazy(() => import("./change-password-form"));
-const SetPasswordForm = lazy(() => import("./set-password-form"));
+import { lazy, Suspense } from "react";
+const ChangePasswordForm = lazy(
+  () => import("@/core/auth/components/change-password-form"),
+);
+const SetPasswordForm = lazy(
+  () => import("@/core/auth/components/set-password-form"),
+);
 
-interface Props {
-  user: Prisma.auth_userGetPayload<{
-    include: {
-      accounts: {
-        select: {
-          providerId: true;
-        };
-      };
-    };
-  }>;
-}
-
-export const ChangePassword = ({ user }: Props) => {
-  const [open, setOpen] = useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+export const ChangePassword = () => {
+  const {
+    user,
+    openChangePasswordDialog,
+    setOpenChangePasswordDialog,
+    isLoading,
+    startTransition,
+  } = useProfileContext();
+  const isDesktop = useCustomMediaQuery();
 
   const userProviders = user.accounts.map((provider) => provider.providerId);
   const hasCredential = userProviders.includes("credential");
@@ -53,7 +51,10 @@ export const ChangePassword = ({ user }: Props) => {
       </div>
 
       {isDesktop ? (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog
+          open={openChangePasswordDialog}
+          onOpenChange={setOpenChangePasswordDialog}
+        >
           <DialogTrigger asChild>
             <CustomButton
               buttonLabel={`${hasCredential ? "Change" : "Set"} Password`}
@@ -71,17 +72,28 @@ export const ChangePassword = ({ user }: Props) => {
             </DialogHeader>
             {hasCredential ? (
               <Suspense fallback={<ChangePasswordSkeleton />}>
-                <ChangePasswordForm closeDialog={() => setOpen(false)} />
+                <ChangePasswordForm
+                  isLoading={isLoading}
+                  startTransition={startTransition}
+                  setOpenChangePasswordDialog={setOpenChangePasswordDialog}
+                />
               </Suspense>
             ) : (
               <Suspense fallback={<SetPasswordSkeleton />}>
-                <SetPasswordForm closeDialog={() => setOpen(false)} />
+                <SetPasswordForm
+                  isLoading={isLoading}
+                  startTransition={startTransition}
+                  setOpenChangePasswordDialog={setOpenChangePasswordDialog}
+                />
               </Suspense>
             )}
           </DialogContent>
         </Dialog>
       ) : (
-        <Drawer open={open} onOpenChange={setOpen}>
+        <Drawer
+          open={openChangePasswordDialog}
+          onOpenChange={setOpenChangePasswordDialog}
+        >
           <DrawerTrigger asChild>
             <CustomButton
               buttonLabel={`${hasCredential ? "Change" : "Set"} Password`}
@@ -104,7 +116,9 @@ export const ChangePassword = ({ user }: Props) => {
               >
                 <ChangePasswordForm
                   className="mb-4 px-4"
-                  closeDialog={() => setOpen(false)}
+                  isLoading={isLoading}
+                  startTransition={startTransition}
+                  setOpenChangePasswordDialog={setOpenChangePasswordDialog}
                 />
               </Suspense>
             ) : (
@@ -113,7 +127,9 @@ export const ChangePassword = ({ user }: Props) => {
               >
                 <SetPasswordForm
                   className="mb-4 px-4"
-                  closeDialog={() => setOpen(false)}
+                  isLoading={isLoading}
+                  startTransition={startTransition}
+                  setOpenChangePasswordDialog={setOpenChangePasswordDialog}
                 />
               </Suspense>
             )}

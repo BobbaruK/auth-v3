@@ -1,20 +1,13 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
-import { Prisma } from "@/generated/prisma";
-import { TwoFactorDialog } from "./dialog";
+import { useProfileContext } from "@/features/settings/providers/settings";
+import TwoFactorActivation from "./activation";
+import TwoFactorBackupCodes from "./backup-codes";
+import TwoFactorScanQR from "./scan-qr";
 
-interface Props {
-  user: Prisma.auth_userGetPayload<{
-    include: {
-      accounts: {
-        select: {
-          providerId: true;
-        };
-      };
-    };
-  }>;
-}
-
-export const TwoFactor = ({ user }: Props) => {
+export const TwoFactor = () => {
+  const { user } = useProfileContext();
   return (
     <div className="flex items-center justify-between">
       <div className="space-y-1">
@@ -27,7 +20,12 @@ export const TwoFactor = ({ user }: Props) => {
         <Badge variant={user?.twoFactorEnabled ? "success" : "warning"}>
           {user?.twoFactorEnabled ? "Enabled" : "Disabled"}
         </Badge>
-        <TwoFactorDialog user={user} />
+
+        <TwoFactorActivation />
+
+        <TwoFactorScanQR />
+
+        <TwoFactorBackupCodes />
       </div>
     </div>
   );

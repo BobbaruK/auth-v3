@@ -13,17 +13,23 @@ import { changePassword } from "@/core/auth/actions/change-password";
 import { ChangePasswordSchema } from "@/core/auth/schemas/change-password";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { Dispatch, SetStateAction, TransitionStartFunction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-interface Props extends React.ButtonHTMLAttributes<HTMLFormElement> {
-  closeDialog: () => void;
+interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
+  isLoading: boolean;
+  startTransition: TransitionStartFunction;
+  setOpenChangePasswordDialog: Dispatch<SetStateAction<boolean>>;
 }
 
-const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
-  const [isPending, startTransition] = useTransition();
+const ChangePasswordForm = ({
+  isLoading,
+  startTransition,
+  setOpenChangePasswordDialog,
+  ...restProps
+}: Props) => {
   const form = useForm<z.infer<typeof ChangePasswordSchema>>({
     resolver: zodResolver(ChangePasswordSchema),
     defaultValues: {
@@ -49,7 +55,7 @@ const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
           toast.error(MESSAGES.SOMETHING_WRONG);
         })
         .finally(() => {
-          closeDialog();
+          setOpenChangePasswordDialog(false);
         });
     });
   };
@@ -74,7 +80,7 @@ const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
                     id="currentPassword"
                     placeholder="******"
                     autoComplete="new-password"
-                    disabled={isPending}
+                    disabled={isLoading}
                     {...field}
                   />
                 </FormControl>
@@ -94,7 +100,7 @@ const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
                     id="newPassword"
                     placeholder="******"
                     autoComplete="new-password"
-                    disabled={isPending}
+                    disabled={isLoading}
                     {...field}
                   />
                 </FormControl>
@@ -116,7 +122,7 @@ const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
                     id="confirmNewPassword"
                     placeholder="******"
                     autoComplete="new-password"
-                    disabled={isPending}
+                    disabled={isLoading}
                     {...field}
                   />
                 </FormControl>
@@ -131,7 +137,7 @@ const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
             buttonLabel={`Change password`}
             type="submit"
             className="grow"
-            disabled={isPending}
+            disabled={isLoading}
             skeletonClassName="w-full"
           />
           <CustomButton
@@ -139,9 +145,9 @@ const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
             type="button"
             className="grow"
             variant={"outline"}
-            disabled={isPending}
+            disabled={isLoading}
             skeletonClassName="grow"
-            onClick={closeDialog}
+            onClick={() => setOpenChangePasswordDialog(false)}
           />
         </div>
       </form>

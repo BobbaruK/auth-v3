@@ -3,21 +3,18 @@
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { MESSAGES } from "@/constants/messages";
-import { auth_user } from "@/generated/prisma";
+import { useProfileContext } from "@/features/settings/providers/settings";
 import { updateUser } from "@/lib/auth-client";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
-interface Props {
-  user: auth_user | null;
-}
-
-export const AccountVisibility = ({ user }: Props) => {
-  const [isPending, startTransition] = useTransition();
+export const AccountVisibility = () => {
+  const { user, isLoading, startTransition } = useProfileContext();
   const [isChecked, setIsChecked] = useState(user?.isAccountVisible || false);
 
   const handleCheck = () => {
     startTransition(async () => {
+      // TODO: maybe server?
       await updateUser({
         isAccountVisible: !isChecked,
       })
@@ -53,7 +50,7 @@ export const AccountVisibility = ({ user }: Props) => {
           className="cursor-pointer"
           checked={isChecked}
           onCheckedChange={handleCheck}
-          disabled={isPending}
+          disabled={isLoading}
         />
       </div>
     </div>

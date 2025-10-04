@@ -15,18 +15,23 @@ import { changeEmail } from "@/core/auth/actions/change-email";
 import { ChangeEmailSchema } from "@/core/auth/schemas/change-email";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { Dispatch, SetStateAction, TransitionStartFunction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-interface Props extends React.ButtonHTMLAttributes<HTMLFormElement> {
-  closeDialog: () => void;
+interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
+  isLoading: boolean;
+  startTransition: TransitionStartFunction;
+  setOpenChangeEmailDialog: Dispatch<SetStateAction<boolean>>;
 }
 
-export const ChangeEmailForm = ({ closeDialog, ...restProps }: Props) => {
-  const [isPending, startTransition] = useTransition();
-
+export const ChangeEmailForm = ({
+  isLoading,
+  startTransition,
+  setOpenChangeEmailDialog,
+  ...restProps
+}: Props) => {
   const form = useForm<z.infer<typeof ChangeEmailSchema>>({
     resolver: zodResolver(ChangeEmailSchema),
     defaultValues: {
@@ -47,11 +52,11 @@ export const ChangeEmailForm = ({ closeDialog, ...restProps }: Props) => {
             toast.success(data.success);
           }
 
-          closeDialog();
+          setOpenChangeEmailDialog(false);
         })
         .catch(() => {
           toast.error(MESSAGES.SOMETHING_WRONG);
-          closeDialog();
+          setOpenChangeEmailDialog(false);
         });
     });
   };
@@ -74,7 +79,7 @@ export const ChangeEmailForm = ({ closeDialog, ...restProps }: Props) => {
                     {...field}
                     type="email"
                     placeholder="john.doe@example.com"
-                    disabled={isPending}
+                    disabled={isLoading}
                   />
                 </FormControl>
                 <FormMessage />
@@ -92,7 +97,7 @@ export const ChangeEmailForm = ({ closeDialog, ...restProps }: Props) => {
                     {...field}
                     type="email"
                     placeholder="john.doe@example.com"
-                    disabled={isPending}
+                    disabled={isLoading}
                   />
                 </FormControl>
                 <FormMessage />
@@ -106,7 +111,7 @@ export const ChangeEmailForm = ({ closeDialog, ...restProps }: Props) => {
             buttonLabel={`Confirm`}
             type="submit"
             className="grow"
-            disabled={isPending}
+            disabled={isLoading}
             skeletonClassName="grow"
           />
           <CustomButton
@@ -114,9 +119,9 @@ export const ChangeEmailForm = ({ closeDialog, ...restProps }: Props) => {
             type="button"
             className="grow"
             variant={"outline"}
-            disabled={isPending}
+            disabled={isLoading}
             skeletonClassName="grow"
-            onClick={closeDialog}
+            onClick={() => setOpenChangeEmailDialog(false)}
           />
         </div>
       </form>

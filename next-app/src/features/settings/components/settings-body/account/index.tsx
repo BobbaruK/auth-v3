@@ -7,16 +7,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { auth_user } from "@/generated/prisma";
 import { AccountVisibility } from "./account-visibility";
 import { ChangeEmail } from "./change-email";
 import { DeleteAccount } from "./delete-account";
 
-interface Props {
-  user: auth_user | null;
-}
-
-export const Account = ({ user }: Props) => {
+export const Account = () => {
   return (
     <>
       <Card>
@@ -28,9 +23,9 @@ export const Account = ({ user }: Props) => {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-6">
-            <ChangeEmail user={user} />
+            <ChangeEmail />
             <Separator />
-            <AccountVisibility user={user} />
+            <AccountVisibility />
             <Separator />
             <div className="flex items-center justify-between">
               <div className="space-y-1">
@@ -48,7 +43,7 @@ export const Account = ({ user }: Props) => {
           </div>
         </CardContent>
       </Card>
-      
+
       <Card className="border-destructive/50 shadow-danger">
         <CardHeader>
           <CardTitle className="text-destructive">Danger Zone</CardTitle>

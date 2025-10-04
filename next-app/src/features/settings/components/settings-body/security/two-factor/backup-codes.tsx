@@ -13,21 +13,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { buttonVariants } from "@/components/ui/button";
-import { Dispatch, SetStateAction } from "react";
+import { useProfileContext } from "@/features/settings/providers/settings";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 
-interface Props {
-  backupCodes: string[];
-  openBackupCodes: boolean;
-  setOpenBackupCodes: Dispatch<SetStateAction<boolean>>;
-}
-
-const TwoFactorBackupCodes = ({
-  backupCodes,
-  openBackupCodes,
-  setOpenBackupCodes,
-}: Props) => {
+const TwoFactorBackupCodes = () => {
+  const { backupCodes, openBackupCodesDialog, setOpenBackupCodesDialog } =
+    useProfileContext();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [copiedText, copy] = useCopyToClipboard();
 
@@ -49,7 +41,10 @@ const TwoFactorBackupCodes = ({
   };
 
   return (
-    <AlertDialog open={openBackupCodes} onOpenChange={setOpenBackupCodes}>
+    <AlertDialog
+      open={openBackupCodesDialog}
+      onOpenChange={setOpenBackupCodesDialog}
+    >
       <AlertDialogTrigger asChild hidden>
         <CustomButton buttonLabel="Show codes" className="mt-4 w-full" />
       </AlertDialogTrigger>

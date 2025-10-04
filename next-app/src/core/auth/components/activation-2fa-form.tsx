@@ -15,25 +15,35 @@ import { disable2fa, enable2fa } from "@/core/auth/actions/handle-2fa";
 import { Handle2faSchema } from "@/core/auth/schemas/handle-2fa";
 import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+import { UserProfile } from "@/types/user-profile";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { Dispatch, SetStateAction, TransitionStartFunction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
 interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
-  twoFA?: boolean | null;
-  closeDialog: ({
-    totpURI,
-    backupCodes,
-  }: {
-    totpURI: string;
-    backupCodes: string[];
-  }) => void;
+  user: UserProfile;
+  isLoading: boolean;
+  startTransition: TransitionStartFunction;
+  totpURI: string;
+  setTotpURI: Dispatch<SetStateAction<string>>;
+  setOpenActivate2faDialog: Dispatch<SetStateAction<boolean>>;
+  setBackupCodes: Dispatch<SetStateAction<string[]>>;
+  setOpenScanQRCodeDialog: Dispatch<SetStateAction<boolean>>;
 }
 
-const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
-  const [isPending, startTransition] = useTransition();
+const ActivationTwoFactorForm = ({
+  user,
+  isLoading,
+  startTransition,
+  totpURI,
+  setTotpURI,
+  setOpenActivate2faDialog,
+  setBackupCodes,
+  setOpenScanQRCodeDialog,
+  ...restProps
+}: Props) => {
   const { refetch } = useSession();
   const form = useForm<z.infer<typeof Handle2faSchema>>({
     resolver: zodResolver(Handle2faSchema),
@@ -44,7 +54,7 @@ const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
 
   const onSubmit = (values: z.infer<typeof Handle2faSchema>) => {
     startTransition(async () => {
-      if (!twoFA) {
+      if (!user.twoFactorEnabled) {
         enable2fa(values)
           .then(async (data) => {
             if (data.error) {
@@ -54,10 +64,10 @@ const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
             if (data.success) {
               toast.success(data.success);
 
-              closeDialog({
-                totpURI: data.totpURI,
-                backupCodes: data.backupCodes,
-              });
+              setOpenActivate2faDialog(false);
+              setTotpURI(data.totpURI);
+              setBackupCodes(data.backupCodes);
+              setOpenScanQRCodeDialog(totpURI ? true : false);
 
               refetch();
             }
@@ -84,10 +94,9 @@ const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
           toast.error(MESSAGES.SOMETHING_WRONG);
         })
         .finally(() => {
-          closeDialog({
-            totpURI: "",
-            backupCodes: [],
-          });
+          setOpenActivate2faDialog(false);
+          setTotpURI("");
+          setBackupCodes([]);
         });
     });
   };
@@ -110,7 +119,7 @@ const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
                     id="password"
                     placeholder="******"
                     autoComplete="new-password"
-                    disabled={isPending}
+                    disabled={isLoading}
                     {...field}
                   />
                 </FormControl>
@@ -122,11 +131,11 @@ const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
 
         <div className="flex flex-wrap items-center gap-6">
           <CustomButton
-            buttonLabel={twoFA ? "Disable" : "Enable"}
+            buttonLabel={user.twoFactorEnabled ? "Disable" : "Enable"}
             type="submit"
             className="grow"
-            variant={twoFA ? "warning" : "success"}
-            disabled={isPending}
+            variant={user.twoFactorEnabled ? "warning" : "success"}
+            disabled={isLoading}
             skeletonClassName="grow"
           />
           <CustomButton
@@ -134,14 +143,13 @@ const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
             type="button"
             className="grow"
             variant={"outline"}
-            disabled={isPending}
+            disabled={isLoading}
             skeletonClassName="grow"
-            onClick={() =>
-              closeDialog({
-                totpURI: "",
-                backupCodes: [],
-              })
-            }
+            onClick={() => {
+              setOpenActivate2faDialog(false);
+              setTotpURI("");
+              setBackupCodes([]);
+            }}
           />
         </div>
       </form>
@@ -149,4 +157,4 @@ const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
   );
 };
 
-export default TwoFactorForm;
+export default ActivationTwoFactorForm;
