@@ -22,7 +22,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLFormElement> {
   closeDialog: () => void;
 }
 
-export const SetPasswordForm = ({ closeDialog, ...restProps }: Props) => {
+const SetPasswordForm = ({ closeDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
@@ -114,3 +114,5 @@ export const SetPasswordForm = ({ closeDialog, ...restProps }: Props) => {
     </Form>
   );
 };
+
+export default SetPasswordForm;

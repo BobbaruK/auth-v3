@@ -22,7 +22,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLFormElement> {
   closeDialog: () => void;
 }
 
-export const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
+const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof ChangePasswordSchema>>({
     resolver: zodResolver(ChangePasswordSchema),
@@ -128,7 +128,7 @@ export const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
 
         <div className="flex flex-wrap items-center gap-6">
           <CustomButton
-            buttonLabel={`Set password`}
+            buttonLabel={`Change password`}
             type="submit"
             className="grow"
             disabled={isPending}
@@ -148,3 +148,5 @@ export const ChangePasswordForm = ({ closeDialog, ...restProps }: Props) => {
     </Form>
   );
 };
+
+export default ChangePasswordForm;

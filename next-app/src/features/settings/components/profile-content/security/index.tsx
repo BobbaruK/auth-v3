@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Prisma } from "@/generated/prisma";
-import { ChangePassword } from "./change-password";
+import { ChangePassword } from "./password";
 import { Sessions } from "./sessions";
 import { TwoFactor } from "./two-factor";
 
