@@ -33,7 +33,7 @@ const TwoFactorVerificationPage = async ({ searchParams }: Props) => {
         description={twoFactorFirstTime ? MESSAGES.QR_SCAN : MESSAGES.ENTER_OTP}
       >
         <OTPVerificationForm
-          otpLink={twoFactor}
+          otpLink={twoFactor || ""}
           isFirstTime={twoFactorFirstTime}
         />
 
