@@ -21,12 +21,14 @@ import { toast } from "sonner";
 import z from "zod";
 
 interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
+  userEmail: string;
   isLoading: boolean;
   startTransition: TransitionStartFunction;
   setOpenChangeEmailDialog: Dispatch<SetStateAction<boolean>>;
 }
 
 const ChangeEmailForm = ({
+  userEmail,
   isLoading,
   startTransition,
   setOpenChangeEmailDialog,
@@ -35,17 +37,18 @@ const ChangeEmailForm = ({
   const form = useForm<z.infer<typeof ChangeEmailSchema>>({
     resolver: zodResolver(ChangeEmailSchema),
     defaultValues: {
-      email: "",
-      confirmEmail: "",
+      oldEmail: "",
+      newEmail: "",
     },
   });
 
   const onSubmit = (values: z.infer<typeof ChangeEmailSchema>) => {
     startTransition(async () => {
-      changeEmail(values)
+      changeEmail(values, userEmail)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
+            return;
           }
 
           if (data.success) {
@@ -70,10 +73,10 @@ const ChangeEmailForm = ({
         <div className="space-y-4">
           <FormField
             control={form.control}
-            name="email"
+            name="oldEmail"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>New email</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -88,10 +91,10 @@ const ChangeEmailForm = ({
           />
           <FormField
             control={form.control}
-            name="confirmEmail"
+            name="newEmail"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirm email</FormLabel>
+                <FormLabel>New email</FormLabel>
                 <FormControl>
                   <Input
                     {...field}

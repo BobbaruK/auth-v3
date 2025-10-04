@@ -55,6 +55,7 @@ export const ChangeEmail = () => {
 
             <Suspense fallback={<TwoFASkeleton />}>
               <ChangeEmailForm
+                userEmail={user.email}
                 isLoading={isLoading}
                 startTransition={startTransition}
                 setOpenChangeEmailDialog={setOpenChangeEmailDialog}
@@ -76,6 +77,7 @@ export const ChangeEmail = () => {
             </DrawerHeader>
             <ChangeEmailForm
               className="mb-4 px-4"
+              userEmail={user.email}
               isLoading={isLoading}
               startTransition={startTransition}
               setOpenChangeEmailDialog={setOpenChangeEmailDialog}

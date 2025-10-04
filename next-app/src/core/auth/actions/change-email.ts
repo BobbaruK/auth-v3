@@ -9,29 +9,25 @@ import { headers } from "next/headers";
 import z from "zod";
 import { ChangeEmailSchema } from "../schemas/change-email";
 
-type ChangeEmailResponse =
-  | {
-      error: string;
-      success?: undefined;
-    }
-  | {
-      success: string;
-      error?: undefined;
-    };
-
 export const changeEmail = async (
   values: z.infer<typeof ChangeEmailSchema>,
-): Promise<ChangeEmailResponse> => {
+  userEmail: string,
+) => {
   const validatedFields = ChangeEmailSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
 
-  const { email } = validatedFields.data;
+  const { oldEmail, newEmail } = validatedFields.data;
+
+  if (userEmail !== oldEmail)
+    return {
+      error: MESSAGES.EMAIL_OLD_NOT_MATCH,
+    };
 
   try {
     await auth.api.changeEmail({
       body: {
-        newEmail: email,
+        newEmail: newEmail,
         callbackURL: DEFAULT_LOGIN_REDIRECT,
       },
       headers: await headers(),
