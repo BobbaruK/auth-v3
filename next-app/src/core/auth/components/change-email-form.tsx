@@ -26,7 +26,7 @@ interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   setOpenChangeEmailDialog: Dispatch<SetStateAction<boolean>>;
 }
 
-export const ChangeEmailForm = ({
+const ChangeEmailForm = ({
   isLoading,
   startTransition,
   setOpenChangeEmailDialog,
@@ -128,3 +128,5 @@ export const ChangeEmailForm = ({
     </Form>
   );
 };
+
+export default ChangeEmailForm;
