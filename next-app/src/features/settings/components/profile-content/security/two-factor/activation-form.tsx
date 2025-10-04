@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
-import { disable2fa, enable2fa } from "@/features/settings/actions/handle-2fa";
-import { Handle2faSchema } from "@/features/settings/schemas/handle-2fa";
+import { disable2fa, enable2fa } from "@/core/auth/actions/handle-2fa";
+import { Handle2faSchema } from "@/core/auth/schemas/handle-2fa";
 import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -35,6 +36,7 @@ interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
 const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { refetch } = useSession();
+  const router = useRouter();
   const form = useForm<z.infer<typeof Handle2faSchema>>({
     resolver: zodResolver(Handle2faSchema),
     defaultValues: {
@@ -50,6 +52,7 @@ const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
             if (data.error) {
               toast.error(data.error);
             }
+
             if (data.success) {
               toast.success(data.success);
 
@@ -57,9 +60,8 @@ const TwoFactorForm = ({ twoFA, closeDialog, ...restProps }: Props) => {
                 totpURI: data.totpURI,
                 backupCodes: data.backupCodes,
               });
-              // router.push(
-              //   `/two-factor-verification?twoFactor=${encodeURIComponent(data.totpURI)}&twoFactorFirstTime=true`,
-              // );
+
+              refetch();
             }
           })
           .catch(() => {

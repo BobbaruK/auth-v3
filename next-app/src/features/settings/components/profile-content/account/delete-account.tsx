@@ -23,7 +23,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { MESSAGES } from "@/constants/messages";
-import { deleteUser } from "@/features/settings/actions/delete-user";
+import { deleteUser } from "@/core/auth/actions/delete-user";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";

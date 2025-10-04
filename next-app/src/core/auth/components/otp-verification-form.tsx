@@ -2,6 +2,7 @@
 
 import { CustomButton } from "@/components/custom-button";
 import { CopyIcon } from "@/components/icons/copy";
+import TextSeparator from "@/components/text-separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -29,9 +30,7 @@ import QRCode from "react-qr-code";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 import z from "zod";
-import { clearCookie } from "../actions/clear-cookie";
 import { OTP } from "../schemas/otp";
-import TextSeparator from "@/components/text-separator";
 
 interface Props {
   otpLink: string | null;
@@ -64,14 +63,14 @@ const OTPVerificationForm = ({
     startTransition(async () => {
       // TODO: maybe do this via server actions
       try {
-        const { data, error } = await twoFactor.verifyTotp({
+        const { error } = await twoFactor.verifyTotp({
           code: values.code,
           trustDevice: values.remember,
         });
 
-        if (data) {
-          await clearCookie("better-auth.two_factor");
-        }
+        // if (data) {
+        //   await clearCookie("better-auth.two_factor");
+        // }
 
         if (error) {
           toast.error(error.message);
@@ -88,7 +87,7 @@ const OTPVerificationForm = ({
           closeScanQRDialog?.();
         }
 
-        // router.refresh();
+        router.refresh();
       } catch (error) {
         if (error instanceof Error) console.error(error.message);
 
