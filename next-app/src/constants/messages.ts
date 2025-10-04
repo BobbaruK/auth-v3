@@ -2,6 +2,7 @@ const MESSAGES_FN = () => {
   return {
     BACKUPCODE_SUCCESS: "Your backup code has been successfully validated.",
     EMAIL_CHANGED: "Your email has been changed. Please verify it.",
+    EMAIL_OLD_NOT_MATCH: "Email does not match with your actual email",
     ENTER_OTP: "Please enter the OTP.",
     INVALID_FIELDS: "Some fields are invalid. Check and try again.",
     LOGIN_SUCCESS: "Login successful. Welcome back!",
