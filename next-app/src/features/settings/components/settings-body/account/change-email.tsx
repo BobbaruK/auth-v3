@@ -53,7 +53,7 @@ export const ChangeEmail = () => {
               <DialogTitle>Change your email address</DialogTitle>
             </DialogHeader>
 
-            <Suspense fallback={<TwoFASkeleton />}>
+            <Suspense fallback={<ChangeEmailSkeleton />}>
               <ChangeEmailForm
                 userEmail={user.email}
                 isLoading={isLoading}
@@ -89,7 +89,7 @@ export const ChangeEmail = () => {
   );
 };
 
-function TwoFASkeleton({
+function ChangeEmailSkeleton({
   className,
   ...restProps
 }: React.HTMLAttributes<HTMLDivElement>) {

@@ -7,7 +7,6 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -17,44 +16,28 @@ import {
   DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { MESSAGES } from "@/constants/messages";
-import { deleteUser } from "@/core/auth/actions/delete-user";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useProfileContext } from "@/features/settings/providers/settings";
-import { useState } from "react";
-import { toast } from "sonner";
-import { useMediaQuery } from "usehooks-ts";
+import { useCustomMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
+import { lazy, Suspense } from "react";
+const DeleteAccountForm = lazy(
+  () => import("@/core/auth/components/delete-account-form"),
+);
 
 export const DeleteAccount = () => {
-  const { isLoading, startTransition } = useProfileContext();
-  const [open, setOpen] = useState(false);
-
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-
-  const handleDelete = () => {
-    startTransition(async () => {
-      deleteUser()
-        .then((data) => {
-          if (data.error) {
-            toast.error(data.error);
-          }
-
-          if (data.success) {
-            toast.success(data.success);
-          }
-        })
-        .catch(() => {
-          toast.error(MESSAGES.SOMETHING_WRONG);
-        })
-        .finally(() => {
-          setOpen(false);
-        });
-    });
-  };
+  const {
+    isLoading,
+    startTransition,
+    user,
+    openDeleteAccountDialog,
+    setOpenDeleteAccountDialog,
+  } = useProfileContext();
+  const isDesktop = useCustomMediaQuery();
 
   return (
     <div className="flex items-center justify-between">
@@ -65,7 +48,10 @@ export const DeleteAccount = () => {
         </p>
       </div>
       {isDesktop ? (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog
+          open={openDeleteAccountDialog}
+          onOpenChange={setOpenDeleteAccountDialog}
+        >
           <DialogTrigger asChild>
             <CustomButton
               buttonLabel="Delete Account"
@@ -84,28 +70,31 @@ export const DeleteAccount = () => {
                 be undone.
               </DialogDescription>
             </DialogHeader>
-            <DialogFooter>
-              <CustomButton
-                buttonLabel="Delete Account"
-                icon={TrashIcon}
-                variant={"danger"}
-                iconPlacement="left"
-                hideLabelOnMobile={false}
-                onClick={handleDelete}
-                disabled={isLoading}
+            <Suspense fallback={<DeleteAccountSkeleton />}>
+              <DeleteAccountForm
+                userEmail={user.email}
+                isPending={isLoading}
+                startTransition={startTransition}
+                setOpenDeleteAccountDialog={setOpenDeleteAccountDialog}
+                closeDialog={
+                  <DialogClose asChild>
+                    <CustomButton
+                      buttonLabel="Cancel"
+                      variant={"outline"}
+                      disabled={isLoading}
+                      className="w-full"
+                    />
+                  </DialogClose>
+                }
               />
-              <DialogClose asChild>
-                <CustomButton
-                  buttonLabel="Cancel"
-                  variant={"outline"}
-                  disabled={isLoading}
-                />
-              </DialogClose>
-            </DialogFooter>
+            </Suspense>
           </DialogContent>
         </Dialog>
       ) : (
-        <Drawer open={open} onOpenChange={setOpen}>
+        <Drawer
+          open={openDeleteAccountDialog}
+          onOpenChange={setOpenDeleteAccountDialog}
+        >
           <DrawerTrigger asChild>
             <CustomButton
               buttonLabel="Delete Account"
@@ -124,29 +113,48 @@ export const DeleteAccount = () => {
                 be undone.
               </DrawerDescription>
             </DrawerHeader>
-            <DrawerFooter className="flex flex-row flex-wrap items-center gap-4">
-              <CustomButton
-                buttonLabel="Delete Account"
-                icon={TrashIcon}
-                variant={"danger"}
-                iconPlacement="left"
-                hideLabelOnMobile={false}
-                className="grow"
-                onClick={handleDelete}
-                disabled={isLoading}
+            <Suspense fallback={<DeleteAccountSkeleton />}>
+              <DeleteAccountForm
+                className="p-4"
+                userEmail={user.email}
+                isPending={isLoading}
+                startTransition={startTransition}
+                setOpenDeleteAccountDialog={setOpenDeleteAccountDialog}
+                closeDialog={
+                  <DrawerClose asChild>
+                    <CustomButton
+                      buttonLabel="Cancel"
+                      variant={"outline"}
+                      className="w-full"
+                      disabled={isLoading}
+                    />
+                  </DrawerClose>
+                }
               />
-              <DrawerClose asChild>
-                <CustomButton
-                  buttonLabel="Cancel"
-                  variant={"outline"}
-                  className="grow"
-                  disabled={isLoading}
-                />
-              </DrawerClose>
-            </DrawerFooter>
+            </Suspense>
           </DrawerContent>
         </Drawer>
       )}
     </div>
   );
 };
+
+function DeleteAccountSkeleton({
+  className,
+  ...restProps
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn("space-y-6", className)} {...restProps}>
+      <div className="space-y-4">
+        <div className="flex flex-col items-center justify-end gap-2">
+          <Skeleton className="h-[14px] w-full" />
+          <Skeleton className="h-[36px] w-full" />
+        </div>
+      </div>
+      <div className="flex items-center justify-end gap-6">
+        <Skeleton className="h-10 grow" />
+        <Skeleton className="h-10 grow" />
+      </div>
+    </div>
+  );
+}

@@ -3,8 +3,8 @@
 import { UserProfile } from "@/types/user-profile";
 import { useState, useTransition } from "react";
 import SettingsProvider from "../providers/settings";
-import { SettingsHeader } from "./settings-header";
 import { SettingsBody } from "./settings-body";
+import { SettingsHeader } from "./settings-header";
 
 interface Props {
   user: UserProfile;
@@ -15,6 +15,7 @@ const SettingsContent = ({ user }: Props) => {
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
   const [openChangeEmailDialog, setopenChangeEmailDialog] = useState(false);
+  const [openDeleteAccountDialog, setOpenDeleteAccountDialog] = useState(false);
   const [openChangePasswordDialog, setOpenChangePasswordDialog] =
     useState(false);
   const [openActivate2faDialog, setOpenActivate2faDialog] = useState(false);
@@ -32,6 +33,8 @@ const SettingsContent = ({ user }: Props) => {
       startTransition={startTransition}
       openChangeEmailDialog={openChangeEmailDialog}
       setOpenChangeEmailDialog={setopenChangeEmailDialog}
+      openDeleteAccountDialog={openDeleteAccountDialog}
+      setOpenDeleteAccountDialog={setOpenDeleteAccountDialog}
       openChangePasswordDialog={openChangePasswordDialog}
       setOpenChangePasswordDialog={setOpenChangePasswordDialog}
       openActivate2faDialog={openActivate2faDialog}

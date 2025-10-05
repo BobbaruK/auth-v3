@@ -21,6 +21,8 @@ type ProfileContextType = {
 
   openChangeEmailDialog: boolean;
   setOpenChangeEmailDialog: Dispatch<SetStateAction<boolean>>;
+  openDeleteAccountDialog: boolean;
+  setOpenDeleteAccountDialog: Dispatch<SetStateAction<boolean>>;
   openChangePasswordDialog: boolean;
   setOpenChangePasswordDialog: Dispatch<SetStateAction<boolean>>;
   openActivate2faDialog: boolean;
@@ -43,6 +45,8 @@ const ProfileContext = createContext<ProfileContextType>({
 
   openChangeEmailDialog: false,
   setOpenChangeEmailDialog: () => {},
+  openDeleteAccountDialog: false,
+  setOpenDeleteAccountDialog: () => {},
   openChangePasswordDialog: false,
   setOpenChangePasswordDialog: () => {},
   openActivate2faDialog: false,
@@ -72,6 +76,8 @@ export default function SettingsProvider({
   startTransition,
   openChangeEmailDialog,
   setOpenChangeEmailDialog,
+  openDeleteAccountDialog,
+  setOpenDeleteAccountDialog,
   openChangePasswordDialog,
   setOpenChangePasswordDialog,
   openActivate2faDialog,
@@ -93,6 +99,8 @@ export default function SettingsProvider({
         startTransition,
         openChangeEmailDialog,
         setOpenChangeEmailDialog,
+        openDeleteAccountDialog,
+        setOpenDeleteAccountDialog,
         openChangePasswordDialog,
         setOpenChangePasswordDialog,
         openActivate2faDialog,
