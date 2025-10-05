@@ -33,18 +33,12 @@ import { cn } from "@/lib/utils";
 import { dateFormatter } from "@/lib/utils/format-date";
 import { Session, SessionObj } from "@/types/session";
 import { useRouter } from "next/navigation";
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-  useTransition,
-} from "react";
+import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { UAParser } from "ua-parser-js";
 
 interface Props extends React.BaseHTMLAttributes<HTMLDivElement> {
-  setOpenSessionsDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenSessionsDialog: (open: boolean) => void;
 }
 
 const SessionsTable = ({ setOpenSessionsDialog, ...restProps }: Props) => {

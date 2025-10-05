@@ -30,7 +30,7 @@ const TwoFactorActivation = () => {
     setOpenActivate2faDialog,
     user,
     startTransition,
-    totpURI,
+    isLoading,
     setBackupCodes,
     setTotpURI,
     setOpenScanQRCodeDialog,
@@ -60,9 +60,8 @@ const TwoFactorActivation = () => {
           <Suspense fallback={<TwoFASkeleton />}>
             <ActivationTwoFactorForm
               user={user}
-              isLoading={false}
+              isLoading={isLoading}
               startTransition={startTransition}
-              totpURI={totpURI}
               setTotpURI={setTotpURI}
               setOpenActivate2faDialog={setOpenActivate2faDialog}
               setBackupCodes={setBackupCodes}
@@ -99,7 +98,6 @@ const TwoFactorActivation = () => {
               user={user}
               isLoading={false}
               startTransition={startTransition}
-              totpURI={totpURI}
               setTotpURI={setTotpURI}
               setOpenActivate2faDialog={setOpenActivate2faDialog}
               setBackupCodes={setBackupCodes}
