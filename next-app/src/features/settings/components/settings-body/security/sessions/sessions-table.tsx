@@ -19,6 +19,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MESSAGES } from "@/constants/messages";
 import { getSessions } from "@/core/auth/data/get-sessions";
 import {
@@ -31,15 +32,21 @@ import { cn } from "@/lib/utils";
 import { dateFormatter } from "@/lib/utils/format-date";
 import { Session, SessionObj } from "@/types/session";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 import { toast } from "sonner";
 import { UAParser } from "ua-parser-js";
 
 interface Props extends React.BaseHTMLAttributes<HTMLDivElement> {
-  closeDialog: () => void;
+  setOpenSessionsDialog: Dispatch<SetStateAction<boolean>>;
 }
 
-const SessionsTable = ({ closeDialog, ...restProps }: Props) => {
+const SessionsTable = ({ setOpenSessionsDialog, ...restProps }: Props) => {
   const [sessions, setSessions] = useState<SessionObj[] | null>(null);
   const [activeSession, setActiveSession] = useState<Session | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -58,12 +65,70 @@ const SessionsTable = ({ closeDialog, ...restProps }: Props) => {
     return () => {};
   }, []);
 
+  const revokeSelectedSession = async ({
+    token,
+    message,
+  }: {
+    token: string;
+    message: string;
+  }) => {
+    // TODO: maybe server?
+    const { data, error } = await revokeSession({ token });
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    if (data.status) {
+      toast.success(message);
+      setOpenSessionsDialog(false);
+    }
+  };
+
+  const revokeAllSessions = async () => {
+    await revokeSessions()
+      .then(async ({ data, error }) => {
+        if (data?.status) {
+          toast.success("All sessions have been successfully revoked.");
+          await signOut();
+          router.push("/login");
+          toast.success(MESSAGES.LOGOUT_SUCCESS);
+        }
+
+        if (error) {
+          toast.error(error.status, { description: error.message });
+          setOpenSessionsDialog(false);
+        }
+      })
+      .catch(() => {
+        toast.error(MESSAGES.SOMETHING_WRONG);
+        setOpenSessionsDialog(false);
+      });
+  };
+
+  const revokeOtherSessions2 = async () => {
+    await revokeOtherSessions().then(({ data, error }) => {
+      if (data?.status) {
+        toast.success("Other sessions have been sucsefuly revoked.");
+      }
+
+      if (error) {
+        toast.error(error.status, { description: error.message });
+      }
+
+      setOpenSessionsDialog(false);
+    });
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", restProps.className)}>
       <ScrollArea className="h-80 w-full rounded-lg border">
         <div className="flex flex-col gap-4 py-2 ps-2 pe-3">
           {isPending ? (
-            "Fetching your sessions..."
+            Array.from({ length: 3 }).map((skeleton, index) => (
+              <Skeleton key={index} className="h-[172px] w-[353px]" />
+            ))
           ) : (
             <>
               {sessions?.map((session) => {
@@ -120,13 +185,12 @@ const SessionsTable = ({ closeDialog, ...restProps }: Props) => {
                         <CustomButton
                           buttonLabel="Revoke"
                           variant={"danger"}
-                          onClick={async () => {
-                            await revokeSession({ token: session.token });
-                            closeDialog();
-                            toast.success(
-                              `Session "${browser.name}(${os.name} ${os.version})" revoked.`,
-                            );
-                          }}
+                          onClick={() =>
+                            revokeSelectedSession({
+                              token: session.token,
+                              message: `Session "${browser.name}(${os.name} ${os.version})" revoked.`,
+                            })
+                          }
                           disabled={isPending}
                         />
                       </CardFooter>
@@ -142,45 +206,13 @@ const SessionsTable = ({ closeDialog, ...restProps }: Props) => {
         <CustomButton
           buttonLabel="Revoke all"
           variant={"danger"}
-          onClick={async () => {
-            await revokeSessions()
-              .then(async ({ data, error }) => {
-                if (data?.status) {
-                  toast.success("All sessions have been successfully revoked.");
-                  await signOut();
-                  router.push("/login");
-                  toast.success(MESSAGES.LOGOUT_SUCCESS);
-                }
-
-                if (error) {
-                  toast.error(error.status, { description: error.message });
-                  closeDialog();
-                }
-              })
-              .catch(() => {
-                toast.error(MESSAGES.SOMETHING_WRONG);
-                closeDialog();
-              });
-            closeDialog();
-          }}
+          onClick={revokeAllSessions}
           disabled={isPending}
         />
         <CustomButton
           buttonLabel="Revoke others"
           variant={"danger"}
-          onClick={async () => {
-            await revokeOtherSessions().then(({ data, error }) => {
-              if (data?.status) {
-                toast.success("Other sessions have been sucsefuly revoked.");
-              }
-
-              if (error) {
-                toast.error(error.status, { description: error.message });
-              }
-            });
-
-            closeDialog();
-          }}
+          onClick={revokeOtherSessions2}
           disabled={isPending}
         />
       </div>

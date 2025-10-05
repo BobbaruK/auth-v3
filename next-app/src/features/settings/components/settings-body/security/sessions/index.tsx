@@ -17,13 +17,14 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
-import { lazy, Suspense, useState } from "react";
-import { useMediaQuery } from "usehooks-ts";
+import { useProfileContext } from "@/features/settings/providers/settings";
+import { useCustomMediaQuery } from "@/hooks/use-media-query";
+import { lazy, Suspense } from "react";
 const SessionsTable = lazy(() => import("./sessions-table"));
 
 export const Sessions = () => {
-  const [open, setOpen] = useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const { openSessionsDialog, setOpenSessionsDialog } = useProfileContext();
+  const isDesktop = useCustomMediaQuery();
 
   return (
     <div className="flex items-center justify-between">
@@ -34,7 +35,7 @@ export const Sessions = () => {
         </p>
       </div>
       {isDesktop ? (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={openSessionsDialog} onOpenChange={setOpenSessionsDialog}>
           <DialogTrigger asChild>
             <CustomButton
               buttonLabel={"View Sessions"}
@@ -51,12 +52,12 @@ export const Sessions = () => {
             </DialogHeader>
 
             <Suspense fallback={<SessionFallback />}>
-              <SessionsTable closeDialog={() => setOpen(false)} />
+              <SessionsTable setOpenSessionsDialog={setOpenSessionsDialog} />
             </Suspense>
           </DialogContent>
         </Dialog>
       ) : (
-        <Drawer open={open} onOpenChange={setOpen}>
+        <Drawer open={openSessionsDialog} onOpenChange={setOpenSessionsDialog}>
           <DrawerTrigger asChild>
             <CustomButton
               buttonLabel={"View Sessions"}
@@ -74,7 +75,7 @@ export const Sessions = () => {
             <Suspense fallback={<SessionFallback />}>
               <SessionsTable
                 className="mb-4 px-4"
-                closeDialog={() => setOpen(false)}
+                setOpenSessionsDialog={setOpenSessionsDialog}
               />
             </Suspense>
           </DrawerContent>
@@ -87,9 +88,7 @@ export const Sessions = () => {
 function SessionFallback() {
   return (
     <div className="flex flex-col gap-6">
-      <div className="h-80 w-full rounded-lg border py-2 ps-2 pe-3">
-        Loading...
-      </div>
+      <Skeleton className="h-80 w-full" />
       <div className="flex items-center justify-end gap-4">
         <Skeleton className="h-10 w-24" />
         <Skeleton className="h-10 w-24" />
