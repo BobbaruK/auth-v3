@@ -31,6 +31,8 @@ type ProfileContextType = {
   setOpenScanQRCodeDialog: Dispatch<SetStateAction<boolean>>;
   openBackupCodesDialog: boolean;
   setOpenBackupCodesDialog: Dispatch<SetStateAction<boolean>>;
+  openSessionsDialog: boolean;
+  setOpenSessionsDialog: Dispatch<SetStateAction<boolean>>;
 };
 
 const ProfileContext = createContext<ProfileContextType>({
@@ -55,6 +57,8 @@ const ProfileContext = createContext<ProfileContextType>({
   setOpenScanQRCodeDialog: () => {},
   openBackupCodesDialog: false,
   setOpenBackupCodesDialog: () => {},
+  openSessionsDialog: false,
+  setOpenSessionsDialog: () => {},
 });
 
 export const useProfileContext = () => {
@@ -86,6 +90,8 @@ export default function SettingsProvider({
   setOpenScanQRCodeDialog,
   openBackupCodesDialog,
   setOpenBackupCodesDialog,
+  openSessionsDialog,
+  setOpenSessionsDialog,
 }: Props) {
   return (
     <ProfileContext.Provider
@@ -109,6 +115,8 @@ export default function SettingsProvider({
         setOpenScanQRCodeDialog,
         openBackupCodesDialog,
         setOpenBackupCodesDialog,
+        openSessionsDialog,
+        setOpenSessionsDialog,
       }}
     >
       {children}

@@ -21,6 +21,7 @@ const SettingsContent = ({ user }: Props) => {
   const [openActivate2faDialog, setOpenActivate2faDialog] = useState(false);
   const [openScanQRCodeDialog, setOpenScanQRCodeDialog] = useState(false);
   const [openBackupCodesDialog, setOpenBackupCodesDialog] = useState(false);
+  const [openSessionsDialog, setOpenSessionsDialog] = useState(false);
 
   return (
     <SettingsProvider
@@ -43,6 +44,8 @@ const SettingsContent = ({ user }: Props) => {
       setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
       openBackupCodesDialog={openBackupCodesDialog}
       setOpenBackupCodesDialog={setOpenBackupCodesDialog}
+      openSessionsDialog={openSessionsDialog}
+      setOpenSessionsDialog={setOpenSessionsDialog}
     >
       <SettingsHeader />
       <SettingsBody />
