@@ -1,38 +1,42 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { UserProfile } from "@/types/user-profile";
 import {
+  ActionDispatch,
   createContext,
-  Dispatch,
-  SetStateAction,
   TransitionStartFunction,
   useContext,
 } from "react";
+import {
+  SettingsReducerAction,
+  SettingsReducerState,
+} from "../hooks/use-settings-reducer";
 
 type SettingsContextType = {
   user: UserProfile;
 
   totpURI: string;
-  setTotpURI: Dispatch<SetStateAction<string>>;
+  setTotpURI: (uri: string) => void;
   backupCodes: string[];
-  setBackupCodes: Dispatch<SetStateAction<string[]>>;
+  setBackupCodes: (codes: string[]) => void;
   isLoading: boolean;
   startTransition: TransitionStartFunction;
 
   openChangeEmailDialog: boolean;
-  setOpenChangeEmailDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenChangeEmailDialog: (open: boolean) => void;
   openDeleteAccountDialog: boolean;
-  setOpenDeleteAccountDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenDeleteAccountDialog: (open: boolean) => void;
   openChangePasswordDialog: boolean;
-  setOpenChangePasswordDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenChangePasswordDialog: (open: boolean) => void;
   openActivate2faDialog: boolean;
-  setOpenActivate2faDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenActivate2faDialog: (open: boolean) => void;
   openScanQRCodeDialog: boolean;
-  setOpenScanQRCodeDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenScanQRCodeDialog: (open: boolean) => void;
   openBackupCodesDialog: boolean;
-  setOpenBackupCodesDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenBackupCodesDialog: (open: boolean) => void;
   openSessionsDialog: boolean;
-  setOpenSessionsDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenSessionsDialog: (open: boolean) => void;
 };
 
 const SettingsContext = createContext<SettingsContextType>({
@@ -65,61 +69,158 @@ export const useSettingsContext = () => {
   return useContext(SettingsContext);
 };
 
-interface Props extends SettingsContextType {
+interface Props {
   children: React.ReactNode;
+  user: UserProfile;
+  state: SettingsReducerState;
+  dispatch: ActionDispatch<[action: SettingsReducerAction]>;
+  isLoading: boolean;
+  startTransition: TransitionStartFunction;
 }
 
 export default function SettingsProvider({
   children,
   user,
-  totpURI,
-  setTotpURI,
-  backupCodes,
-  setBackupCodes,
+  state,
+  dispatch,
   isLoading,
   startTransition,
-  openChangeEmailDialog,
-  setOpenChangeEmailDialog,
-  openDeleteAccountDialog,
-  setOpenDeleteAccountDialog,
-  openChangePasswordDialog,
-  setOpenChangePasswordDialog,
-  openActivate2faDialog,
-  setOpenActivate2faDialog,
-  openScanQRCodeDialog,
-  setOpenScanQRCodeDialog,
-  openBackupCodesDialog,
-  setOpenBackupCodesDialog,
-  openSessionsDialog,
-  setOpenSessionsDialog,
 }: Props) {
+  const SHOW_CONTEXT_SETTINGS = false;
+
   return (
     <SettingsContext.Provider
       value={{
         user,
-        totpURI,
-        setTotpURI,
-        backupCodes,
-        setBackupCodes,
         isLoading,
         startTransition,
-        openChangeEmailDialog,
-        setOpenChangeEmailDialog,
-        openDeleteAccountDialog,
-        setOpenDeleteAccountDialog,
-        openChangePasswordDialog,
-        setOpenChangePasswordDialog,
-        openActivate2faDialog,
-        setOpenActivate2faDialog,
-        openScanQRCodeDialog,
-        setOpenScanQRCodeDialog,
-        openBackupCodesDialog,
-        setOpenBackupCodesDialog,
-        openSessionsDialog,
-        setOpenSessionsDialog,
+
+        totpURI: state.totpURI,
+        setTotpURI: (uri) =>
+          dispatch({
+            type: "SET_TOTPURI",
+            totpURI: uri,
+          }),
+        backupCodes: state.backupCodes,
+        setBackupCodes: (codes) =>
+          dispatch({
+            type: "SET_BACKUPCODES",
+            backupCodes: codes,
+          }),
+        openChangeEmailDialog: state.openChangeEmailDialog,
+        setOpenChangeEmailDialog: (open) =>
+          dispatch({
+            type: "SET_OPEN_CHANGE_EMAIL_DIALOG",
+            openChangeEmailDialog: open,
+          }),
+        openDeleteAccountDialog: state.openDeleteAccountDialog,
+        setOpenDeleteAccountDialog: (open) =>
+          dispatch({
+            type: "SET_OPEN_DELETE_ACCOUNT_DIALOG",
+            openDeleteAccountDialog: open,
+          }),
+        openChangePasswordDialog: state.openChangePasswordDialog,
+        setOpenChangePasswordDialog: (open) =>
+          dispatch({
+            type: "SET_OPEN_CHANGE_PASSWORD_DIALOG",
+            openChangePasswordDialog: open,
+          }),
+        openActivate2faDialog: state.openActivate2faDialog,
+        setOpenActivate2faDialog: (open) =>
+          dispatch({
+            type: "SET_OPEN_ACTIVATE_2FA_DIALOG",
+            openActivate2faDialog: open,
+          }),
+        openScanQRCodeDialog: state.openScanQRCodeDialog,
+        setOpenScanQRCodeDialog: (open) =>
+          dispatch({
+            type: "SET_OPEN_SCAN_QR_DIALOG",
+            openScanQRCodeDialog: open,
+          }),
+        openBackupCodesDialog: state.openBackupCodesDialog,
+        setOpenBackupCodesDialog: (open) =>
+          dispatch({
+            type: "SET_OPEN_BACKUP_CODES_DIALOG",
+            openBackupCodesDialog: open,
+          }),
+        openSessionsDialog: state.openSessionsDialog,
+        setOpenSessionsDialog: (open) =>
+          dispatch({
+            type: "SET_OPEN_SESSIONS_DIALOG",
+            openSessionsDialog: open,
+          }),
       }}
     >
+      {SHOW_CONTEXT_SETTINGS && <ReducerSettings state={state} />}
+
       {children}
     </SettingsContext.Provider>
+  );
+}
+
+function ReducerSettings({ state }: { state: SettingsReducerState }) {
+  return (
+    <div className="text-muted-foreground bg-muted border-muted-foreground fixed top-12 left-10 z-[99999999] w-96 rounded-lg border p-2 opacity-80 hover:opacity-100">
+      <p className="flex items-center gap-1">
+        totpURI:{" "}
+        <Badge
+          variant={state.totpURI ? "success" : "danger"}
+          className="inline-block max-w-[290px] truncate"
+        >
+          {JSON.stringify(state.totpURI, null, 2)}
+        </Badge>
+      </p>
+      <p className="flex items-center gap-1">
+        backupCodes:{" "}
+        <Badge
+          variant={state.backupCodes.length ? "success" : "danger"}
+          className="inline-block max-w-[250px] truncate"
+        >
+          {JSON.stringify(state.backupCodes, null, 2)}
+        </Badge>
+      </p>
+      <p>
+        openChangeEmailDialog:{" "}
+        <Badge variant={state.openChangeEmailDialog ? "success" : "danger"}>
+          {JSON.stringify(state.openChangeEmailDialog, null, 2)}
+        </Badge>
+      </p>
+      <p>
+        openDeleteAccountDialog:{" "}
+        <Badge variant={state.openDeleteAccountDialog ? "success" : "danger"}>
+          {JSON.stringify(state.openDeleteAccountDialog, null, 2)}
+        </Badge>
+      </p>
+      <p>
+        openChangePasswordDialog:{" "}
+        <Badge variant={state.openChangePasswordDialog ? "success" : "danger"}>
+          {JSON.stringify(state.openChangePasswordDialog, null, 2)}
+        </Badge>
+      </p>
+      <p>
+        openActivate2faDialog:{" "}
+        <Badge variant={state.openActivate2faDialog ? "success" : "danger"}>
+          {JSON.stringify(state.openActivate2faDialog, null, 2)}
+        </Badge>
+      </p>
+      <p>
+        openScanQRCodeDialog:{" "}
+        <Badge variant={state.openScanQRCodeDialog ? "success" : "danger"}>
+          {JSON.stringify(state.openScanQRCodeDialog, null, 2)}
+        </Badge>
+      </p>
+      <p>
+        openBackupCodesDialog:{" "}
+        <Badge variant={state.openBackupCodesDialog ? "success" : "danger"}>
+          {JSON.stringify(state.openBackupCodesDialog, null, 2)}
+        </Badge>
+      </p>
+      <p>
+        openSessionsDialog:{" "}
+        <Badge variant={state.openSessionsDialog ? "success" : "danger"}>
+          {JSON.stringify(state.openSessionsDialog, null, 2)}
+        </Badge>
+      </p>
+    </div>
   );
 }
