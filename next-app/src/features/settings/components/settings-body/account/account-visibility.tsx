@@ -3,13 +3,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { MESSAGES } from "@/constants/messages";
-import { useProfileContext } from "@/features/settings/providers/settings";
+import { useSettingsContext } from "@/features/settings/providers/settings";
 import { updateUser } from "@/lib/auth-client";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export const AccountVisibility = () => {
-  const { user, isLoading, startTransition } = useProfileContext();
+  const { user, isLoading, startTransition } = useSettingsContext();
   const [isChecked, setIsChecked] = useState(user?.isAccountVisible || false);
 
   const handleCheck = () => {

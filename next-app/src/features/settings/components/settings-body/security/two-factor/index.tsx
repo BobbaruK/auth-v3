@@ -1,13 +1,13 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { useProfileContext } from "@/features/settings/providers/settings";
+import { useSettingsContext } from "@/features/settings/providers/settings";
 import TwoFactorActivation from "./activation";
 import TwoFactorBackupCodes from "./backup-codes";
 import TwoFactorScanQR from "./scan-qr";
 
 export const TwoFactor = () => {
-  const { user } = useProfileContext();
+  const { user } = useSettingsContext();
   return (
     <div className="flex items-center justify-between">
       <div className="space-y-1">

@@ -11,6 +11,7 @@ interface Props {
 }
 
 const SettingsContent = ({ user }: Props) => {
+  // TODO: useReducer
   const [totpURI, setTotpURI] = useState("");
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();

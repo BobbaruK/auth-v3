@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { MESSAGES } from "@/constants/messages";
 import { updateUser } from "@/core/auth/actions/update-user";
 import { PersonalSchema } from "@/core/auth/schemas/personal";
-import { useProfileContext } from "@/features/settings/providers/settings";
+import { useSettingsContext } from "@/features/settings/providers/settings";
 import { useSession } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
@@ -23,7 +23,7 @@ import { toast } from "sonner";
 import z from "zod";
 
 export const PersonalForm = () => {
-  const { user } = useProfileContext();
+  const { user } = useSettingsContext();
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof PersonalSchema>>({
     resolver: zodResolver(PersonalSchema),

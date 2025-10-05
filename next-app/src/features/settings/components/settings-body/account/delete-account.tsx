@@ -21,7 +21,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useProfileContext } from "@/features/settings/providers/settings";
+import { useSettingsContext } from "@/features/settings/providers/settings";
 import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
@@ -36,7 +36,7 @@ export const DeleteAccount = () => {
     user,
     openDeleteAccountDialog,
     setOpenDeleteAccountDialog,
-  } = useProfileContext();
+  } = useSettingsContext();
   const isDesktop = useCustomMediaQuery();
 
   return (

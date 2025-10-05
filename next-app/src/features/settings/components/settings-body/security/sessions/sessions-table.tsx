@@ -27,7 +27,7 @@ import {
   revokeSeshs,
 } from "@/core/auth/actions/sessions";
 import { getSessions } from "@/core/auth/data/get-sessions";
-import { useProfileContext } from "@/features/settings/providers/settings";
+import { useSettingsContext } from "@/features/settings/providers/settings";
 import { signOut } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { dateFormatter } from "@/lib/utils/format-date";
@@ -51,7 +51,7 @@ const SessionsTable = ({ setOpenSessionsDialog, ...restProps }: Props) => {
   const [sessions, setSessions] = useState<SessionObj[] | null>(null);
   const [activeSession, setActiveSession] = useState<Session | null>(null);
   const { isLoading, startTransition: startProviderTransition } =
-    useProfileContext();
+    useSettingsContext();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 

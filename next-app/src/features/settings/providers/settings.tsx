@@ -9,7 +9,7 @@ import {
   useContext,
 } from "react";
 
-type ProfileContextType = {
+type SettingsContextType = {
   user: UserProfile;
 
   totpURI: string;
@@ -35,7 +35,7 @@ type ProfileContextType = {
   setOpenSessionsDialog: Dispatch<SetStateAction<boolean>>;
 };
 
-const ProfileContext = createContext<ProfileContextType>({
+const SettingsContext = createContext<SettingsContextType>({
   user: {} as UserProfile,
 
   totpURI: "",
@@ -61,11 +61,11 @@ const ProfileContext = createContext<ProfileContextType>({
   setOpenSessionsDialog: () => {},
 });
 
-export const useProfileContext = () => {
-  return useContext(ProfileContext);
+export const useSettingsContext = () => {
+  return useContext(SettingsContext);
 };
 
-interface Props extends ProfileContextType {
+interface Props extends SettingsContextType {
   children: React.ReactNode;
 }
 
@@ -94,7 +94,7 @@ export default function SettingsProvider({
   setOpenSessionsDialog,
 }: Props) {
   return (
-    <ProfileContext.Provider
+    <SettingsContext.Provider
       value={{
         user,
         totpURI,
@@ -120,6 +120,6 @@ export default function SettingsProvider({
       }}
     >
       {children}
-    </ProfileContext.Provider>
+    </SettingsContext.Provider>
   );
 }

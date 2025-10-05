@@ -17,13 +17,13 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useProfileContext } from "@/features/settings/providers/settings";
+import { useSettingsContext } from "@/features/settings/providers/settings";
 import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { lazy, Suspense } from "react";
 const SessionsTable = lazy(() => import("./sessions-table"));
 
 export const Sessions = () => {
-  const { openSessionsDialog, setOpenSessionsDialog } = useProfileContext();
+  const { openSessionsDialog, setOpenSessionsDialog } = useSettingsContext();
   const isDesktop = useCustomMediaQuery();
 
   return (

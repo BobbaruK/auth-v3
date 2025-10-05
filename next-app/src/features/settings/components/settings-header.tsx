@@ -6,10 +6,11 @@ import { EnvelopeIcon } from "@/components/icons/envelope";
 import { Badge } from "@/components/ui/badge";
 import { dateFormatter } from "@/lib/utils/format-date";
 import Link from "next/link";
-import { useProfileContext } from "../providers/settings";
+import { useSettingsContext } from "../providers/settings";
 
 export const SettingsHeader = () => {
-  const { user } = useProfileContext();
+  const { user } = useSettingsContext();
+
   const { firstName, image, lastName, meta, role, username } = {
     firstName: user.firstName,
     lastName: user.lastName,

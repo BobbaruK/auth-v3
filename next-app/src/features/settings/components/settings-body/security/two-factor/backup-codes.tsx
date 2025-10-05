@@ -13,13 +13,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { buttonVariants } from "@/components/ui/button";
-import { useProfileContext } from "@/features/settings/providers/settings";
+import { useSettingsContext } from "@/features/settings/providers/settings";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 
 const TwoFactorBackupCodes = () => {
   const { backupCodes, openBackupCodesDialog, setOpenBackupCodesDialog } =
-    useProfileContext();
+    useSettingsContext();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [copiedText, copy] = useCopyToClipboard();
 
