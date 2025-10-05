@@ -24,12 +24,7 @@ import { twoFactor } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useTransition,
-} from "react";
+import React, { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import QRCode from "react-qr-code";
 import { toast } from "sonner";
@@ -40,8 +35,8 @@ import { OTP } from "../schemas/otp";
 interface Props {
   otpLink: string;
   isFirstTime?: boolean;
-  setOpenBackupCodesDialog?: Dispatch<SetStateAction<boolean>>;
-  setOpenScanQRCodeDialog?: Dispatch<SetStateAction<boolean>>;
+  setOpenBackupCodesDialog?: (open: boolean) => void;
+  setOpenScanQRCodeDialog?: (open: boolean) => void;
 }
 
 const OTPVerificationForm = ({

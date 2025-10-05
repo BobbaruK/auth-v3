@@ -13,12 +13,7 @@ import { Input } from "@/components/ui/input";
 import { MESSAGES } from "@/constants/messages";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  TransitionStartFunction,
-} from "react";
+import { ReactNode, TransitionStartFunction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -29,7 +24,7 @@ interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   userEmail: string;
   isPending: boolean;
   startTransition: TransitionStartFunction;
-  setOpenDeleteAccountDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenDeleteAccountDialog: (open: boolean) => void;
   closeDialog?: ReactNode;
 }
 

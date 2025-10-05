@@ -13,7 +13,7 @@ import { setPassword } from "@/core/auth/actions/set-password";
 import { NewPasswordSchema } from "@/core/auth/schemas/new-password";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction, TransitionStartFunction } from "react";
+import { TransitionStartFunction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -21,7 +21,7 @@ import z from "zod";
 interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   isLoading: boolean;
   startTransition: TransitionStartFunction;
-  setOpenChangePasswordDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenChangePasswordDialog: (open: boolean) => void;
 }
 
 const SetPasswordForm = ({

@@ -17,7 +17,7 @@ import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { UserProfile } from "@/types/user-profile";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction, TransitionStartFunction } from "react";
+import { TransitionStartFunction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -26,18 +26,16 @@ interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   user: UserProfile;
   isLoading: boolean;
   startTransition: TransitionStartFunction;
-  totpURI: string;
-  setTotpURI: Dispatch<SetStateAction<string>>;
-  setOpenActivate2faDialog: Dispatch<SetStateAction<boolean>>;
-  setBackupCodes: Dispatch<SetStateAction<string[]>>;
-  setOpenScanQRCodeDialog: Dispatch<SetStateAction<boolean>>;
+  setTotpURI: (uri: string) => void;
+  setOpenActivate2faDialog: (open: boolean) => void;
+  setBackupCodes: (codes: string[]) => void;
+  setOpenScanQRCodeDialog: (open: boolean) => void;
 }
 
 const ActivationTwoFactorForm = ({
   user,
   isLoading,
   startTransition,
-  totpURI,
   setTotpURI,
   setOpenActivate2faDialog,
   setBackupCodes,
@@ -67,7 +65,7 @@ const ActivationTwoFactorForm = ({
               setOpenActivate2faDialog(false);
               setTotpURI(data.totpURI);
               setBackupCodes(data.backupCodes);
-              setOpenScanQRCodeDialog(totpURI ? true : false);
+              setOpenScanQRCodeDialog(true);
 
               refetch();
             }
@@ -87,8 +85,6 @@ const ActivationTwoFactorForm = ({
           if (data.success) {
             toast.success(data.success);
           }
-
-          refetch();
         })
         .catch(() => {
           toast.error(MESSAGES.SOMETHING_WRONG);
@@ -97,6 +93,8 @@ const ActivationTwoFactorForm = ({
           setOpenActivate2faDialog(false);
           setTotpURI("");
           setBackupCodes([]);
+
+          refetch();
         });
     });
   };

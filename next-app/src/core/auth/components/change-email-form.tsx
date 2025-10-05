@@ -15,7 +15,7 @@ import { changeEmail } from "@/core/auth/actions/change-email";
 import { ChangeEmailSchema } from "@/core/auth/schemas/change-email";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction, TransitionStartFunction } from "react";
+import { TransitionStartFunction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -24,7 +24,7 @@ interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   userEmail: string;
   isLoading: boolean;
   startTransition: TransitionStartFunction;
-  setOpenChangeEmailDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenChangeEmailDialog: (open: boolean) => void;
 }
 
 const ChangeEmailForm = ({
