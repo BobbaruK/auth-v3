@@ -16,7 +16,7 @@ export default async function Home() {
         <Button variant={"default"} effect={"gradientSlideShow"} asChild>
           <Link href={"/login"}>Hello World</Link>
         </Button>
-        <UserButton user={session?.user} />
+        <UserButton session={session} />
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ export const Header = async () => {
       <div className="container flex items-center justify-start py-4">
         <Navbar />
 
-        <UserButton user={session?.user} />
+        <UserButton session={session} />
       </div>
     </header>
   );

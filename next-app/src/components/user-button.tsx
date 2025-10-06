@@ -11,15 +11,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
+import { stopImpersonatingUser } from "@/core/auth/actions/impersonate-user";
 import { signOut } from "@/core/auth/actions/sign-out";
 import { UserRole } from "@/generated/prisma";
-import { UserSession } from "@/types/session";
+import { Session } from "@/types/session";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { startTransition, useState } from "react";
 import { toast } from "sonner";
 import { CustomAvatar } from "./custom-avatar";
+import { BanIcon } from "./icons/ban";
 import { CogIcon } from "./icons/cog";
 import { LoginIcon } from "./icons/login";
 import { LogoutIcon } from "./icons/logout";
@@ -27,14 +29,16 @@ import { UserIcon } from "./icons/user";
 import { UsersIcon } from "./icons/users";
 
 interface Props {
-  user: UserSession | undefined;
+  session: Session | null;
 }
 
-export const UserButton = ({ user }: Props) => {
+export const UserButton = ({ session }: Props) => {
   const { setTheme, theme } = useTheme();
   const [theTheme, setTheTheme] = useState(theme);
   const pathname = usePathname();
   const router = useRouter();
+
+  const user = session?.user;
 
   const logOut = () => {
     startTransition(async () => {
@@ -55,12 +59,28 @@ export const UserButton = ({ user }: Props) => {
     });
   };
 
+  const stopImpersonating = () => {
+    stopImpersonatingUser()
+      .then((data) => {
+        if (data.error) {
+          toast.error(data.error);
+        }
+
+        if (data.success) {
+          toast.success(data.success);
+        }
+      })
+      .catch(() => {
+        toast.error(MESSAGES.SOMETHING_WRONG);
+      });
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <CustomAvatar image={user?.image || ""} className="cursor-pointer" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
+      <DropdownMenuContent align="end" className="">
         {user && (
           <>
             <DropdownMenuLabel>
@@ -94,6 +114,14 @@ export const UserButton = ({ user }: Props) => {
                 </span>
               )}
             </DropdownMenuItem>
+            {session.session.impersonatedBy && (
+              <DropdownMenuItem
+                onClick={stopImpersonating}
+                variant="destructive"
+              >
+                <BanIcon /> Stop impersonating
+              </DropdownMenuItem>
+            )}
             <DropdownMenuSeparator />
           </>
         )}
