@@ -1,3 +1,4 @@
+import { CustomButton } from "@/components/custom-button";
 import { ErrorIcon } from "@/components/icons/error";
 import { PageStructure } from "@/components/page-structure";
 import { AuthCard } from "@/core/auth/components/auth-card";
@@ -5,11 +6,13 @@ import { AuthCard } from "@/core/auth/components/auth-card";
 interface Props {
   searchParams: Promise<{
     error: string;
+    error_description: string;
   }>;
 }
 
 const AuthErrorPage = async ({ searchParams }: Props) => {
   const error = (await searchParams).error;
+  const error_description = (await searchParams).error_description;
 
   let message = "";
 
@@ -32,13 +35,21 @@ const AuthErrorPage = async ({ searchParams }: Props) => {
     <PageStructure>
       <AuthCard
         title={"Something went wrong!"}
-        description={message}
+        description={`Error: ${error}`}
         showFooter={false}
       >
         <div className="flex w-full flex-col items-center justify-center gap-4">
           <ErrorIcon size={40} className="text-destructive" />
-          <p>Error: {error}</p>
+          <p className="text-center text-balance">
+            {error_description || message}
+          </p>
         </div>
+        <CustomButton
+          buttonLabel="Back to Home"
+          linkHref="/"
+          className="w-full"
+          variant={"outline"}
+        />
       </AuthCard>
     </PageStructure>
   );
