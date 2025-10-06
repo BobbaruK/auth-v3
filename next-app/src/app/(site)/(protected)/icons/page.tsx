@@ -1,5 +1,6 @@
 import { AccountIcon } from "@/components/icons/account";
 import { AirplayIcon } from "@/components/icons/airplay";
+import { BanIcon } from "@/components/icons/ban";
 import { CalendarIcon } from "@/components/icons/calendar";
 import { CogIcon } from "@/components/icons/cog";
 import { CopyIcon } from "@/components/icons/copy";
@@ -126,6 +127,10 @@ const IconsPage = () => {
     {
       name: "MonitorIcon",
       icon: MonitorIcon,
+    },
+    {
+      name: "BanIcon",
+      icon: BanIcon,
     },
   ];
 
