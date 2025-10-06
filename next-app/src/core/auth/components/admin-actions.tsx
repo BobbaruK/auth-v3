@@ -25,9 +25,11 @@ import { MESSAGES } from "@/constants/messages";
 import { UserRole } from "@/generated/prisma";
 import { Session } from "@/types/session";
 import { UserWithRole } from "better-auth/plugins/admin";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { banUser, unbanUser } from "../actions/ban-user";
+import { impersonateUser } from "../actions/impersonate-user";
 import { removeUser } from "../actions/remove-user";
 
 interface Props {
@@ -37,6 +39,7 @@ interface Props {
 
 const AdminActions = ({ session, user }: Props) => {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const handleBan = () => {
     startTransition(async () => {
@@ -92,6 +95,25 @@ const AdminActions = ({ session, user }: Props) => {
     });
   };
 
+  const handleImpersonate = () => {
+    startTransition(async () => {
+      impersonateUser(user)
+        .then((data) => {
+          if (data.error) {
+            toast.error(data.error);
+          }
+
+          if (data.success) {
+            toast.success(data.success);
+            router.refresh();
+          }
+        })
+        .catch(() => {
+          toast.error(MESSAGES.SOMETHING_WRONG);
+        });
+    });
+  };
+
   return (
     <>
       <Dialog>
@@ -124,7 +146,9 @@ const AdminActions = ({ session, user }: Props) => {
                 Ban
               </DropdownMenuItem>
             )}
-            <DropdownMenuItem>Impersonate</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleImpersonate}>
+              Impersonate
+            </DropdownMenuItem>
             <DialogTrigger asChild>
               <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
             </DialogTrigger>
