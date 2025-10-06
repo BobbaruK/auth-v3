@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
 import { signOut } from "@/core/auth/actions/sign-out";
+import { UserRole } from "@/generated/prisma";
 import { UserSession } from "@/types/session";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -23,6 +24,7 @@ import { CogIcon } from "./icons/cog";
 import { LoginIcon } from "./icons/login";
 import { LogoutIcon } from "./icons/logout";
 import { UserIcon } from "./icons/user";
+import { UsersIcon } from "./icons/users";
 
 interface Props {
   user: UserSession | undefined;
@@ -91,6 +93,20 @@ export const UserButton = ({ user }: Props) => {
                   <UserIcon /> Profile
                 </span>
               )}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </>
+        )}
+        {user?.role !== UserRole.USER && (
+          <>
+            <DropdownMenuLabel>Admin</DropdownMenuLabel>
+            <DropdownMenuItem asChild>
+              <Link
+                href={"/users"}
+                className="flex cursor-pointer items-center justify-start gap-2 p-2"
+              >
+                <UsersIcon /> Users
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
           </>
