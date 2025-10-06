@@ -10,18 +10,21 @@ import { GamepadIcon } from "@/components/icons/gamepad";
 import { GithubIcon } from "@/components/icons/github";
 import { GogglesIcon } from "@/components/icons/goggles";
 import { GoogleIcon } from "@/components/icons/google";
+import { HomeIcon } from "@/components/icons/home";
 import { KeyIcon } from "@/components/icons/key";
 import { LoginIcon } from "@/components/icons/login";
 import { LogoutIcon } from "@/components/icons/logout";
 import { MobileIcon } from "@/components/icons/mobile";
 import { MonitorIcon } from "@/components/icons/monitor";
 import { MoonIcon } from "@/components/icons/moon";
+import { MoreIcon } from "@/components/icons/more";
 import { ShieldIcon } from "@/components/icons/shield";
 import { TabletIcon } from "@/components/icons/tablet";
 import { TerminalIcon } from "@/components/icons/terminal";
 import { TrashIcon } from "@/components/icons/trash";
 import { TVIcon } from "@/components/icons/tv";
 import { UserIcon } from "@/components/icons/user";
+import { UsersIcon } from "@/components/icons/users";
 import { WatchIcon } from "@/components/icons/watch";
 import { PageStructure } from "@/components/page-structure";
 import { Card, CardContent } from "@/components/ui/card";
@@ -131,6 +134,18 @@ const IconsPage = () => {
     {
       name: "BanIcon",
       icon: BanIcon,
+    },
+    {
+      name: "MoreIcon",
+      icon: MoreIcon,
+    },
+    {
+      name: "UsersIcon",
+      icon: UsersIcon,
+    },
+    {
+      name: "HomeIcon",
+      icon: HomeIcon,
     },
   ];
 
