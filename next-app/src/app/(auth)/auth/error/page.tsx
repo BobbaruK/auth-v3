@@ -20,6 +20,10 @@ const AuthErrorPage = async ({ searchParams }: Props) => {
     case "please_restart_the_process":
       message = "The login process has expired. Please try again.";
       break;
+    case "banned":
+      message =
+        "You have been banned from this application. Please contact support if you believe this is an error.";
+      break;
     default:
       message = "An authentication error occurred.";
   }
