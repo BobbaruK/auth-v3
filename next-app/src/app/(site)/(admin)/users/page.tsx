@@ -1,3 +1,4 @@
+import { CustomAvatar } from "@/components/custom-avatar";
 import { PageStructure } from "@/components/page-structure";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -42,9 +43,12 @@ const UsersPage = async () => {
           {users?.data?.map((user) => (
             <TableRow key={user.id}>
               <TableCell className="space-y-4">
-                <div className="space-y-1">
-                  <p>{user.name}</p>
-                  <p>{user.email}</p>
+                <div className="flex items-center gap-2">
+                  <CustomAvatar image={user.image} />
+                  <div className="space-y-1">
+                    <p>{user.name}</p>
+                    <p>{user.email}</p>
+                  </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   {session?.user.id === user.id && (
