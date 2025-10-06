@@ -31,8 +31,9 @@ const MESSAGES_FN = () => {
     TWO_FACTOR_DISABLED:
       "Two-factor authentication has been successfully disabled.",
     USER_ADMIN_BAN: "You have successfully banned this user:",
-    USER_ADMIN_OWNER: "You cannot ban a user with the role of OWNER.",
+    USER_ADMIN_OWNER: "You cannot ban or delete a user with the role of OWNER.",
     USER_ADMIN_UNBAN: "You have successfully unbanned this user:",
+    USER_ADMIN_REMOVE: "You have successfully removed this user:",
     USER_NOT_EXIST: "This user does not exist.",
     USERNAME_NOT_AVAILABLE: "This username is not available.",
   };
