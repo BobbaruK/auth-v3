@@ -41,6 +41,7 @@ model auth_user {
   twoFactorEnabled Boolean?  @default(false)
   isAccountVisible Boolean?  @default(true)
   lastLoginMethod  String?
+  lastLoginAt      DateTime  @default(now())
 
   sessions   auth_session[]
   accounts   auth_account[]
