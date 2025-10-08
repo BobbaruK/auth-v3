@@ -23,9 +23,11 @@ import { toast } from "sonner";
 import z from "zod";
 import { signIn } from "../actions/sign-in";
 import { LoginSchema } from "../schemas/login";
+import { useSession } from "@/lib/auth-client";
 
 export const SignInForm = () => {
   const router = useRouter();
+  const { refetch } = useSession();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -54,6 +56,8 @@ export const SignInForm = () => {
             toast.success(MESSAGES.LOGIN_SUCCESS);
             router.push(DEFAULT_LOGIN_REDIRECT);
           }
+
+          refetch();
         })
         .catch(() => {
           toast.error(MESSAGES.SOMETHING_WRONG);
