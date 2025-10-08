@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:push": "rm -rf ./src/generated && prisma db push && prisma studio"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
