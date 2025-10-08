@@ -12,6 +12,7 @@ export interface SettingsReducerState {
   openScanQRCodeDialog: boolean;
   openBackupCodesDialog: boolean;
   openSessionsDialog: boolean;
+  openAvatarDialog: boolean;
 }
 
 export type SettingsReducerAction =
@@ -50,6 +51,10 @@ export type SettingsReducerAction =
   | {
       type: "SET_OPEN_SESSIONS_DIALOG";
       openSessionsDialog: boolean;
+    }
+  | {
+      type: "SET_OPEN_AVATAR_DIALOG";
+      openAvatarDialog: boolean;
     };
 
 const settingsReducerInitialState: SettingsReducerState = {
@@ -62,6 +67,7 @@ const settingsReducerInitialState: SettingsReducerState = {
   openScanQRCodeDialog: false,
   openBackupCodesDialog: false,
   openSessionsDialog: false,
+  openAvatarDialog: false,
 };
 
 function settingsReducer(
@@ -112,6 +118,12 @@ function settingsReducer(
       return {
         ...state,
         openSessionsDialog: action.openSessionsDialog,
+      };
+
+    case "SET_OPEN_AVATAR_DIALOG":
+      return {
+        ...state,
+        openAvatarDialog: action.openAvatarDialog,
       };
 
     default:

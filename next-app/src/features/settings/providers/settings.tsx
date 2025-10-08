@@ -37,6 +37,8 @@ type SettingsContextType = {
   setOpenBackupCodesDialog: (open: boolean) => void;
   openSessionsDialog: boolean;
   setOpenSessionsDialog: (open: boolean) => void;
+  openAvatarDialog: boolean;
+  setOpenAvatarDialog: (open: boolean) => void;
 };
 
 const SettingsContext = createContext<SettingsContextType>({
@@ -63,6 +65,8 @@ const SettingsContext = createContext<SettingsContextType>({
   setOpenBackupCodesDialog: () => {},
   openSessionsDialog: false,
   setOpenSessionsDialog: () => {},
+  openAvatarDialog: false,
+  setOpenAvatarDialog: () => {},
 });
 
 export const useSettingsContext = () => {
@@ -149,6 +153,12 @@ export default function SettingsProvider({
             type: "SET_OPEN_SESSIONS_DIALOG",
             openSessionsDialog: open,
           }),
+        openAvatarDialog: state.openAvatarDialog,
+        setOpenAvatarDialog: (open) =>
+          dispatch({
+            type: "SET_OPEN_AVATAR_DIALOG",
+            openAvatarDialog: open,
+          }),
       }}
     >
       {SHOW_CONTEXT_SETTINGS && <ReducerSettings state={state} />}
@@ -160,7 +170,7 @@ export default function SettingsProvider({
 
 function ReducerSettings({ state }: { state: SettingsReducerState }) {
   return (
-    <div className="text-muted-foreground bg-muted border-muted-foreground fixed top-12 left-10 z-[99999999] w-96 rounded-lg border p-2 opacity-80 hover:opacity-100">
+    <div className="text-muted-foreground bg-muted border-muted-foreground pointer-events-none fixed top-12 left-10 z-[99999999] w-96 rounded-lg border p-2 opacity-80 hover:opacity-100">
       <p className="flex items-center gap-1">
         totpURI:{" "}
         <Badge
@@ -219,6 +229,12 @@ function ReducerSettings({ state }: { state: SettingsReducerState }) {
         openSessionsDialog:{" "}
         <Badge variant={state.openSessionsDialog ? "success" : "danger"}>
           {JSON.stringify(state.openSessionsDialog, null, 2)}
+        </Badge>
+      </p>
+      <p>
+        openAvatarDialog:{" "}
+        <Badge variant={state.openAvatarDialog ? "success" : "danger"}>
+          {JSON.stringify(state.openAvatarDialog, null, 2)}
         </Badge>
       </p>
     </div>
