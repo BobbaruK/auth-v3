@@ -5,6 +5,7 @@ import {
   twoFactorClient,
   usernameClient,
 } from "better-auth/client/plugins";
+import { lastLoginMethodClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 import { auth } from "./auth";
 
@@ -18,6 +19,7 @@ const authClient = createAuthClient({
     }),
     twoFactorClient(),
     usernameClient(),
+    lastLoginMethodClient(),
     inferAdditionalFields<typeof auth>(),
   ],
 });
@@ -33,5 +35,6 @@ export const {
   listSessions,
   revokeSession,
   revokeOtherSessions,
-  revokeSessions,
+  getLastUsedLoginMethod,
+  isLastUsedLoginMethod,
 } = authClient;

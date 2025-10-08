@@ -18,7 +18,12 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError, createAuthMiddleware } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
-import { admin, twoFactor, username } from "better-auth/plugins";
+import {
+  admin,
+  lastLoginMethod,
+  twoFactor,
+  username,
+} from "better-auth/plugins";
 
 export const auth = betterAuth({
   appName: "Auth v3",
@@ -42,6 +47,10 @@ export const auth = betterAuth({
       },
       isAccountVisible: {
         type: "boolean",
+        required: false,
+      },
+      lastLoginMethod: {
+        type: "string",
         required: false,
       },
     },
@@ -175,6 +184,19 @@ export const auth = betterAuth({
         },
       },
     },
+    session: {
+      create: {
+        after: async (session, context) => {
+          console.log({ session, context });
+
+          // return {
+          //   data: {
+          //     ...session,
+          //   },
+          // };
+        },
+      },
+    },
   },
   onAPIError: {
     // throw: true,
@@ -217,6 +239,9 @@ export const auth = betterAuth({
     username({
       minUsernameLength: MIN_USERNAME,
       maxUsernameLength: MAX_USERNAME,
+    }),
+    lastLoginMethod({
+      storeInDatabase: true,
     }),
     nextCookies(),
   ],
