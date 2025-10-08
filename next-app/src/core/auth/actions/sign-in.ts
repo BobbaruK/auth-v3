@@ -9,50 +9,45 @@ import { headers } from "next/headers";
 import z from "zod";
 import { LoginSchema } from "../schemas/login";
 
+type SignInType = "email" | "username";
+
 const emailSchema = EMAIL;
 // const usernameSchema = USERNAME;
 
-type SignInResponse =
-  | {
-      success?: undefined;
-      redirectOTP?: undefined;
-      error: string;
-    }
-  | {
-      success: string;
-      redirectOTP: boolean;
-      error?: undefined;
-    }
-  | {
-      success: string;
-      redirectOTP?: undefined;
-      error?: undefined;
-    };
-
-const signInEmail = async (
+const handleSignIn = async (
+  type: SignInType,
   values: z.infer<typeof LoginSchema>,
-): Promise<SignInResponse> => {
+) => {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
 
   const { email, password } = validatedFields.data;
-
   try {
-    const response = await auth.api.signInEmail({
-      body: {
-        email,
-        password,
-      },
-      headers: await headers(),
-      // asResponse : true
-    });
+    let response;
 
-    if ("twoFactorRedirect" in response)
-      return {
-        success: MESSAGES.ENTER_OTP,
-        redirectOTP: true,
-      };
+    switch (type) {
+      case "email":
+        response = await auth.api.signInEmail({
+          body: {
+            email,
+            password,
+          },
+          headers: await headers(),
+          // asResponse : true
+        });
+        break;
+
+      case "username":
+        response = await auth.api.signInUsername({
+          body: {
+            username: email, // username and email are the same field
+            password,
+          },
+          headers: await headers(),
+        });
+        break;
+    }
 
     // manual set cookies
     // const setCookieHeader = res.headers.get("set-cookie");
@@ -77,40 +72,7 @@ const signInEmail = async (
 
     revalidatePath("/");
 
-    return {
-      success: MESSAGES.LOGIN_SUCCESS,
-    };
-  } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
-  }
-};
-
-const signInUsername = async (
-  values: z.infer<typeof LoginSchema>,
-): Promise<SignInResponse> => {
-  const validatedFields = LoginSchema.safeParse(values);
-
-  if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
-
-  const { email: username, password } = validatedFields.data;
-
-  try {
-    const data = await auth.api.signInUsername({
-      body: {
-        username,
-        password,
-      },
-      headers: await headers(),
-    });
-
-    if (data && "twoFactorRedirect" in data)
+    if (response && "twoFactorRedirect" in response)
       return {
         success: MESSAGES.ENTER_OTP,
         redirectOTP: true,
@@ -131,12 +93,10 @@ const signInUsername = async (
   }
 };
 
-export const signIn = async (
-  values: z.infer<typeof LoginSchema>,
-): Promise<SignInResponse> => {
-  if (emailSchema.safeParse(values.email).success) {
-    return await signInEmail(values);
-  }
+export const signIn = async (values: z.infer<typeof LoginSchema>) => {
+  const type: SignInType = emailSchema.safeParse(values.email).success
+    ? "email"
+    : "username";
 
-  return await signInUsername(values);
+  return handleSignIn(type, values);
 };
