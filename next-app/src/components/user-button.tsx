@@ -27,6 +27,7 @@ import { LoginIcon } from "./icons/login";
 import { LogoutIcon } from "./icons/logout";
 import { UserIcon } from "./icons/user";
 import { UsersIcon } from "./icons/users";
+import { useSession } from "@/lib/auth-client";
 
 interface Props {
   session: Session | null;
@@ -37,6 +38,7 @@ export const UserButton = ({ session }: Props) => {
   const [theTheme, setTheTheme] = useState(theme);
   const pathname = usePathname();
   const router = useRouter();
+  const { refetch } = useSession();
 
   const user = session?.user;
 
@@ -68,6 +70,7 @@ export const UserButton = ({ session }: Props) => {
 
         if (data.success) {
           toast.success(data.success);
+          refetch();
         }
       })
       .catch(() => {

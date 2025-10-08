@@ -31,6 +31,7 @@ import { toast } from "sonner";
 import { banUser, unbanUser } from "../actions/ban-user";
 import { impersonateUser } from "../actions/impersonate-user";
 import { removeUser } from "../actions/remove-user";
+import { useSession } from "@/lib/auth-client";
 
 interface Props {
   session: Session | null;
@@ -40,6 +41,7 @@ interface Props {
 const AdminActions = ({ session, user }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const { refetch } = useSession();
 
   const handleBan = () => {
     startTransition(async () => {
@@ -106,6 +108,7 @@ const AdminActions = ({ session, user }: Props) => {
           if (data.success) {
             toast.success(data.success);
             router.refresh();
+            refetch();
           }
         })
         .catch(() => {
@@ -137,6 +140,10 @@ const AdminActions = ({ session, user }: Props) => {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleImpersonate}>
+              Impersonate
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
             {user.banned ? (
               <DropdownMenuItem onClick={handleUnBan} variant="destructive">
                 Unban
@@ -146,9 +153,6 @@ const AdminActions = ({ session, user }: Props) => {
                 Ban
               </DropdownMenuItem>
             )}
-            <DropdownMenuItem onClick={handleImpersonate}>
-              Impersonate
-            </DropdownMenuItem>
             <DialogTrigger asChild>
               <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
             </DialogTrigger>
