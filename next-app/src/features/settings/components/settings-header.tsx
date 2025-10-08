@@ -22,6 +22,7 @@ export const SettingsHeader = () => {
     meta: {
       email: user.email,
       joined: user.createdAt,
+      lastLoginAt: user.lastLoginAt,
       lastLoginMethod: user.lastLoginMethod,
     },
   };
@@ -55,7 +56,8 @@ export const SettingsHeader = () => {
                 {dateFormatter({
                   date: meta.joined,
                   options: {
-                    month: "long",
+                    day: "2-digit",
+                    month: "short",
                     year: "numeric",
                   },
                 })}
@@ -65,7 +67,7 @@ export const SettingsHeader = () => {
               <LoginIcon />
               Last login{" "}
               {dateFormatter({
-                date: meta.joined,
+                date: meta.lastLoginAt,
                 options: {
                   timeZone: "Europe/Bucharest",
                   hourCycle: "h23",

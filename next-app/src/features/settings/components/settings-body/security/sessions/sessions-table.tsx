@@ -168,13 +168,18 @@ const SessionsTable = ({ setOpenSessionsDialog, ...restProps }: Props) => {
                     </CardHeader>
                     <CardContent>
                       <p>
-                        Created on{" "}
+                        Login on{" "}
                         <strong>
                           {dateFormatter({
                             date: session.createdAt,
                             options: {
-                              dateStyle: "medium",
-                              timeStyle: "short",
+                              timeZone: "Europe/Bucharest",
+                              hourCycle: "h23",
+                              month: "short",
+                              day: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
                             },
                           })}
                         </strong>
@@ -185,8 +190,13 @@ const SessionsTable = ({ setOpenSessionsDialog, ...restProps }: Props) => {
                           {dateFormatter({
                             date: session.expiresAt,
                             options: {
-                              dateStyle: "medium",
-                              timeStyle: "short",
+                              timeZone: "Europe/Bucharest",
+                              hourCycle: "h23",
+                              month: "short",
+                              day: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
                             },
                           })}
                         </strong>
