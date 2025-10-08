@@ -2,6 +2,7 @@ import { AccountIcon } from "@/components/icons/account";
 import { AirplayIcon } from "@/components/icons/airplay";
 import { BanIcon } from "@/components/icons/ban";
 import { CalendarIcon } from "@/components/icons/calendar";
+import { CameraIcon } from "@/components/icons/camera";
 import { CogIcon } from "@/components/icons/cog";
 import { CopyIcon } from "@/components/icons/copy";
 import { EnvelopeIcon } from "@/components/icons/envelope";
@@ -146,6 +147,10 @@ const IconsPage = () => {
     {
       name: "HomeIcon",
       icon: HomeIcon,
+    },
+    {
+      name: "CameraIcon",
+      icon: CameraIcon,
     },
   ];
 
