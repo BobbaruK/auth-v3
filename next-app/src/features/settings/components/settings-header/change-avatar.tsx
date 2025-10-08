@@ -23,13 +23,17 @@ import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense, useEffect, useState } from "react";
 const ChangeAvatarForm = lazy(
-  () =>
-    import("@/features/settings/components/settings-header/change-avatar-form"),
+  () => import("@/core/auth/components/change-avatar-form"),
 );
 
 export const ChangeAvatar = () => {
-  const { user, isLoading, openAvatarDialog, setOpenAvatarDialog } =
-    useSettingsContext();
+  const {
+    user,
+    isLoading,
+    openAvatarDialog,
+    setOpenAvatarDialog,
+    startTransition,
+  } = useSettingsContext();
   const isDesktop = useCustomMediaQuery();
   const [mounted, setMounted] = useState(false);
 
@@ -68,11 +72,13 @@ export const ChangeAvatar = () => {
               {user.image ? "Change" : "Set"} your avatar
             </DialogTitle>
           </DialogHeader>
-          <Suspense fallback={<ChangePasswordSkeleton />}>
+
+          <Suspense fallback={<ChangeAvatarSkeleton />}>
             <ChangeAvatarForm
-            // isLoading={isLoading}
-            // startTransition={startTransition}
-            // setOpenChangePasswordDialog={setOpenChangePasswordDialog}
+              userImage={user.image}
+              isLoading={isLoading}
+              startTransition={startTransition}
+              setOpenAvatarDialog={setOpenAvatarDialog}
             />
           </Suspense>
         </DialogContent>
@@ -98,12 +104,13 @@ export const ChangeAvatar = () => {
           <DrawerTitle>{user.image ? "Change" : "Set"} your avatar</DrawerTitle>
         </DrawerHeader>
 
-        <Suspense fallback={<SetPasswordSkeleton className="mb-4 px-4" />}>
+        <Suspense fallback={<ChangeAvatarSkeleton className="mb-4 px-4" />}>
           <ChangeAvatarForm
-          // className="mb-4 px-4"
-          // isLoading={isLoading}
-          // startTransition={startTransition}
-          // setOpenChangePasswordDialog={setOpenChangePasswordDialog}
+            className="mb-4 px-4"
+            userImage={user.image}
+            isLoading={isLoading}
+            startTransition={startTransition}
+            setOpenAvatarDialog={setOpenAvatarDialog}
           />
         </Suspense>
       </DrawerContent>
@@ -111,54 +118,29 @@ export const ChangeAvatar = () => {
   );
 };
 
-function ChangePasswordSkeleton({
+function ChangeAvatarSkeleton({
   className,
   ...restProps
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...restProps}>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
+    <>
+      <div className={cn("flex items-center gap-4", className)} {...restProps}>
+        <Skeleton className="border-primary size-24 rounded-full border" />
+        <Skeleton className="h-10 w-24" />
+      </div>
+      <div className={cn("flex flex-col gap-6", className)} {...restProps}>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-center gap-2">
+            <Skeleton className="h-[14px] w-full" />
+            <Skeleton className="h-[36px] w-full" />
+            <Skeleton className="h-5 w-full" />
+          </div>
         </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
-        </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
+        <div className="flex items-center justify-end gap-6">
+          <Skeleton className="h-10 grow" />
+          <Skeleton className="h-10 grow" />
         </div>
       </div>
-      <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 grow" />
-        <Skeleton className="h-10 grow" />
-      </div>
-    </div>
-  );
-}
-
-function SetPasswordSkeleton({
-  className,
-  ...restProps
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("flex flex-col gap-6", className)} {...restProps}>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
-        </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
-        </div>
-      </div>
-      <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 grow" />
-        <Skeleton className="h-10 grow" />
-      </div>
-    </div>
+    </>
   );
 }
