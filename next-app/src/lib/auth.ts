@@ -53,6 +53,10 @@ export const auth = betterAuth({
         type: "string",
         required: false,
       },
+      lastLoginAt: {
+        type: "date",
+        required: false,
+      },
     },
     changeEmail: {
       enabled: true,
@@ -186,14 +190,20 @@ export const auth = betterAuth({
     },
     session: {
       create: {
-        after: async (session, context) => {
-          console.log({ session, context });
-
-          // return {
-          //   data: {
-          //     ...session,
-          //   },
-          // };
+        after: async (session) => {
+          try {
+            await db.$transaction([
+              db.auth_user.update({
+                where: { id: session.userId },
+                data: { lastLoginAt: new Date() },
+              }),
+            ]);
+          } catch (error) {
+            console.error(
+              "[Auth Hook] Failed to update lastLoginAt (session.create.after):",
+              error,
+            );
+          }
         },
       },
     },
