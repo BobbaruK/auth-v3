@@ -3,7 +3,9 @@
 import { CustomAvatar } from "@/components/custom-avatar";
 import { CalendarIcon } from "@/components/icons/calendar";
 import { EnvelopeIcon } from "@/components/icons/envelope";
+import { LoginIcon } from "@/components/icons/login";
 import { Badge } from "@/components/ui/badge";
+import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";
 import { dateFormatter } from "@/lib/utils/format-date";
 import Link from "next/link";
 import { useSettingsContext } from "../providers/settings";
@@ -20,6 +22,7 @@ export const SettingsHeader = () => {
     meta: {
       email: user.email,
       joined: user.createdAt,
+      lastLoginMethod: user.lastLoginMethod,
     },
   };
 
@@ -44,6 +47,7 @@ export const SettingsHeader = () => {
                 <Link href={`mailto:${meta.email}`}>{meta.email}</Link>
               </div>
             )}
+
             {meta.joined && (
               <div className="flex items-center gap-1">
                 <CalendarIcon />
@@ -57,6 +61,24 @@ export const SettingsHeader = () => {
                 })}
               </div>
             )}
+            <div className="flex items-center gap-1">
+              <LoginIcon />
+              Last login{" "}
+              {dateFormatter({
+                date: meta.joined,
+                options: {
+                  timeZone: "Europe/Bucharest",
+                  hourCycle: "h23",
+                  month: "short",
+                  day: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                },
+              })}{" "}
+              {meta.lastLoginMethod &&
+                `(${capitalizeFirstLetter(meta.lastLoginMethod)})`}
+            </div>
           </div>
         )}
       </div>
