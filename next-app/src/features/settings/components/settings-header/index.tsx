@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";
 import { dateFormatter } from "@/lib/utils/format-date";
 import Link from "next/link";
-import { useSettingsContext } from "../providers/settings";
+import { useSettingsContext } from "../../providers/settings";
+import { ChangeAvatar } from "./change-avatar";
 
 export const SettingsHeader = () => {
   const { user } = useSettingsContext();
@@ -29,8 +30,9 @@ export const SettingsHeader = () => {
 
   return (
     <div className="bg-card text-card-foreground flex w-full flex-row flex-wrap items-center gap-6 rounded-xl border p-4 py-6 shadow-sm lg:p-6">
-      <div className="size-24">
+      <div className="relative size-24">
         <CustomAvatar image={image} className="h-full w-full" />
+        <ChangeAvatar />
       </div>
       <div className="space-y-2">
         <div className="flex flex-col gap-2 md:flex-row md:items-center">

@@ -17,14 +17,12 @@ import { PersonalSchema } from "@/core/auth/schemas/personal";
 import { useSettingsContext } from "@/features/settings/providers/settings";
 import { useSession } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
 export const PersonalForm = () => {
-  const { user } = useSettingsContext();
-  const [isPending, startTransition] = useTransition();
+  const { user, isLoading, startTransition } = useSettingsContext();
   const form = useForm<z.infer<typeof PersonalSchema>>({
     resolver: zodResolver(PersonalSchema),
     defaultValues: {
@@ -78,7 +76,7 @@ export const PersonalForm = () => {
                     {...field}
                     type="text"
                     placeholder="John"
-                    disabled={isPending}
+                    disabled={isLoading}
                   />
                 </FormControl>
                 <FormMessage />
@@ -96,7 +94,7 @@ export const PersonalForm = () => {
                     {...field}
                     type="text"
                     placeholder="Doe"
-                    disabled={isPending}
+                    disabled={isLoading}
                   />
                 </FormControl>
                 <FormMessage />
@@ -114,7 +112,7 @@ export const PersonalForm = () => {
                     {...field}
                     type="text"
                     placeholder="Doughnut"
-                    disabled={isPending}
+                    disabled={isLoading}
                   />
                 </FormControl>
                 <FormMessage />
@@ -150,7 +148,7 @@ export const PersonalForm = () => {
                 <Textarea
                   placeholder="Tell us a little bit about yourself"
                   className="resize-none"
-                  disabled={isPending}
+                  disabled={isLoading}
                   {...field}
                 />
               </FormControl>
@@ -163,7 +161,7 @@ export const PersonalForm = () => {
           buttonLabel={`Save`}
           type="submit"
           className="ms-auto block"
-          disabled={isPending}
+          disabled={isLoading}
           skeletonClassName="ms-auto block w-16"
         />
       </form>
