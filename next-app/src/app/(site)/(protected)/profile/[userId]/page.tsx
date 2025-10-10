@@ -38,7 +38,7 @@ const ProfilePage = async ({ params }: Props) => {
         <div className="w-full space-y-6 md:w-1/3">
           <ProfileSidebar user={user} session={session || ({} as Session)} />
         </div>
-        <div className="grow space-y-6">
+        <div className="w-full space-y-6 md:w-[calc(66.666667%_-_24px)]">
           <ProfileContent user={user} session={session || ({} as Session)} />
         </div>
       </div>
