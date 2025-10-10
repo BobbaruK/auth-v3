@@ -100,6 +100,7 @@ const AdminActions = ({ user, session }: Props) => {
 
           if (data.success) {
             toast.success(data.success);
+            router.push("/");
             router.refresh();
             refetch();
           }
