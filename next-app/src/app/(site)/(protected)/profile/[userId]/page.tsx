@@ -1,9 +1,11 @@
 import { CustomAlert } from "@/components/custom-alert";
-import { AccountIcon } from "@/components/icons/account";
 import { PageStructure } from "@/components/page-structure";
 import { MESSAGES } from "@/constants/messages";
 import { getUser } from "@/core/user/data/get-user";
+import ProfileContent from "@/features/profile/components/content";
+import ProfileSidebar from "@/features/profile/components/sidebar";
 import { auth } from "@/lib/auth";
+import { Session } from "@/types/session";
 import { headers } from "next/headers";
 
 interface Props {
@@ -18,9 +20,6 @@ const ProfilePage = async ({ params }: Props) => {
 
   const user = await getUser(userId);
 
-  const sameUser = () => (session?.user.id === userId ? true : false);
-  const isSameUser = sameUser();
-
   if (!user)
     return (
       <PageStructure>
@@ -34,18 +33,15 @@ const ProfilePage = async ({ params }: Props) => {
 
   return (
     <PageStructure>
-      {isSameUser && !user.isAccountVisible && (
-        <CustomAlert
-          title={"Attention!"}
-          description={"Your account visibility is set tot private."}
-          variant="warning"
-          icon={<AccountIcon />}
-        />
-      )}
-
-      {user.isAccountVisible && (
-        <p>{user.bio || "This user does not have a bio yet."}</p>
-      )}
+      <div className="flex flex-wrap gap-4 lg:gap-6">
+        {/* TODO: create a context around these 2 components for user and session */}
+        <div className="w-full space-y-6 md:w-1/3">
+          <ProfileSidebar user={user} session={session || ({} as Session)} />
+        </div>
+        <div className="grow space-y-6">
+          <ProfileContent user={user} session={session || ({} as Session)} />
+        </div>
+      </div>
     </PageStructure>
   );
 };
