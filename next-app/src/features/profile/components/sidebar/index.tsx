@@ -1,4 +1,6 @@
 import { CustomAvatar } from "@/components/custom-avatar";
+import { AdminIcon } from "@/components/icons/admin";
+import { OwnerIcon } from "@/components/icons/owner";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -13,6 +15,8 @@ import { dateFormatter } from "@/lib/utils/format-date";
 import { Session } from "@/types/session";
 import { UserProfile } from "@/types/user-profile";
 import AdminActions from "./admin-actions";
+import { UserIcon } from "@/components/icons/user";
+import { LucideIconProps } from "@/types/icons";
 
 interface Props {
   user: UserProfile;
@@ -21,6 +25,7 @@ interface Props {
 
 const ProfileSidebar = ({ user, session }: Props) => {
   const isSameUser = session?.user.id === user.id ? true : false;
+
   return (
     <>
       {session?.user.role !== UserRole.USER && !isSameUser && (
@@ -33,7 +38,7 @@ const ProfileSidebar = ({ user, session }: Props) => {
           <CardTitle className="flex items-center gap-2">
             <span>{user.displayUsername}</span>
 
-            {user.banned && <Badge variant={"destructive"}>Banned</Badge>}
+            {user.banned && <Badge variant={"danger"}>Banned</Badge>}
           </CardTitle>
           {user.isAccountVisible && (
             <CardDescription>{user.email}</CardDescription>
@@ -76,7 +81,10 @@ const ProfileSidebar = ({ user, session }: Props) => {
           </p>
           <p className="flex flex-wrap items-center justify-between gap-2">
             <span className="text-muted-foreground">Role:</span>
-            <span>{capitalizeFirstLetter(user.role)}</span>
+            <span className="flex items-center gap-2">
+              <RoleIcon role={user.role} size={16} />{" "}
+              {capitalizeFirstLetter(user.role)}
+            </span>
           </p>
         </CardContent>
       </Card>
@@ -85,3 +93,16 @@ const ProfileSidebar = ({ user, session }: Props) => {
 };
 
 export default ProfileSidebar;
+
+function RoleIcon({ role, ...props }: { role: UserRole } & LucideIconProps) {
+  switch (role) {
+    case UserRole.ADMIN:
+      return <AdminIcon {...props} />;
+
+    case UserRole.OWNER:
+      return <OwnerIcon {...props} />;
+
+    default:
+      return <UserIcon {...props} />;
+  }
+}
