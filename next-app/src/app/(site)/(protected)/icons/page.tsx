@@ -1,4 +1,5 @@
 import { AccountIcon } from "@/components/icons/account";
+import { AdminIcon } from "@/components/icons/admin";
 import { AirplayIcon } from "@/components/icons/airplay";
 import { BanIcon } from "@/components/icons/ban";
 import { CalendarIcon } from "@/components/icons/calendar";
@@ -19,6 +20,7 @@ import { MobileIcon } from "@/components/icons/mobile";
 import { MonitorIcon } from "@/components/icons/monitor";
 import { MoonIcon } from "@/components/icons/moon";
 import { MoreIcon } from "@/components/icons/more";
+import { OwnerIcon } from "@/components/icons/owner";
 import { ShieldIcon } from "@/components/icons/shield";
 import { TabletIcon } from "@/components/icons/tablet";
 import { TerminalIcon } from "@/components/icons/terminal";
@@ -151,6 +153,14 @@ const IconsPage = () => {
     {
       name: "CameraIcon",
       icon: CameraIcon,
+    },
+    {
+      name: "OwnerIcon",
+      icon: OwnerIcon,
+    },
+    {
+      name: "AdminIcon",
+      icon: AdminIcon,
     },
   ];
 
