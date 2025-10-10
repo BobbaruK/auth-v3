@@ -23,15 +23,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
 import { UserRole } from "@/generated/prisma";
+import { useSession } from "@/lib/auth-client";
 import { Session } from "@/types/session";
 import { UserWithRole } from "better-auth/plugins/admin";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
+import { useCopyToClipboard } from "usehooks-ts";
 import { banUser, unbanUser } from "../actions/ban-user";
 import { impersonateUser } from "../actions/impersonate-user";
 import { removeUser } from "../actions/remove-user";
-import { useSession } from "@/lib/auth-client";
 
 interface Props {
   session: Session | null;
@@ -42,6 +44,8 @@ const AdminActions = ({ session, user }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { refetch } = useSession();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [copiedText, copy] = useCopyToClipboard();
 
   const handleBan = () => {
     startTransition(async () => {
@@ -117,18 +121,32 @@ const AdminActions = ({ session, user }: Props) => {
     });
   };
 
+  const handleCopy = (text: string) => () => {
+    console.log({ user: text });
+
+    if (!text) {
+      toast.error("Nothing to copy");
+      return;
+    }
+
+    copy(text)
+      .then(() => {
+        toast.success("Copied user ID.", {
+          description: text,
+        });
+      })
+      .catch((error) => {
+        if (error instanceof Error) console.error(error.message);
+
+        toast.error("Failed to copy!");
+      });
+  };
+
   return (
     <>
       <Dialog>
         <DropdownMenu>
-          <DropdownMenuTrigger
-            asChild
-            disabled={
-              session?.user.id === user.id ||
-              isPending ||
-              user.role === UserRole.OWNER
-            }
-          >
+          <DropdownMenuTrigger asChild disabled={isPending}>
             <CustomButton
               buttonLabel="More"
               size={"icon"}
@@ -140,22 +158,42 @@ const AdminActions = ({ session, user }: Props) => {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleImpersonate}>
-              Impersonate
+            <DropdownMenuItem onClick={handleCopy(user.id)}>
+              Copy ID
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            {user.banned ? (
-              <DropdownMenuItem onClick={handleUnBan} variant="destructive">
-                Unban
-              </DropdownMenuItem>
-            ) : (
-              <DropdownMenuItem onClick={handleBan} variant="destructive">
-                Ban
-              </DropdownMenuItem>
-            )}
-            <DialogTrigger asChild>
-              <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
-            </DialogTrigger>
+            <DropdownMenuItem asChild>
+              <Link href={`/profile/${user.id}`}>Go to profile</Link>
+            </DropdownMenuItem>
+            {session?.user.role !== UserRole.USER &&
+              session?.user.id !== user.id &&
+              user.role !== UserRole.OWNER && (
+                <>
+                  <DropdownMenuSeparator />
+                  {session?.user.role === UserRole.OWNER && (
+                    <DropdownMenuItem onClick={handleImpersonate}>
+                      Impersonate
+                    </DropdownMenuItem>
+                  )}
+                  {user.banned ? (
+                    <DropdownMenuItem
+                      onClick={handleUnBan}
+                      variant="default"
+                      className="text-warning-foreground bg-warning"
+                    >
+                      Unban
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem onClick={handleBan} variant="destructive">
+                      Ban
+                    </DropdownMenuItem>
+                  )}
+                  <DialogTrigger asChild>
+                    <DropdownMenuItem variant="destructive">
+                      Delete
+                    </DropdownMenuItem>
+                  </DialogTrigger>
+                </>
+              )}
           </DropdownMenuContent>
         </DropdownMenu>
         <DialogContent>
