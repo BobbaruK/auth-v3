@@ -2,7 +2,7 @@
 
 import { resend } from "@/lib/resend";
 import React from "react";
-import ResetPasswordEmailTemplate from "../components/reset-password-email";
+import ResetPasswordEmailTemplate from "../templates/alerts-reset-password";
 
 export const sendResetPasswordMail = async ({
   name,
