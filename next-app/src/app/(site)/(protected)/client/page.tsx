@@ -12,10 +12,6 @@ const ClientPage = () => {
       <h1 className="text-3xl font-bold">Client</h1>
 
       <UserInfo user={session && session.user} />
-
-      <pre className="text-sm overflow-clip">
-        {JSON.stringify(session, null, 2)}
-      </pre>
     </PageStructure>
   );
 };

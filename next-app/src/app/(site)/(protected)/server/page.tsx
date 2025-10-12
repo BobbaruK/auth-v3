@@ -13,10 +13,6 @@ const ServerPage = async () => {
       <h1 className="text-3xl font-bold">Server</h1>
 
       <UserInfo user={session && session.user} />
-
-      <pre className="text-sm overflow-clip">
-        {JSON.stringify(session, null, 2)}
-      </pre>
     </PageStructure>
   );
 };
