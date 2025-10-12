@@ -1,7 +1,11 @@
 import { Hr, Section, Text } from "@react-email/components";
 import React from "react";
 
-const FooterEmail = ({ email }: { email: string }) => {
+interface Props {
+  email: string;
+}
+
+const FooterEmail = ({ email }: Props) => {
   return (
     <>
       <Hr className="mb-[24px] border-gray-300" />

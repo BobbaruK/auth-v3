@@ -1,12 +1,11 @@
 import { Heading, Img, Section, Text } from "@react-email/components";
 
-const HeaderEmail = ({
-  title,
-  description,
-}: {
+interface Props {
   title: string;
   description?: string;
-}) => {
+}
+
+const HeaderEmail = ({ title, description }: Props) => {
   return (
     <Section>
       {/* TODO: put the path to the svg in the public folder when build on vps */}
