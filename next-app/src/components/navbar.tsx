@@ -1,51 +1,40 @@
 "use client";
 
-import { BUTTON_EFFECT } from "@/constants/misc";
+import { Session } from "@/types/session";
 import { usePathname } from "next/navigation";
-import { CustomButton } from "./custom-button";
+import { NavbarNavLink, Navigation } from "./navigation";
 
-export const Navbar = () => {
+interface Props {
+  session: Session | null;
+}
+
+export const Navbar = ({ session }: Props) => {
   const pathname = usePathname();
 
+  const defaultNavigationLinks: NavbarNavLink[] = [
+    {
+      href: "/server",
+      label: "Server",
+      active: pathname === "/server" ? true : false,
+    },
+    {
+      href: "/client",
+      label: "Client",
+      active: pathname === "/client" ? true : false,
+    },
+    {
+      href: "/admin",
+      label: "Admin",
+      active: pathname === "/admin" ? true : false,
+    },
+    {
+      href: "/icons",
+      label: "Icons",
+      active: pathname === "/icons" ? true : false,
+    },
+  ];
+
   return (
-    <nav className="flex w-full items-center justify-between">
-      <div className="flex gap-x-2">
-        <CustomButton
-          buttonLabel={`Home`}
-          effect={pathname === "/" ? "gradientSlideShow" : BUTTON_EFFECT}
-          variant={"outline"}
-          className=""
-          linkHref="/"
-        />
-        <CustomButton
-          buttonLabel={`Server`}
-          effect={pathname === "/server" ? "gradientSlideShow" : BUTTON_EFFECT}
-          variant={"outline"}
-          className=""
-          linkHref="/server"
-        />
-        <CustomButton
-          buttonLabel={`Client`}
-          effect={pathname === "/client" ? "gradientSlideShow" : BUTTON_EFFECT}
-          variant={"outline"}
-          className=""
-          linkHref="/client"
-        />
-        <CustomButton
-          buttonLabel={`Admin`}
-          effect={pathname === "/admin" ? "gradientSlideShow" : BUTTON_EFFECT}
-          variant={"outline"}
-          className=""
-          linkHref="/admin"
-        />
-        <CustomButton
-          buttonLabel={`Icons`}
-          effect={pathname === "/icons" ? "gradientSlideShow" : BUTTON_EFFECT}
-          variant={"outline"}
-          className=""
-          linkHref="/icons"
-        />
-      </div>
-    </nav>
+    <Navigation navigationLinks={defaultNavigationLinks} session={session} />
   );
 };
