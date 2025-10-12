@@ -3,6 +3,7 @@ import {
   MAX_USERNAME,
   MIN_PASSWORD,
   MIN_USERNAME,
+  RESET_PASSWORD_TOKEN_EXPIRES,
   SESSION_EXPIRES,
   SESSION_FRESH_AGE,
   VALID_DOMAINS,
@@ -100,19 +101,23 @@ export const auth = betterAuth({
     minPasswordLength: MIN_PASSWORD,
     autoSignIn: false,
     requireEmailVerification: true,
+    resetPasswordTokenExpiresIn: RESET_PASSWORD_TOKEN_EXPIRES,
+    revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url, token }) => {
+      const actualUser = user as UserSession;
+
       await sendResetPasswordMail({
-        email: user.email,
-        name: user.name,
+        email: actualUser.email,
+        name: actualUser.firstName,
         url,
         token,
       });
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onPasswordReset: async ({ user }) => {
-      // your logic here
-      // console.log(`Password for user ${user.email} has been reset.`);
-    },
+    // // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // onPasswordReset: async ({ user }) => {
+    //   // your logic here
+    //   // console.log(`Password for user ${user.email} has been reset.`);
+    // },
   },
   emailVerification: {
     autoSignInAfterVerification: true,
