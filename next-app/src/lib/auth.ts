@@ -6,7 +6,7 @@ import {
   SESSION_EXPIRES,
   SESSION_FRESH_AGE,
   VALID_DOMAINS,
-  VERFICATION_MAIL_EXPIRES,
+  VERIFICATION_MAIL_EXPIRES,
 } from "@/constants/misc";
 import { sendChangeMail } from "@/core/emails/actions/change-email";
 import { confirmDeleteAccountMail } from "@/core/emails/actions/confirm-delete-account-email";
@@ -15,6 +15,7 @@ import { sendVerificationMail } from "@/core/emails/actions/verification-mail";
 import { UserRole } from "@/generated/prisma";
 import { ac, roles } from "@/lib/permissions";
 import db from "@/lib/prisma";
+import { UserSession } from "@/types/session";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError, createAuthMiddleware } from "better-auth/api";
@@ -115,11 +116,13 @@ export const auth = betterAuth({
   },
   emailVerification: {
     autoSignInAfterVerification: true,
-    expiresIn: VERFICATION_MAIL_EXPIRES,
+    expiresIn: VERIFICATION_MAIL_EXPIRES,
     sendVerificationEmail: async ({ user, url, token }) => {
+      const actualUser = user as UserSession;
+
       await sendVerificationMail({
-        name: user.name,
-        email: user.email,
+        name: actualUser.firstName,
+        email: actualUser.email,
         url,
         token,
       });
