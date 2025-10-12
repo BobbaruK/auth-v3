@@ -8,9 +8,9 @@ interface Props {
 const HeaderEmail = ({ title, description }: Props) => {
   return (
     <Section>
-      {/* TODO: put the path to the svg in the public folder when build on vps */}
+      {/* TODO: put the path to the png in the public folder when build on vps */}
       <Img
-        src="https://auth-v3-logo.tiiny.site/auth-v3-logo.svg"
+        src={"https://moccasin-veradis-69.tiiny.site/auth-v3-logo.png"}
         alt="Logo"
         width="100"
       />
