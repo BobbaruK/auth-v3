@@ -1,61 +1,15 @@
 import { ButtonEffects } from "@/types/button";
 
-/**
- * Minimum characters in a password
- * @type {number}
- */
 export const MIN_PASSWORD = 6;
-
-/**
- * Maximum characters in a password
- * @type {number}
- */
 export const MAX_PASSWORD = 30;
-
-/**
- * Minumum characters in a username
- * @type {number}
- */
 export const MIN_USERNAME = 2;
-
-/**
- * Maximum characters in a username
- * @type {number}
- */
 export const MAX_USERNAME = 50;
-
-/**
- * Minumum characters in a bio
- * @type {number}
- */
 export const MIN_BIO = 2;
-
-/**
- * Maximum characters in a bio
- * @type {number}
- */
 export const MAX_BIO = 260;
+export const VALID_DOMAINS = ["gmail.com", "yahoo.com", "outlook.com"];
+export const BUTTON_EFFECT: ButtonEffects = "gooeyLeft";
 
-/**
- * Session expiration time (seconds)
- * @type {number}
- */
 export const SESSION_EXPIRES = 60 * 60 * 24 * 30; // 30 days
-
-/**
- * Session freshness time (seconds)
- * @type {number}
- */
 export const SESSION_FRESH_AGE = 60 * 60 * 12; // 12 hours
 
-/**
- * Valid email domains
- * @type {array}
- */
-export const VALID_DOMAINS = ["gmail.com", "yahoo.com", "outlook.com"];
-
-/**
- * Default Button Effect
- * @type {string}
- */
-export const BUTTON_EFFECT: ButtonEffects = "gooeyLeft";
+export const VERFICATION_MAIL_EXPIRES = 60 * 60; // 1 hour
