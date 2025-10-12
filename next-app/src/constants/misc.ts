@@ -11,5 +11,5 @@ export const BUTTON_EFFECT: ButtonEffects = "gooeyLeft";
 
 export const SESSION_EXPIRES = 60 * 60 * 24 * 30; // 30 days
 export const SESSION_FRESH_AGE = 60 * 60 * 12; // 12 hours
-
-export const VERFICATION_MAIL_EXPIRES = 60 * 60; // 1 hour
+export const VERIFICATION_MAIL_EXPIRES = 60 * 60; // 1 hour
+export const RESET_PASSWORD_TOKEN_EXPIRES = 60 * 60; // 1 hour
