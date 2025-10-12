@@ -16,6 +16,7 @@ import { HomeIcon } from "@/components/icons/home";
 import { KeyIcon } from "@/components/icons/key";
 import { LoginIcon } from "@/components/icons/login";
 import { LogoutIcon } from "@/components/icons/logout";
+import { MenuIcon } from "@/components/icons/menu";
 import { MobileIcon } from "@/components/icons/mobile";
 import { MonitorIcon } from "@/components/icons/monitor";
 import { MoonIcon } from "@/components/icons/moon";
@@ -161,6 +162,10 @@ const IconsPage = () => {
     {
       name: "AdminIcon",
       icon: AdminIcon,
+    },
+    {
+      name: "MenuIcon",
+      icon: MenuIcon,
     },
   ];
 
