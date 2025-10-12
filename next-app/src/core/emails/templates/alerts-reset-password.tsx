@@ -10,6 +10,7 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
+import ConfirmationLink from "../components/confirmation-link";
 import FooterEmail from "../components/footer";
 import HeaderEmail from "../components/header";
 import SecurityNotice from "../components/security-notice";
@@ -51,8 +52,8 @@ const ResetPasswordTemplate = ({ name, email, url }: Props) => {
 
               <Text className="mb-[24px] text-[16px] leading-[24px] text-gray-700">
                 We received a password reset request for your account associated
-                with . If you made this request, click the button below to reset
-                your password.
+                with <strong>{email}</strong>. If you made this request, click
+                the button below to reset your password.
               </Text>
 
               <Section className="mb-[32px] text-center">
@@ -65,11 +66,7 @@ const ResetPasswordTemplate = ({ name, email, url }: Props) => {
               </Section>
 
               <SecurityNotice>
-                <Text className="m-0 text-[14px] leading-[20px] text-gray-600">
-                  This confirmation link will expire in <strong>1 hour</strong>{" "}
-                  for security reasons. If you didn&apos;t create an account
-                  with us, you can safely ignore this email.
-                </Text>
+                <ConfirmationLink time={"1 hour"} />
               </SecurityNotice>
 
               <Text className="mb-[32px] text-[16px] leading-[24px] text-gray-700">

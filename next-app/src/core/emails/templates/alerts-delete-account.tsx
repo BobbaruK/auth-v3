@@ -13,6 +13,7 @@ import {
 import FooterEmail from "../components/footer";
 import HeaderEmail from "../components/header";
 import SecurityNotice from "../components/security-notice";
+import ConfirmationLink from "../components/confirmation-link";
 
 interface Props {
   name: string;
@@ -51,8 +52,8 @@ const DeleteAccountTemplate = ({ name, email, url }: Props) => {
 
               <Text className="mb-[24px] text-[16px] leading-[24px] text-gray-700">
                 We received a request to permanently delete your account
-                associated with . This action cannot be undone and will remove
-                all your data, settings, and content.
+                associated with <strong>{email}</strong>. This action cannot be
+                undone and will remove all your data, settings, and content.
               </Text>
 
               <Section className="mb-[32px] text-center">
@@ -89,6 +90,8 @@ const DeleteAccountTemplate = ({ name, email, url }: Props) => {
                   contact our support team immediately. Someone may have
                   unauthorized access to your account.
                 </Text>
+
+                <ConfirmationLink time={"1 hour"} />
               </SecurityNotice>
 
               <Text className="m-0 text-[16px] leading-[24px] text-gray-700">
