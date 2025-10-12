@@ -1,7 +1,6 @@
 import { CustomAlert } from "@/components/custom-alert";
 import { EnvelopeIcon } from "@/components/icons/envelope";
 import { PageStructure } from "@/components/page-structure";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { MESSAGES } from "@/constants/messages";
 import { getUser } from "@/core/user/data/get-user";
 import SettingsContent from "@/features/settings/components/settings-content";
@@ -21,7 +20,7 @@ const SettingsPage = async () => {
         <CustomAlert
           title={"Error!"}
           description={MESSAGES.USER_NOT_EXIST}
-          variant="destructive"
+          variant="danger"
         />
       </PageStructure>
     );
@@ -29,13 +28,12 @@ const SettingsPage = async () => {
   return (
     <PageStructure>
       {!user.emailVerified && (
-        <Alert variant="destructive">
-          <EnvelopeIcon />
-          <AlertTitle>Verify your email</AlertTitle>
-          <AlertDescription>
-            <p>Please confirm your new email address.</p>
-          </AlertDescription>
-        </Alert>
+        <CustomAlert
+          title={"Warning!"}
+          icon={<EnvelopeIcon />}
+          description={"Please confirm your new email address."}
+          variant="warning"
+        />
       )}
 
       <SettingsContent user={user} />

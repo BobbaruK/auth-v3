@@ -26,7 +26,7 @@ const ProfilePage = async ({ params }: Props) => {
         <CustomAlert
           title={"Error!"}
           description={MESSAGES.USER_NOT_EXIST}
-          variant="destructive"
+          variant="danger"
         />
       </PageStructure>
     );
