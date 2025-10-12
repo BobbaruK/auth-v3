@@ -17,7 +17,7 @@ export const sendResetPasswordEmail = async ({
   await resend.emails.send({
     from: "Admin <admin@scsseco.eu>",
     to: email,
-    subject: "Reset your password",
+    subject: "Reset your password.",
     react: React.createElement(ResetPasswordEmailTemplate, {
       name,
       email,
