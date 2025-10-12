@@ -40,7 +40,7 @@ const ResetPasswordTemplate = ({ name, email, url }: Props) => {
         <Body className="my-[10px] bg-gray-100 py-[40px] font-sans">
           <Container className="mx-auto max-w-[600px] rounded-[8px] bg-white p-[32px]">
             <HeaderEmail
-              title="Reset Your Password"
+              title="Reset your password"
               description="We received a request to reset your password"
             />
 
