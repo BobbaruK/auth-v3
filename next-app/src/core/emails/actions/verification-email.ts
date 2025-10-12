@@ -4,7 +4,7 @@ import { resend } from "@/lib/resend";
 import React from "react";
 import ConfirmEmailTemplate from "../templates/alerts-confirm-email";
 
-export const sendVerificationMail = async ({
+export const sendVerificationEmail = async ({
   name,
   email,
   url,

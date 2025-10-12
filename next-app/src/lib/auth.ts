@@ -12,7 +12,7 @@ import {
 import { sendChangeMail } from "@/core/emails/actions/change-email";
 import { confirmDeleteAccountMail } from "@/core/emails/actions/confirm-delete-account-email";
 import { sendResetPasswordMail } from "@/core/emails/actions/reset-password-mail";
-import { sendVerificationMail } from "@/core/emails/actions/verification-mail";
+import { sendVerificationEmail } from "@/core/emails/actions/verification-email";
 import { UserRole } from "@/generated/prisma";
 import { ac, roles } from "@/lib/permissions";
 import db from "@/lib/prisma";
@@ -125,7 +125,7 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user, url, token }) => {
       const actualUser = user as UserSession;
 
-      await sendVerificationMail({
+      await sendVerificationEmail({
         name: actualUser.firstName,
         email: actualUser.email,
         url,
