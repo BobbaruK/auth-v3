@@ -20,7 +20,7 @@ interface Props {
   url: string;
 }
 
-const ConfirmEmail = ({ name, email, url }: Props) => {
+const ConfirmEmailTemplate = ({ name, email, url }: Props) => {
   return (
     <Html lang="en" dir="ltr">
       <Tailwind>
@@ -92,10 +92,10 @@ const ConfirmEmail = ({ name, email, url }: Props) => {
   );
 };
 
-ConfirmEmail.PreviewProps = {
+ConfirmEmailTemplate.PreviewProps = {
   name: "John Doe",
   email: "email@example.com",
   url: "http://localhost:3000/api/auth/verify-email?token=eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJvZ2RhbnN0YW5pbGE4OUBnbWFpbC5jb20iLCJ1cGRhdGVUbyI6ImJvYmJhcnUzMTFAZ21haWwuY29tIiwiaWF0IjoxNzU5NjIwOTc4LCJleHAiOjE3NTk2MjQ1Nzh9.aC5eRPhcsdt-XAg1e5VUpiRNVXk51JhbFIldbeART80&callbackURL=/settings",
 };
 
-export default ConfirmEmail;
+export default ConfirmEmailTemplate;
