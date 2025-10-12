@@ -9,7 +9,7 @@ import {
   VALID_DOMAINS,
   VERIFICATION_MAIL_EXPIRES,
 } from "@/constants/misc";
-import { sendChangeMail } from "@/core/emails/actions/change-email";
+import { sendChangeEmail } from "@/core/emails/actions/change-email";
 import { confirmDeleteAccountMail } from "@/core/emails/actions/confirm-delete-account-email";
 import { sendResetPasswordEmail } from "@/core/emails/actions/reset-password-email";
 import { sendVerificationEmail } from "@/core/emails/actions/verification-email";
@@ -64,9 +64,11 @@ export const auth = betterAuth({
     changeEmail: {
       enabled: true,
       sendChangeEmailVerification: async ({ user, newEmail, url, token }) => {
-        await sendChangeMail({
-          name: user.name,
-          oldMail: user.email,
+        const actualUser = user as UserSession;
+
+        await sendChangeEmail({
+          name: actualUser.firstName,
+          oldMail: actualUser.email,
           newMail: newEmail,
           url,
           token,
