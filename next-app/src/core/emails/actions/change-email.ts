@@ -2,9 +2,9 @@
 
 import { resend } from "@/lib/resend";
 import React from "react";
-import ChangeEmailTemplate from "../components/change-email";
+import ChangeEmailTemplate from "../templates/alerts-change-email";
 
-export const sendChangeMail = async ({
+export const sendChangeEmail = async ({
   name,
   newMail,
   oldMail,
@@ -19,7 +19,7 @@ export const sendChangeMail = async ({
   await resend.emails.send({
     from: "Admin <admin@scsseco.eu>",
     to: oldMail,
-    subject: "Confirm your new email address - Action required",
+    subject: "Confirm your new email address.",
     react: React.createElement(ChangeEmailTemplate, {
       name,
       oldMail,
