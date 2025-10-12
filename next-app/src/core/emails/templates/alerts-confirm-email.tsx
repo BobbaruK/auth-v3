@@ -80,9 +80,9 @@ const ConfirmEmail = ({ name, email, url }: Props) => {
                   Security Notice
                 </Text>
                 <Text className="m-0 text-[14px] leading-[20px] text-gray-600">
-                  This confirmation link will expire in <strong>1(one)</strong>{" "}
-                  hour for security reasons. If you didn&apos;t create an
-                  account with us, you can safely ignore this email.
+                  This confirmation link will expire in <strong>1 hour</strong>{" "}
+                  for security reasons. If you didn&apos;t create an account
+                  with us, you can safely ignore this email.
                 </Text>
               </Section>
 
