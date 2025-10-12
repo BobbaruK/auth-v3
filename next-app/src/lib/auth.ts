@@ -1,5 +1,6 @@
 import { ADMIN_EMAILS, OWNER_EMAILS } from "@/constants/admin";
 import {
+  DELETE_ACCOUNT_TOKEN_EXPIRES,
   MAX_USERNAME,
   MIN_PASSWORD,
   MIN_USERNAME,
@@ -10,7 +11,7 @@ import {
   VERIFICATION_MAIL_EXPIRES,
 } from "@/constants/misc";
 import { sendChangeEmail } from "@/core/emails/actions/change-email";
-import { confirmDeleteAccountMail } from "@/core/emails/actions/confirm-delete-account-email";
+import { confirmDeleteAccountEmail } from "@/core/emails/actions/confirm-delete-account-email";
 import { sendResetPasswordEmail } from "@/core/emails/actions/reset-password-email";
 import { sendVerificationEmail } from "@/core/emails/actions/verification-email";
 import { UserRole } from "@/generated/prisma";
@@ -77,11 +78,14 @@ export const auth = betterAuth({
     },
     deleteUser: {
       enabled: true,
+      deleteTokenExpiresIn: DELETE_ACCOUNT_TOKEN_EXPIRES,
       sendDeleteAccountVerification: async ({ user, url, token }) => {
-        await confirmDeleteAccountMail({
-          name: user.name,
+        const actualUser = user as UserSession;
+
+        await confirmDeleteAccountEmail({
+          name: actualUser.firstName,
           url,
-          email: user.email,
+          email: actualUser.email,
           token,
         });
       },
