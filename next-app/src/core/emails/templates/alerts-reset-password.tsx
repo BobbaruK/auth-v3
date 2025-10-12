@@ -64,7 +64,13 @@ const ResetPasswordEmailTemplate = ({ name, email, url }: Props) => {
                 </Button>
               </Section>
 
-              <SecurityNotice time={"1 hour"} />
+              <SecurityNotice>
+                <Text className="m-0 text-[14px] leading-[20px] text-gray-600">
+                  This confirmation link will expire in <strong>1 hour</strong>{" "}
+                  for security reasons. If you didn&apos;t create an account
+                  with us, you can safely ignore this email.
+                </Text>
+              </SecurityNotice>
 
               <Text className="mb-[32px] text-[16px] leading-[24px] text-gray-700">
                 Best regards,
