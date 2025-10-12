@@ -2,9 +2,9 @@
 
 import { resend } from "@/lib/resend";
 import React from "react";
-import ConfirmEmail from "../components/confirm-email";
+import ResetPasswordEmailTemplate from "../components/reset-password-email";
 
-export const sendVerificationMail = async ({
+export const sendResetPasswordMail = async ({
   name,
   email,
   url,
@@ -17,8 +17,8 @@ export const sendVerificationMail = async ({
   await resend.emails.send({
     from: "Admin <admin@scsseco.eu>",
     to: email,
-    subject: "Confirm your email address",
-    react: React.createElement(ConfirmEmail, {
+    subject: "Reset your password",
+    react: React.createElement(ResetPasswordEmailTemplate, {
       name,
       email,
       url,

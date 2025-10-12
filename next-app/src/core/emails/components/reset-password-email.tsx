@@ -19,7 +19,7 @@ interface Props {
   url: string;
 }
 
-const ResetPasswordEmail = ({ email, name, url }: Props) => {
+const ResetPasswordEmailTemplate = ({ email, name, url }: Props) => {
   return (
     <Html lang="en" dir="ltr">
       <Tailwind>
@@ -111,4 +111,4 @@ const ResetPasswordEmail = ({ email, name, url }: Props) => {
   );
 };
 
-export default ResetPasswordEmail;
+export default ResetPasswordEmailTemplate;
