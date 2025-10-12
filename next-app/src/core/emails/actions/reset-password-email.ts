@@ -2,7 +2,7 @@
 
 import { resend } from "@/lib/resend";
 import React from "react";
-import ResetPasswordEmailTemplate from "../templates/alerts-reset-password";
+import ResetPasswordTemplate from "../templates/alerts-reset-password";
 
 export const sendResetPasswordEmail = async ({
   name,
@@ -18,7 +18,7 @@ export const sendResetPasswordEmail = async ({
     from: "Admin <admin@scsseco.eu>",
     to: email,
     subject: "Reset your password.",
-    react: React.createElement(ResetPasswordEmailTemplate, {
+    react: React.createElement(ResetPasswordTemplate, {
       name,
       email,
       url,
