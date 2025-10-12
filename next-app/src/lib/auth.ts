@@ -11,7 +11,7 @@ import {
 } from "@/constants/misc";
 import { sendChangeMail } from "@/core/emails/actions/change-email";
 import { confirmDeleteAccountMail } from "@/core/emails/actions/confirm-delete-account-email";
-import { sendResetPasswordMail } from "@/core/emails/actions/reset-password-mail";
+import { sendResetPasswordEmail } from "@/core/emails/actions/reset-password-email";
 import { sendVerificationEmail } from "@/core/emails/actions/verification-email";
 import { UserRole } from "@/generated/prisma";
 import { ac, roles } from "@/lib/permissions";
@@ -106,7 +106,7 @@ export const auth = betterAuth({
     sendResetPassword: async ({ user, url, token }) => {
       const actualUser = user as UserSession;
 
-      await sendResetPasswordMail({
+      await sendResetPasswordEmail({
         email: actualUser.email,
         name: actualUser.firstName,
         url,
