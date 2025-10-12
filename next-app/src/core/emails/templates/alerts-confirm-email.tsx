@@ -12,6 +12,7 @@ import {
 } from "@react-email/components";
 import FooterEmail from "../components/footer";
 import HeaderEmail from "../components/header";
+import SecurityNotice from "../components/security-notice";
 
 interface Props {
   name: string;
@@ -74,17 +75,7 @@ const ConfirmEmail = ({ name, email, url }: Props) => {
                 content, and receive important updates.
               </Text>
 
-              {/* Security Notice */}
-              <Section className="mb-[24px] rounded-[6px] border-l-[4px] border-red-500 bg-red-50 p-[16px]">
-                <Text className="m-0 mb-[8px] text-[14px] leading-[20px] font-bold text-gray-700">
-                  Security Notice
-                </Text>
-                <Text className="m-0 text-[14px] leading-[20px] text-gray-600">
-                  This confirmation link will expire in <strong>1 hour</strong>{" "}
-                  for security reasons. If you didn&apos;t create an account
-                  with us, you can safely ignore this email.
-                </Text>
-              </Section>
+              <SecurityNotice time={"1 hour"} />
 
               <Text className="mb-[32px] text-[16px] leading-[24px] text-gray-700">
                 Best regards,
