@@ -2,9 +2,9 @@
 
 import { resend } from "@/lib/resend";
 import React from "react";
-import DeleteAccountConfirmationEmail from "../components/confirm-delete-account-email";
+import DeleteAccountTemplate from "../templates/alerts-delete-account";
 
-export const confirmDeleteAccountMail = async ({
+export const confirmDeleteAccountEmail = async ({
   name,
   email,
   url,
@@ -17,8 +17,8 @@ export const confirmDeleteAccountMail = async ({
   await resend.emails.send({
     from: "Admin <admin@scsseco.eu>",
     to: email,
-    subject: "Confirm account deletion - Action required",
-    react: React.createElement(DeleteAccountConfirmationEmail, {
+    subject: "Confirm account deletion.",
+    react: React.createElement(DeleteAccountTemplate, {
       name,
       email,
       url,
