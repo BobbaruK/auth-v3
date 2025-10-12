@@ -13,7 +13,7 @@ const FooterEmail = ({ email }: { email: string }) => {
           This email was sent to <strong>{email}</strong>.
         </Text>
         <Text className="m-0 text-center text-[12px] text-gray-500">
-          © {new Date().getFullYear()} Auth v3. All rights reserved. asd
+          © {new Date().getFullYear()} Auth v3. All rights reserved.
         </Text>
       </Section>
     </>
