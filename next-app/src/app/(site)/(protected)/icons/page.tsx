@@ -14,6 +14,7 @@ import { GogglesIcon } from "@/components/icons/goggles";
 import { GoogleIcon } from "@/components/icons/google";
 import { HomeIcon } from "@/components/icons/home";
 import { KeyIcon } from "@/components/icons/key";
+import { LinkIcon } from "@/components/icons/link";
 import { LoginIcon } from "@/components/icons/login";
 import { LogoutIcon } from "@/components/icons/logout";
 import { MenuIcon } from "@/components/icons/menu";
@@ -27,6 +28,7 @@ import { TabletIcon } from "@/components/icons/tablet";
 import { TerminalIcon } from "@/components/icons/terminal";
 import { TrashIcon } from "@/components/icons/trash";
 import { TVIcon } from "@/components/icons/tv";
+import { UnlinkIcon } from "@/components/icons/unlink";
 import { UserIcon } from "@/components/icons/user";
 import { UsersIcon } from "@/components/icons/users";
 import { WatchIcon } from "@/components/icons/watch";
@@ -104,7 +106,7 @@ const IconsPage = () => {
       icon: CopyIcon,
     },
     {
-      name: "ConsoleControllerIcon",
+      name: "GamepadIcon",
       icon: GamepadIcon,
     },
     {
@@ -166,6 +168,14 @@ const IconsPage = () => {
     {
       name: "MenuIcon",
       icon: MenuIcon,
+    },
+    {
+      name: "LinkIcon",
+      icon: LinkIcon,
+    },
+    {
+      name: "UnlinkIcon",
+      icon: UnlinkIcon,
     },
   ];
 
