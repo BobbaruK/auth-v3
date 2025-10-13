@@ -6,6 +6,7 @@ import { CalendarIcon } from "@/components/icons/calendar";
 import { CameraIcon } from "@/components/icons/camera";
 import { CogIcon } from "@/components/icons/cog";
 import { CopyIcon } from "@/components/icons/copy";
+import { DiscordIcon } from "@/components/icons/discord";
 import { EnvelopeIcon } from "@/components/icons/envelope";
 import { ErrorIcon } from "@/components/icons/error";
 import { GamepadIcon } from "@/components/icons/gamepad";
@@ -36,149 +37,153 @@ import { PageStructure } from "@/components/page-structure";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 
-const IconsPage = () => {
-  const icons: {
-    name: string;
-    icon: React.ElementType;
-  }[] = [
-    {
-      name: "MoonIcon",
-      icon: MoonIcon,
-    },
-    {
-      name: "KeyIcon",
-      icon: KeyIcon,
-    },
-    {
-      name: "ShieldIcon",
-      icon: ShieldIcon,
-    },
-    {
-      name: "ErrorIcon",
-      icon: ErrorIcon,
-    },
-    {
-      name: "AccountIcon",
-      icon: AccountIcon,
-    },
-    {
-      name: "EnvelopeIcon",
-      icon: EnvelopeIcon,
-    },
-    {
-      name: "TerminalIcon",
-      icon: TerminalIcon,
-    },
-    {
-      name: "UserIcon",
-      icon: UserIcon,
-    },
-    {
-      name: "LoginIcon",
-      icon: LoginIcon,
-    },
-    {
-      name: "LogoutIcon",
-      icon: LogoutIcon,
-    },
-    {
-      name: "CogIcon",
-      icon: CogIcon,
-    },
-    {
-      name: "GithubIcon",
-      icon: GithubIcon,
-    },
-    {
-      name: "GoogleIcon",
-      icon: GoogleIcon,
-    },
-    {
-      name: "CalendarIcon",
-      icon: CalendarIcon,
-    },
-    {
-      name: "TrashIcon",
-      icon: TrashIcon,
-    },
-    {
-      name: "CopyIcon",
-      icon: CopyIcon,
-    },
-    {
-      name: "GamepadIcon",
-      icon: GamepadIcon,
-    },
-    {
-      name: "MobileIcon",
-      icon: MobileIcon,
-    },
-    {
-      name: "TVIcon",
-      icon: TVIcon,
-    },
-    {
-      name: "TabletIcon",
-      icon: TabletIcon,
-    },
-    {
-      name: "WatchIcon",
-      icon: WatchIcon,
-    },
-    {
-      name: "AirplayIcon",
-      icon: AirplayIcon,
-    },
-    {
-      name: "GogglesIcon",
-      icon: GogglesIcon,
-    },
-    {
-      name: "MonitorIcon",
-      icon: MonitorIcon,
-    },
-    {
-      name: "BanIcon",
-      icon: BanIcon,
-    },
-    {
-      name: "MoreIcon",
-      icon: MoreIcon,
-    },
-    {
-      name: "UsersIcon",
-      icon: UsersIcon,
-    },
-    {
-      name: "HomeIcon",
-      icon: HomeIcon,
-    },
-    {
-      name: "CameraIcon",
-      icon: CameraIcon,
-    },
-    {
-      name: "OwnerIcon",
-      icon: OwnerIcon,
-    },
-    {
-      name: "AdminIcon",
-      icon: AdminIcon,
-    },
-    {
-      name: "MenuIcon",
-      icon: MenuIcon,
-    },
-    {
-      name: "LinkIcon",
-      icon: LinkIcon,
-    },
-    {
-      name: "UnlinkIcon",
-      icon: UnlinkIcon,
-    },
-  ];
+const icons: {
+  name: string;
+  icon: React.ElementType;
+}[] = [
+  {
+    name: "MoonIcon",
+    icon: MoonIcon,
+  },
+  {
+    name: "KeyIcon",
+    icon: KeyIcon,
+  },
+  {
+    name: "ShieldIcon",
+    icon: ShieldIcon,
+  },
+  {
+    name: "ErrorIcon",
+    icon: ErrorIcon,
+  },
+  {
+    name: "AccountIcon",
+    icon: AccountIcon,
+  },
+  {
+    name: "EnvelopeIcon",
+    icon: EnvelopeIcon,
+  },
+  {
+    name: "TerminalIcon",
+    icon: TerminalIcon,
+  },
+  {
+    name: "UserIcon",
+    icon: UserIcon,
+  },
+  {
+    name: "LoginIcon",
+    icon: LoginIcon,
+  },
+  {
+    name: "LogoutIcon",
+    icon: LogoutIcon,
+  },
+  {
+    name: "CogIcon",
+    icon: CogIcon,
+  },
+  {
+    name: "GithubIcon",
+    icon: GithubIcon,
+  },
+  {
+    name: "GoogleIcon",
+    icon: GoogleIcon,
+  },
+  {
+    name: "CalendarIcon",
+    icon: CalendarIcon,
+  },
+  {
+    name: "TrashIcon",
+    icon: TrashIcon,
+  },
+  {
+    name: "CopyIcon",
+    icon: CopyIcon,
+  },
+  {
+    name: "GamepadIcon",
+    icon: GamepadIcon,
+  },
+  {
+    name: "MobileIcon",
+    icon: MobileIcon,
+  },
+  {
+    name: "TVIcon",
+    icon: TVIcon,
+  },
+  {
+    name: "TabletIcon",
+    icon: TabletIcon,
+  },
+  {
+    name: "WatchIcon",
+    icon: WatchIcon,
+  },
+  {
+    name: "AirplayIcon",
+    icon: AirplayIcon,
+  },
+  {
+    name: "GogglesIcon",
+    icon: GogglesIcon,
+  },
+  {
+    name: "MonitorIcon",
+    icon: MonitorIcon,
+  },
+  {
+    name: "BanIcon",
+    icon: BanIcon,
+  },
+  {
+    name: "MoreIcon",
+    icon: MoreIcon,
+  },
+  {
+    name: "UsersIcon",
+    icon: UsersIcon,
+  },
+  {
+    name: "HomeIcon",
+    icon: HomeIcon,
+  },
+  {
+    name: "CameraIcon",
+    icon: CameraIcon,
+  },
+  {
+    name: "OwnerIcon",
+    icon: OwnerIcon,
+  },
+  {
+    name: "AdminIcon",
+    icon: AdminIcon,
+  },
+  {
+    name: "MenuIcon",
+    icon: MenuIcon,
+  },
+  {
+    name: "LinkIcon",
+    icon: LinkIcon,
+  },
+  {
+    name: "UnlinkIcon",
+    icon: UnlinkIcon,
+  },
+  {
+    name: "DiscordIcon",
+    icon: DiscordIcon,
+  },
+];
 
+const IconsPage = () => {
   return (
     <PageStructure>
       <h1 className="text-3xl font-bold">Icons ({icons.length})</h1>
