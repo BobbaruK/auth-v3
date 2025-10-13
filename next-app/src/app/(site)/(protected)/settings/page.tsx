@@ -12,7 +12,22 @@ const SettingsPage = async () => {
     headers: await headers(),
   });
 
-  const user = await getUser(session?.user.id || "");
+  if (!session)
+    return (
+      /**
+       * It'll never hit this.
+       * Is good for ts
+       */
+      <PageStructure>
+        <CustomAlert
+          title={"Error!"}
+          description={MESSAGES.SESSION_EXPIRED}
+          variant="danger"
+        />
+      </PageStructure>
+    );
+
+  const user = await getUser(session.user.id);
 
   if (!user)
     return (
@@ -25,6 +40,10 @@ const SettingsPage = async () => {
       </PageStructure>
     );
 
+  const accounts = await auth.api.listUserAccounts({
+    headers: await headers(),
+  });
+
   return (
     <PageStructure>
       {!user.emailVerified && (
@@ -36,7 +55,7 @@ const SettingsPage = async () => {
         />
       )}
 
-      <SettingsContent user={user} />
+      <SettingsContent user={user} accounts={accounts} />
     </PageStructure>
   );
 };
