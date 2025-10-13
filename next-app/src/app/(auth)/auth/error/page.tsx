@@ -27,6 +27,9 @@ const AuthErrorPage = async ({ searchParams }: Props) => {
       message =
         "You have been banned from this application. Please contact support if you believe this is an error.";
       break;
+    case "email_doesn't_match":
+      message = "You cannot link accounts with different emails.";
+      break;
     default:
       message = "An authentication error occurred.";
   }
