@@ -123,8 +123,6 @@ const AdminActions = ({ session, user }: Props) => {
   };
 
   const handleCopy = (text: string) => () => {
-    console.log({ user: text });
-
     if (!text) {
       toast.error("Nothing to copy");
       return;

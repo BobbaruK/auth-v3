@@ -46,14 +46,14 @@ export const SettingsHeader = () => {
           <div className="text-muted-foreground flex flex-wrap gap-4 text-sm">
             {meta.email && (
               <div className="flex items-center gap-1">
-                <EnvelopeIcon />
+                <EnvelopeIcon size={16} />
                 <Link href={`mailto:${meta.email}`}>{meta.email}</Link>
               </div>
             )}
 
             {meta.joined && (
               <div className="flex items-center gap-1">
-                <CalendarIcon />
+                <CalendarIcon size={16} />
                 Joined{" "}
                 {dateFormatter({
                   date: meta.joined,
@@ -66,7 +66,7 @@ export const SettingsHeader = () => {
               </div>
             )}
             <div className="flex items-center gap-1">
-              <LoginIcon />
+              <LoginIcon size={16} />
               Last login{" "}
               {dateFormatter({
                 date: meta.lastLoginAt,
