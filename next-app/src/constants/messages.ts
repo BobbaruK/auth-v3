@@ -1,5 +1,7 @@
 const MESSAGES_FN = () => {
   return {
+    ACCOUNT_LINK_SUCCESSFUL: "Account link successful.",
+    ACCOUNT_UNLINK_SUCCESSFUL: "Account unlink successful.",
     BACKUPCODE_SUCCESS: "Your backup code has been successfully verified.",
     EMAIL_CHANGED: "Your email address has been updated. Please verify it.",
     EMAIL_OLD_NOT_MATCH:
@@ -37,8 +39,8 @@ const MESSAGES_FN = () => {
     USER_ADMIN_REMOVE: "You have successfully removed this user:",
     USER_ADMIN_STOP_IMPERSONATE: "You now no longer impersonate any user.",
     USER_ADMIN_UNBAN: "You have successfully unbanned this user:",
-    USER_AVATAR_UPDATE: "You have successfully updated your avatar.",
     USER_AVATAR_REMOVE: "You have successfully remove your avatar.",
+    USER_AVATAR_UPDATE: "You have successfully updated your avatar.",
     USER_NOT_EXIST: "This user does not exist.",
     USERNAME_NOT_AVAILABLE: "This username is not available.",
   };
