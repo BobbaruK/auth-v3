@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Account } from "@/types/account";
 import { UserProfile } from "@/types/user-profile";
 import {
   ActionDispatch,
@@ -15,6 +16,7 @@ import {
 
 type SettingsContextType = {
   user: UserProfile;
+  accounts: Account[];
 
   totpURI: string;
   setTotpURI: (uri: string) => void;
@@ -43,6 +45,7 @@ type SettingsContextType = {
 
 const SettingsContext = createContext<SettingsContextType>({
   user: {} as UserProfile,
+  accounts: [],
 
   totpURI: "",
   setTotpURI: () => {},
@@ -76,6 +79,7 @@ export const useSettingsContext = () => {
 interface Props {
   children: React.ReactNode;
   user: UserProfile;
+  accounts: Account[];
   state: SettingsReducerState;
   dispatch: ActionDispatch<[action: SettingsReducerAction]>;
   isLoading: boolean;
@@ -85,6 +89,7 @@ interface Props {
 export default function SettingsProvider({
   children,
   user,
+  accounts,
   state,
   dispatch,
   isLoading,
@@ -96,6 +101,8 @@ export default function SettingsProvider({
     <SettingsContext.Provider
       value={{
         user,
+        accounts,
+
         isLoading,
         startTransition,
 
