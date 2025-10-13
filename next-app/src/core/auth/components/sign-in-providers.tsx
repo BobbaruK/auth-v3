@@ -3,14 +3,17 @@
 import { CustomButton } from "@/components/custom-button";
 import { GithubIcon } from "@/components/icons/github";
 import { GoogleIcon } from "@/components/icons/google";
-import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
+import {
+  DEFAULT_API_ERROR_REDIRECT,
+  DEFAULT_LOGIN_REDIRECT,
+} from "@/constants/routes";
 import { signIn } from "@/lib/auth-client";
 
 const SignInProviders = () => {
   const handleGithubClick = async () => {
     await signIn.social({
       provider: "github",
-      errorCallbackURL: "/auth/error",
+      errorCallbackURL: DEFAULT_API_ERROR_REDIRECT,
       callbackURL: DEFAULT_LOGIN_REDIRECT,
     });
   };
@@ -18,7 +21,7 @@ const SignInProviders = () => {
   const handleGoogleClick = async () => {
     await signIn.social({
       provider: "google",
-      errorCallbackURL: "/auth/error",
+      errorCallbackURL: DEFAULT_API_ERROR_REDIRECT,
       callbackURL: DEFAULT_LOGIN_REDIRECT,
     });
   };

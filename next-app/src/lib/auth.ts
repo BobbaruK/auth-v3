@@ -10,6 +10,7 @@ import {
   VALID_DOMAINS,
   VERIFICATION_MAIL_EXPIRES,
 } from "@/constants/misc";
+import { DEFAULT_API_ERROR_REDIRECT } from "@/constants/routes";
 import { sendChangeEmail } from "@/core/emails/actions/change-email";
 import { confirmDeleteAccountEmail } from "@/core/emails/actions/confirm-delete-account-email";
 import { sendResetPasswordEmail } from "@/core/emails/actions/reset-password-email";
@@ -93,6 +94,9 @@ export const auth = betterAuth({
   },
   account: {
     modelName: "auth_account",
+    accountLinking: {
+      enabled: true,
+    },
   },
   session: {
     modelName: "auth_session",
@@ -225,13 +229,7 @@ export const auth = betterAuth({
     },
   },
   onAPIError: {
-    // throw: true,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onError: (error, ctx) => {
-      // Custom error handling
-      console.error("Auth error:", error);
-    },
-    errorURL: "/auth/error",
+    errorURL: DEFAULT_API_ERROR_REDIRECT,
   },
   advanced: {
     database: {
