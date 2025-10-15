@@ -23,7 +23,7 @@ import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
 const OTPVerificationForm = lazy(
-  () => import("@/core/auth/components/otp-verification-form"),
+  () => import("@/core/auth/components/forms/otp-verification"),
 );
 
 const TwoFactorScanQR = () => {

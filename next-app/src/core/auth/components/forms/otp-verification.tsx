@@ -20,7 +20,8 @@ import {
 } from "@/components/ui/input-otp";
 import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
-import { twoFactor } from "@/lib/auth-client";
+import { verifyTotp } from "@/core/auth/actions/verify-totp";
+import { OTP } from "@/core/auth/schemas/otp";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -30,7 +31,6 @@ import QRCode from "react-qr-code";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 import z from "zod";
-import { OTP } from "../schemas/otp";
 
 interface Props {
   otpLink: string;
@@ -41,7 +41,7 @@ interface Props {
 
 const OTPVerificationForm = ({
   otpLink,
-  isFirstTime,
+  isFirstTime = false,
   setOpenBackupCodesDialog,
   setOpenScanQRCodeDialog,
 }: Props) => {
@@ -63,39 +63,27 @@ const OTPVerificationForm = ({
 
   const onSubmit = (values: z.infer<typeof OTP>) => {
     startTransition(async () => {
-      // TODO: maybe do this via server actions
-      try {
-        const { error } = await twoFactor.verifyTotp({
-          code: values.code,
-          trustDevice: values.remember,
+      verifyTotp(values, isFirstTime)
+        .then((data) => {
+          if (data.error) {
+            toast.error(data.error);
+            return;
+          }
+
+          if (data.success) toast.success(data.success);
+
+          if (!isFirstTime) {
+            router.push(DEFAULT_LOGIN_REDIRECT);
+          } else {
+            setOpenScanQRCodeDialog?.(false);
+            setOpenBackupCodesDialog?.(true);
+          }
+
+          router.refresh();
+        })
+        .catch(() => {
+          toast.error(MESSAGES.SOMETHING_WRONG);
         });
-
-        // if (data) {
-        //   await clearCookie("better-auth.two_factor");
-        // }
-
-        if (error) {
-          toast.error(error.message);
-          return;
-        }
-
-        toast.success(
-          isFirstTime ? MESSAGES.QR_VALIDATED : MESSAGES.LOGIN_SUCCESS,
-        );
-
-        if (!isFirstTime) {
-          router.push(DEFAULT_LOGIN_REDIRECT);
-        } else {
-          setOpenScanQRCodeDialog?.(false);
-          setOpenBackupCodesDialog?.(true);
-        }
-
-        router.refresh();
-      } catch (error) {
-        if (error instanceof Error) console.error(error.message);
-
-        toast.error(MESSAGES.SOMETHING_WRONG);
-      }
     });
   };
 

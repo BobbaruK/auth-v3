@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { AuthCard } from "@/core/auth/components/auth-card";
-import OTPVerificationForm from "@/core/auth/components/otp-verification-form";
+import OTPVerificationForm from "@/core/auth/components/forms/otp-verification";
 import { auth } from "@/lib/auth";
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
