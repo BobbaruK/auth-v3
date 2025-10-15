@@ -16,6 +16,7 @@ const MESSAGES_FN = () => {
     PASSWORD_SET: "Password set successfully. You can now log in.",
     PASSWORDS_NOT_MATCH: "Passwords do not match.",
     PROFILE_UPDATED: "Profile updated successfully.",
+    QR_GENERATED: "QR code generated. Scan with your phone.",
     QR_SCAN: "Scan the QR code and enter the OTP to continue.",
     QR_VALIDATED: "QR code verified successfully.",
     REGISTRATION_SUCCESS: "Registration complete. Verify your email.",
