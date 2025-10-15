@@ -10,6 +10,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
+import { MESSAGES } from "@/constants/messages";
+import { newPassword } from "@/core/auth/actions/new-password";
+import { NewPasswordSchema } from "@/core/auth/schemas/new-password";
 import { ErrorCode } from "@/types/errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -17,9 +20,6 @@ import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { newPassword } from "../actions/new-password";
-import { NewPasswordSchema } from "../schemas/new-password";
-import { MESSAGES } from "@/constants/messages";
 
 interface Props {
   token: string;
