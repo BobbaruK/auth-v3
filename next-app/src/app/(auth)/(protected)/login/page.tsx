@@ -3,6 +3,7 @@ import TextSeparator from "@/components/text-separator";
 import { Button } from "@/components/ui/button";
 import { AuthCard } from "@/core/auth/components/auth-card";
 import { SignInForm } from "@/core/auth/components/sign-in-form";
+import SignInMagicLink from "@/core/auth/components/sign-in-magic-link";
 import SignInProviders from "@/core/auth/components/sign-in-providers";
 import Link from "next/link";
 
@@ -14,10 +15,6 @@ const LoginPage = async () => {
         description={"Login with your credentials"}
       >
         <SignInForm />
-
-        <TextSeparator label="Or continue with" />
-
-        <SignInProviders />
 
         <div className="flex flex-wrap items-center gap-1">
           <p className="text-muted-foreground text-sm">
@@ -32,6 +29,14 @@ const LoginPage = async () => {
             <Link href={"/register"}>Register</Link>
           </Button>
         </div>
+
+        <TextSeparator label="Or continue with" />
+
+        <SignInProviders />
+
+        <TextSeparator label="OR" />
+
+        <SignInMagicLink />
       </AuthCard>
     </PageStructure>
   );
