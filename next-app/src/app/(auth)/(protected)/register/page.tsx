@@ -1,7 +1,7 @@
 import { PageStructure } from "@/components/page-structure";
 import { Button } from "@/components/ui/button";
 import { AuthCard } from "@/core/auth/components/auth-card";
-import { SignUpForm } from "@/core/auth/components/sign-up-form";
+import { SignUpForm } from "@/core/auth/components/forms/sign-up";
 import Link from "next/link";
 
 const RegisterPage = () => {
@@ -9,10 +9,11 @@ const RegisterPage = () => {
     <PageStructure>
       <AuthCard
         title={"Create an account"}
-        description={"Create a new account by filling out the form below."}>
+        description={"Create a new account by filling out the form below."}
+      >
         <SignUpForm />
 
-        <div className="flex gap-1 items-center flex-wrap">
+        <div className="flex flex-wrap items-center gap-1">
           <p className="text-muted-foreground text-sm">
             Already have an account.
           </p>
@@ -20,7 +21,8 @@ const RegisterPage = () => {
             size={"sm"}
             variant={"link"}
             asChild
-            className="px-0 font-normal text-foreground">
+            className="text-foreground px-0 font-normal"
+          >
             <Link href={"/login"}>Login</Link>
           </Button>
         </div>

@@ -13,14 +13,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
+import { signUpEmail } from "@/core/auth/actions/sign-up-email";
+import { RegisterSchema } from "@/core/auth/schemas/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { signUpEmail } from "../actions/sign-up-email";
-import { RegisterSchema } from "../schemas/register";
 
 export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
