@@ -2,6 +2,7 @@ import { ADMIN_EMAILS, OWNER_EMAILS } from "@/constants/admin";
 import { MESSAGES } from "@/constants/messages";
 import {
   DELETE_ACCOUNT_TOKEN_EXPIRES,
+  MAGIC_LINK_TOKEN_EXPIRES,
   MAX_USERNAME,
   MIN_PASSWORD,
   MIN_USERNAME,
@@ -14,6 +15,7 @@ import {
 import { DEFAULT_API_ERROR_REDIRECT } from "@/constants/routes";
 import { sendChangeEmail } from "@/core/emails/actions/change-email";
 import { confirmDeleteAccountEmail } from "@/core/emails/actions/confirm-delete-account-email";
+import { sendMagicLinkEmail } from "@/core/emails/actions/magic-link";
 import { sendResetPasswordEmail } from "@/core/emails/actions/reset-password-email";
 import { sendVerificationEmail } from "@/core/emails/actions/verification-email";
 import { UserRole } from "@/generated/prisma";
@@ -290,9 +292,9 @@ export const auth = betterAuth({
       storeInDatabase: true,
     }),
     magicLink({
+      expiresIn: MAGIC_LINK_TOKEN_EXPIRES,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       sendMagicLink: async ({ email, token, url }, request) => {
-        console.log({ email, token, url, request });
-
         const domain = email.split("@")[1];
 
         if (!VALID_DOMAINS.includes(domain))
@@ -301,6 +303,11 @@ export const auth = betterAuth({
           });
 
         // send email to user
+        await sendMagicLinkEmail({
+          email,
+          url,
+          token,
+        });
       },
     }),
     nextCookies(),

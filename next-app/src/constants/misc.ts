@@ -14,3 +14,4 @@ export const SESSION_FRESH_AGE = 60 * 60 * 12; // 12 hours
 export const VERIFICATION_MAIL_EXPIRES = 60 * 60; // 1 hour
 export const RESET_PASSWORD_TOKEN_EXPIRES = 60 * 60; // 1 hour
 export const DELETE_ACCOUNT_TOKEN_EXPIRES = 60 * 60; // 1 hour
+export const MAGIC_LINK_TOKEN_EXPIRES = 60 * 5; // 5 minutes
