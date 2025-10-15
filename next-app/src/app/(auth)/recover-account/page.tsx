@@ -1,7 +1,7 @@
 import { PageStructure } from "@/components/page-structure";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { AuthCard } from "@/core/auth/components/auth-card";
-import { RecoverAccountForm } from "@/core/auth/components/recover-account-form";
+import { RecoverAccountForm } from "@/core/auth/components/forms/recover-account";
 import { auth } from "@/lib/auth";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";

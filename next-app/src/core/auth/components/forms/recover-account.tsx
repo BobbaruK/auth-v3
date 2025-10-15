@@ -13,14 +13,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
+import { verifyBackupCodes } from "@/core/auth/actions/verify-backup-codes";
+import { RecoverAccountSchema } from "@/core/auth/schemas/recover-account";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { verifyBackupCodes } from "../actions/verify-backup-codes";
-import { RecoverAccountSchema } from "../schemas/recover-account";
 
 export const RecoverAccountForm = () => {
   const router = useRouter();
