@@ -47,6 +47,7 @@ model auth_user {
   accounts   auth_account[]
   twofactors auth_two_factor[]
 
+  @@index([email])
   @@map("user")
 }
 
@@ -64,6 +65,7 @@ model auth_session {
   userId String
   user   auth_user @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId, token])
   @@map("session")
 }
 
@@ -85,6 +87,7 @@ model auth_account {
   userId String
   user   auth_user @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@map("account")
 }
 
@@ -97,6 +100,7 @@ model auth_verification {
   value      String
   expiresAt  DateTime
 
+  @@index([identifier])
   @@map("verification")
 }
 
@@ -109,5 +113,6 @@ model auth_two_factor {
 
   auth_user auth_user @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([secret])
   @@map("two_factor")
 }
