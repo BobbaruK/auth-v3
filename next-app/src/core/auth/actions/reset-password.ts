@@ -1,13 +1,15 @@
 "use server";
 
 import { MESSAGES } from "@/constants/messages";
+import { ResetPasswordSchema } from "@/core/auth/schemas/reset-password";
 import { auth } from "@/lib/auth";
-import { APIError } from "better-auth/api";
+import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";
 import z from "zod";
-import { ResetPasswordSchema } from "../schemas/reset-password";
 
-type ResetPasswordResponse =
+export const resetPassword = async (
+  values: z.infer<typeof ResetPasswordSchema>,
+): Promise<
   | {
       success: string;
       error?: null;
@@ -15,11 +17,8 @@ type ResetPasswordResponse =
   | {
       success?: null;
       error: string;
-    };
-
-export const resetPassword = async (
-  values: z.infer<typeof ResetPasswordSchema>,
-): Promise<ResetPasswordResponse> => {
+    }
+> => {
   const validatedFields = ResetPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -40,13 +39,6 @@ export const resetPassword = async (
       success: MESSAGES.PASSWORD_RESET,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };
