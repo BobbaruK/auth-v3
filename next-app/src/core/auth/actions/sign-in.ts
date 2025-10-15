@@ -10,7 +10,6 @@ import { MagicLinkSchema } from "@/core/auth/schemas/magic-link";
 import { auth } from "@/lib/auth";
 import { catchError } from "@/lib/utils/catch-error-action";
 import { EMAIL } from "@/schemas/form";
-import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
@@ -23,7 +22,23 @@ const emailSchema = EMAIL;
 const handleSignIn = async (
   type: SignInType,
   values: z.infer<typeof LoginSchema>,
-) => {
+): Promise<
+  | {
+      error: string;
+      success?: undefined;
+      redirectOTP?: undefined;
+    }
+  | {
+      success: string;
+      redirectOTP: boolean;
+      error?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+      redirectOTP?: undefined;
+    }
+> => {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -88,18 +103,29 @@ const handleSignIn = async (
       success: MESSAGES.LOGIN_SUCCESS,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };
 
-export const signIn = async (values: z.infer<typeof LoginSchema>) => {
+export const signIn = async (
+  values: z.infer<typeof LoginSchema>,
+): Promise<
+  | {
+      error: string;
+      success?: undefined;
+      redirectOTP?: undefined;
+    }
+  | {
+      success: string;
+      redirectOTP: boolean;
+      error?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+      redirectOTP?: undefined;
+    }
+> => {
   const type: SignInType = emailSchema.safeParse(values.email).success
     ? "email"
     : "username";

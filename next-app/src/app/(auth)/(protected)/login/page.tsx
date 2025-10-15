@@ -2,7 +2,7 @@ import { PageStructure } from "@/components/page-structure";
 import TextSeparator from "@/components/text-separator";
 import { Button } from "@/components/ui/button";
 import { AuthCard } from "@/core/auth/components/auth-card";
-import { SignInForm } from "@/core/auth/components/sign-in-form";
+import { SignInForm } from "@/core/auth/components/forms/sign-in";
 import SignInMagicLink from "@/core/auth/components/sign-in-magic-link";
 import SignInProviders from "@/core/auth/components/sign-in-providers";
 import Link from "next/link";

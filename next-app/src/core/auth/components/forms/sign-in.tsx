@@ -14,6 +14,9 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
+import { signIn } from "@/core/auth/actions/sign-in";
+import { LoginSchema } from "@/core/auth/schemas/login";
+import { useSession } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -21,9 +24,6 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { signIn } from "../actions/sign-in";
-import { LoginSchema } from "../schemas/login";
-import { useSession } from "@/lib/auth-client";
 
 export const SignInForm = () => {
   const router = useRouter();
