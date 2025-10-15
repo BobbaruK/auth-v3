@@ -1,4 +1,5 @@
 import { ADMIN_EMAILS, OWNER_EMAILS } from "@/constants/admin";
+import { MESSAGES } from "@/constants/messages";
 import {
   DELETE_ACCOUNT_TOKEN_EXPIRES,
   MAX_USERNAME,
@@ -26,6 +27,7 @@ import { nextCookies } from "better-auth/next-js";
 import {
   admin,
   lastLoginMethod,
+  magicLink,
   twoFactor,
   username,
 } from "better-auth/plugins";
@@ -173,7 +175,7 @@ export const auth = betterAuth({
 
         if (!VALID_DOMAINS.includes(domain))
           throw new APIError("BAD_REQUEST", {
-            message: "Invalid domain. Please use a valid email.",
+            message: MESSAGES.INVALID_FIELDS,
           });
       }
     }),
@@ -181,13 +183,31 @@ export const auth = betterAuth({
   databaseHooks: {
     user: {
       create: {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         before: async (user, context) => {
+          const timestamp = new Date().getTime();
+          const firstName = `Jon_${timestamp}`;
+          const lastName = `Doe_${timestamp}`;
+          const username = `doughnut_${timestamp}`;
+          const displayUsername = `Doughnut_${timestamp}`;
+          const name = `${firstName} ${lastName}`;
+
+          const magicLinkData =
+            context?.path === "/magic-link/verify"
+              ? {
+                  firstName,
+                  lastName,
+                  username,
+                  name,
+                  displayUsername,
+                }
+              : {};
+
           // Emails
           if (OWNER_EMAILS.includes(user.email))
             return {
               data: {
                 ...user,
+                ...magicLinkData,
                 role: UserRole.OWNER,
               },
             };
@@ -196,6 +216,7 @@ export const auth = betterAuth({
             return {
               data: {
                 ...user,
+                ...magicLinkData,
                 role: UserRole.ADMIN,
               },
             };
@@ -203,6 +224,7 @@ export const auth = betterAuth({
           return {
             data: {
               ...user,
+              ...magicLinkData,
             },
           };
         },
@@ -266,6 +288,20 @@ export const auth = betterAuth({
     }),
     lastLoginMethod({
       storeInDatabase: true,
+    }),
+    magicLink({
+      sendMagicLink: async ({ email, token, url }, request) => {
+        console.log({ email, token, url, request });
+
+        const domain = email.split("@")[1];
+
+        if (!VALID_DOMAINS.includes(domain))
+          throw new APIError("BAD_REQUEST", {
+            message: MESSAGES.INVALID_FIELDS,
+          });
+
+        // send email to user
+      },
     }),
     nextCookies(),
   ],

@@ -2,10 +2,11 @@ import { ac, roles } from "@/lib/permissions";
 import {
   adminClient,
   inferAdditionalFields,
+  lastLoginMethodClient,
+  magicLinkClient,
   twoFactorClient,
   usernameClient,
 } from "better-auth/client/plugins";
-import { lastLoginMethodClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 import { auth } from "./auth";
 
@@ -20,6 +21,7 @@ const authClient = createAuthClient({
     twoFactorClient(),
     usernameClient(),
     lastLoginMethodClient(),
+    magicLinkClient(),
     inferAdditionalFields<typeof auth>(),
   ],
 });
