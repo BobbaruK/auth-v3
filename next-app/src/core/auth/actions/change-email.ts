@@ -2,17 +2,26 @@
 
 import { MESSAGES } from "@/constants/messages";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
+import { ChangeEmailSchema } from "@/core/auth/schemas/change-email";
 import { auth } from "@/lib/auth";
-import { APIError } from "better-auth/api";
+import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
-import { ChangeEmailSchema } from "../schemas/change-email";
 
 export const changeEmail = async (
   values: z.infer<typeof ChangeEmailSchema>,
   userEmail: string,
-) => {
+): Promise<
+  | {
+      error: string;
+      success?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+    }
+> => {
   const validatedFields = ChangeEmailSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -39,13 +48,6 @@ export const changeEmail = async (
       success: MESSAGES.EMAIL_CHANGED,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };

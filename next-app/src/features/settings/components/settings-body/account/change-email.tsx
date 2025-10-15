@@ -21,7 +21,7 @@ import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
 const ChangeEmailForm = lazy(
-  () => import("@/core/auth/components/change-email-form"),
+  () => import("@/core/auth/components/forms/change-email"),
 );
 
 export const ChangeEmail = () => {
