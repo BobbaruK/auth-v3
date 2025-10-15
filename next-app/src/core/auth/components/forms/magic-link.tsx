@@ -9,14 +9,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { MESSAGES } from "@/constants/messages";
+import { signInMagicLink } from "@/core/auth/actions/sign-in";
+import { MagicLinkSchema } from "@/core/auth/schemas/magic-link";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { signInMagicLink } from "../actions/sign-in";
-import { MagicLinkSchema } from "../schemas/magic-link";
-import { cn } from "@/lib/utils";
 
 interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   setOpen: (open: boolean) => void;

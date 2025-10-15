@@ -5,14 +5,15 @@ import {
   DEFAULT_API_ERROR_REDIRECT,
   DEFAULT_LOGIN_REDIRECT,
 } from "@/constants/routes";
+import { LoginSchema } from "@/core/auth/schemas/login";
+import { MagicLinkSchema } from "@/core/auth/schemas/magic-link";
 import { auth } from "@/lib/auth";
+import { catchError } from "@/lib/utils/catch-error-action";
 import { EMAIL } from "@/schemas/form";
 import { APIError } from "better-auth/api";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
-import { LoginSchema } from "../schemas/login";
-import { MagicLinkSchema } from "../schemas/magic-link";
 
 type SignInType = "email" | "username";
 
@@ -108,7 +109,16 @@ export const signIn = async (values: z.infer<typeof LoginSchema>) => {
 
 export const signInMagicLink = async (
   values: z.infer<typeof MagicLinkSchema>,
-) => {
+): Promise<
+  | {
+      error: string;
+      success?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+    }
+> => {
   const validatedFields = MagicLinkSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -132,13 +142,6 @@ export const signInMagicLink = async (
       success: MESSAGES.MAGIC_LINK_SEND,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };

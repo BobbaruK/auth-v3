@@ -2,7 +2,6 @@
 
 import { CustomButton } from "@/components/custom-button";
 import { EnvelopeIcon } from "@/components/icons/envelope";
-import { lazy, Suspense, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,9 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import {
   Drawer,
   DrawerContent,
@@ -22,7 +18,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-const MagicLinkForm = lazy(() => import("./magic-link-form"));
+import { Skeleton } from "@/components/ui/skeleton";
+import { useCustomMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
+import { lazy, Suspense, useState } from "react";
+const MagicLinkForm = lazy(
+  () => import("@/core/auth/components/forms/magic-link"),
+);
 
 const SignInMagicLink = () => {
   const [open, setOpen] = useState(false);
