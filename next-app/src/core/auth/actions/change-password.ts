@@ -1,14 +1,16 @@
 "use server";
 
 import { MESSAGES } from "@/constants/messages";
+import { ChangePasswordSchema } from "@/core/auth/schemas/change-password";
 import { auth } from "@/lib/auth";
-import { APIError } from "better-auth/api";
+import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
-import { ChangePasswordSchema } from "../schemas/change-password";
 
-type ChangePasswordResponse =
+export const changePassword = async (
+  values: z.infer<typeof ChangePasswordSchema>,
+): Promise<
   | {
       error: string;
       success?: undefined;
@@ -16,11 +18,8 @@ type ChangePasswordResponse =
   | {
       success: string;
       error?: undefined;
-    };
-
-export const changePassword = async (
-  values: z.infer<typeof ChangePasswordSchema>,
-): Promise<ChangePasswordResponse> => {
+    }
+> => {
   const validatedFields = ChangePasswordSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -50,13 +49,6 @@ export const changePassword = async (
       success: MESSAGES.PASSWORD_NEW,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };

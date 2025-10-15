@@ -22,10 +22,10 @@ import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
 const ChangePasswordForm = lazy(
-  () => import("@/core/auth/components/change-password-form"),
+  () => import("@/core/auth/components/forms/change-password"),
 );
 const SetPasswordForm = lazy(
-  () => import("@/core/auth/components/set-password-form"),
+  () => import("@/core/auth/components/forms/set-password"),
 );
 
 export const ChangePassword = () => {
