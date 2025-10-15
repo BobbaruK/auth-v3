@@ -17,8 +17,8 @@ import { ReactNode, TransitionStartFunction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { deleteUser } from "../actions/delete-user";
-import { DeleteAccountSchema } from "../schemas/delete-account";
+import { deleteUser } from "../../actions/delete-user";
+import { DeleteAccountSchema } from "../../schemas/delete-account";
 
 interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   userEmail: string;

@@ -1,17 +1,26 @@
 "use server";
 
 import { MESSAGES } from "@/constants/messages";
+import { DeleteAccountSchema } from "@/core/auth/schemas/delete-account";
 import { auth } from "@/lib/auth";
-import { APIError } from "better-auth";
+import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
-import { DeleteAccountSchema } from "../schemas/delete-account";
 
 export const deleteUser = async (
   values: z.infer<typeof DeleteAccountSchema>,
   userEmail: string,
-) => {
+): Promise<
+  | {
+      error: string;
+      success?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+    }
+> => {
   const validatedFields = DeleteAccountSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -37,13 +46,6 @@ export const deleteUser = async (
       success: data.message,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };
