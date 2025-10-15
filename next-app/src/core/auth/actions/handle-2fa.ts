@@ -2,13 +2,28 @@
 
 import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
-import { APIError } from "better-auth/api";
+import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
-import { Handle2faSchema } from "../schemas/handle-2fa";
+import { Handle2faSchema } from "@/core/auth/schemas/handle-2fa";
 
-export const enable2fa = async (values: z.infer<typeof Handle2faSchema>) => {
+export const enable2fa = async (
+  values: z.infer<typeof Handle2faSchema>,
+): Promise<
+  | {
+      error: string;
+      success?: undefined;
+      totpURI?: undefined;
+      backupCodes?: undefined;
+    }
+  | {
+      success: string;
+      totpURI: string;
+      backupCodes: string[];
+      error?: undefined;
+    }
+> => {
   const validatedFields = Handle2faSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -26,23 +41,27 @@ export const enable2fa = async (values: z.infer<typeof Handle2faSchema>) => {
     revalidatePath("/");
 
     return {
-      success: "QR code generated. Scan with your phone.",
+      success: MESSAGES.QR_GENERATED,
       totpURI,
       backupCodes,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };
 
-export const disable2fa = async (values: z.infer<typeof Handle2faSchema>) => {
+export const disable2fa = async (
+  values: z.infer<typeof Handle2faSchema>,
+): Promise<
+  | {
+      error: string;
+      success?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+    }
+> => {
   const validatedFields = Handle2faSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -63,13 +82,6 @@ export const disable2fa = async (values: z.infer<typeof Handle2faSchema>) => {
       success: MESSAGES.TWO_FACTOR_DISABLED,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };

@@ -21,7 +21,7 @@ import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
 const ActivationTwoFactorForm = lazy(
-  () => import("@/core/auth/components/activation-2fa-form"),
+  () => import("@/core/auth/components/forms/activation-2fa"),
 );
 
 const TwoFactorActivation = () => {
