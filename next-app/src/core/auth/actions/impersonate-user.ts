@@ -3,12 +3,23 @@
 import { MESSAGES } from "@/constants/messages";
 import { UserRole } from "@/generated/prisma";
 import { auth } from "@/lib/auth";
-import { APIError } from "better-auth/api";
-import { UserWithRole } from "better-auth/plugins";
+import { catchError } from "@/lib/utils/catch-error-action";
+import { UserSession } from "@/types/session";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
-export const impersonateUser = async (user: UserWithRole) => {
+export const impersonateUser = async (
+  user: UserSession,
+): Promise<
+  | {
+      error: string;
+      success?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+    }
+> => {
   if (user.role === UserRole.OWNER)
     return {
       error: MESSAGES.USER_ADMIN_OWNER,
@@ -28,18 +39,20 @@ export const impersonateUser = async (user: UserWithRole) => {
       success: `${MESSAGES.USER_ADMIN_IMPERSONATE} ${user.email}`,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };
 
-export const stopImpersonatingUser = async () => {
+export const stopImpersonatingUser = async (): Promise<
+  | {
+      success: string;
+      error?: undefined;
+    }
+  | {
+      error: string;
+      success?: undefined;
+    }
+> => {
   try {
     await auth.api.stopImpersonating({
       headers: await headers(),
@@ -51,13 +64,6 @@ export const stopImpersonatingUser = async () => {
       success: `${MESSAGES.USER_ADMIN_STOP_IMPERSONATE}`,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };
