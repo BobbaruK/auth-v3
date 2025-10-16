@@ -14,6 +14,7 @@ import AdminActions from "@/core/auth/components/admin-actions";
 import { getUsers } from "@/core/auth/data/get-users";
 import { auth } from "@/lib/auth";
 import { dateFormatter } from "@/lib/utils/format-date";
+import { UserSession } from "@/types/session";
 import { headers } from "next/headers";
 
 const UsersPage = async () => {
@@ -21,16 +22,16 @@ const UsersPage = async () => {
     headers: await headers(),
   });
 
-  const users = await getUsers();
+  const usersData = await getUsers();
+  const users = usersData?.data as UserSession[];
+  const totalUsers = usersData?.total;
 
   return (
     <PageStructure>
-      <h1 className="text-3xl font-bold">Users ({users?.total})</h1>
+      <h1 className="text-3xl font-bold">Users ({totalUsers})</h1>
 
       <Table className="border">
-        <TableCaption>
-          {users?.error ? users.error : "A list of all users using this app."}
-        </TableCaption>
+        <TableCaption>A list of all users using this app.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>User</TableHead>
@@ -40,13 +41,16 @@ const UsersPage = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users?.data?.map((user) => (
+          {users?.map((user) => (
             <TableRow key={user.id}>
               <TableCell className="space-y-4">
                 <div className="flex items-center gap-2">
                   <CustomAvatar image={user.image} />
                   <div className="space-y-1">
-                    <p>{user.name}</p>
+                    <p>
+                      {user.lastName} &quot;{user.displayUsername}&quot;{" "}
+                      {user.firstName}
+                    </p>
                     <p>{user.email}</p>
                   </div>
                 </div>
@@ -77,9 +81,9 @@ const UsersPage = async () => {
         </TableBody>
       </Table>
 
-      {/* <div>
-        <pre>{JSON.stringify(users, null, 2)}</pre>
-      </div> */}
+      <div>
+        <pre>{JSON.stringify(usersData, null, 2)}</pre>
+      </div>
     </PageStructure>
   );
 };

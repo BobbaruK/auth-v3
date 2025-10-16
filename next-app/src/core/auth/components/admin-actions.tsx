@@ -24,8 +24,7 @@ import {
 import { MESSAGES } from "@/constants/messages";
 import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
-import { Session } from "@/types/session";
-import { UserWithRole } from "better-auth/plugins/admin";
+import { Session, UserSession } from "@/types/session";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -37,7 +36,7 @@ import { removeUser } from "../actions/remove-user";
 
 interface Props {
   session: Session | null;
-  user: UserWithRole;
+  user: UserSession;
 }
 
 const AdminActions = ({ session, user }: Props) => {
