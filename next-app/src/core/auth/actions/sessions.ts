@@ -2,10 +2,21 @@
 
 import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
-import { APIError } from "better-auth/api";
+import { catchError } from "@/lib/utils/catch-error-action";
 import { headers } from "next/headers";
 
-export const revokeSelectedSesh = async (token: string) => {
+export const revokeSelectedSesh = async (
+  token: string,
+): Promise<
+  | {
+      success: string;
+      error?: undefined;
+    }
+  | {
+      error: string;
+      success?: undefined;
+    }
+> => {
   try {
     await auth.api.revokeSession({
       body: {
@@ -18,18 +29,20 @@ export const revokeSelectedSesh = async (token: string) => {
       success: MESSAGES.SESSION_REVOKED,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };
 
-export const revokeOtherSeshs = async () => {
+export const revokeOtherSeshs = async (): Promise<
+  | {
+      success: string;
+      error?: undefined;
+    }
+  | {
+      error: string;
+      success?: undefined;
+    }
+> => {
   try {
     await auth.api.revokeOtherSessions({
       headers: await headers(),
@@ -39,18 +52,20 @@ export const revokeOtherSeshs = async () => {
       success: MESSAGES.SESSION_REVOKED_OTHERS,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };
 
-export const revokeSeshs = async () => {
+export const revokeSeshs = async (): Promise<
+  | {
+      success: string;
+      error?: undefined;
+    }
+  | {
+      error: string;
+      success?: undefined;
+    }
+> => {
   try {
     await auth.api.revokeSessions({
       headers: await headers(),
@@ -60,13 +75,6 @@ export const revokeSeshs = async () => {
       success: MESSAGES.SESSION_REVOKED_ALL,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };

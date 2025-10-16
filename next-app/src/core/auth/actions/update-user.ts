@@ -1,17 +1,33 @@
 "use server";
 
 import { MESSAGES } from "@/constants/messages";
+import { PersonalSchema } from "@/core/auth/schemas/personal";
 import { auth } from "@/lib/auth";
-import { APIError } from "better-auth";
+import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
-import { PersonalSchema } from "../schemas/personal";
 
 export const updateUser = async (
   values: z.infer<typeof PersonalSchema>,
   userUsername: string,
-) => {
+): Promise<
+  | {
+      error: string;
+      username_error?: undefined;
+      success?: undefined;
+    }
+  | {
+      error: string;
+      username_error: boolean;
+      success?: undefined;
+    }
+  | {
+      success: string;
+      error?: undefined;
+      username_error?: undefined;
+    }
+> => {
   const validatedFields = PersonalSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
@@ -49,13 +65,6 @@ export const updateUser = async (
       success: MESSAGES.PROFILE_UPDATED,
     };
   } catch (error) {
-    console.error("Something went wrong: ", JSON.stringify(error));
-
-    if (error instanceof APIError)
-      return {
-        error: error.message,
-      };
-
-    throw error;
+    return catchError(error);
   }
 };
