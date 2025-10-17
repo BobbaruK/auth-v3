@@ -33,7 +33,7 @@ export const DataTableTransitionWrapper = ({
         })}
         data={data}
         columnVisibilityObj={columnVisibilityObj}
-        twSkeletonHeightCell="h-[69px]"
+        twSkeletonHeightCell="h-[64px]"
       />
     </TableProvider>
   );
