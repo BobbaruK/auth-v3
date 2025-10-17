@@ -118,7 +118,7 @@ export const SESSION_FRESH_AGE = 60 * 60 * 12;
  * @constant
  * @default 60 * 60 // 1 hour
  */
-export const VERIFICATION_MAIL_EXPIRES = 60 * 60;
+export const VERIFICATION_MAIL_TOKEN_EXPIRES = 60 * 60;
 
 /**
  * Expiration time (in seconds) for password reset tokens.

@@ -10,7 +10,7 @@ import {
   SESSION_EXPIRES,
   SESSION_FRESH_AGE,
   VALID_DOMAINS,
-  VERIFICATION_MAIL_EXPIRES,
+  VERIFICATION_MAIL_TOKEN_EXPIRES,
 } from "@/constants/misc";
 import { DEFAULT_API_ERROR_REDIRECT } from "@/constants/routes";
 import { sendChangeEmail } from "@/core/emails/actions/change-email";
@@ -135,7 +135,7 @@ export const auth = betterAuth({
   },
   emailVerification: {
     autoSignInAfterVerification: true,
-    expiresIn: VERIFICATION_MAIL_EXPIRES,
+    expiresIn: VERIFICATION_MAIL_TOKEN_EXPIRES,
     sendVerificationEmail: async ({ user, url, token }) => {
       const actualUser = user as UserSession;
 
