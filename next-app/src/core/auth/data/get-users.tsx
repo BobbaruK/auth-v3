@@ -9,24 +9,32 @@ export const getUsers = async ({
   perPage,
   sortBy,
   sortDirection,
+  searchField,
+  searchValue,
 }: {
   perPage?: number;
   pageNumber?: number;
   sortBy: string;
   sortDirection: "asc" | "desc" | undefined;
+  searchField: "email" | "name" | undefined;
+  searchValue: string;
 }) => {
   const limit = perPage || PAGINATION_DEFAULT;
   const offset = pageNumber ? pageNumber * limit : 0;
 
-  console.log({ perPage, pageNumber, sortBy, sortDirection });
-
   try {
     const users = await auth.api.listUsers({
       query: {
+        // pagination
         limit,
         offset,
+        // sorting
         sortBy,
         sortDirection,
+        // filtering
+        searchField,
+        searchValue,
+        searchOperator: "contains",
       },
       headers: await headers(),
     });

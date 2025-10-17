@@ -24,7 +24,7 @@ export const SearchField = () => {
   return (
     <div className="flex items-center gap-2">
       <Input
-        placeholder={`Search by ${searchBy === "name" ? "title" : "URL"}`}
+        placeholder={`Search by ${searchBy === "name" ? "name" : "email"}`}
         onChange={(e) => {
           debounced(e.target.value);
         }}
@@ -68,14 +68,14 @@ function SwitchSearch({
       <Switch
         className=""
         checked={
-          searchBy === "name" ? false : searchBy === "url" ? true : false
+          searchBy === "name" ? false : searchBy === "email" ? true : false
         }
         onCheckedChange={() =>
           setSearchParams({
             searchBy:
               searchBy === "name"
-                ? "url"
-                : searchBy === "url"
+                ? "email"
+                : searchBy === "email"
                   ? "name"
                   : "name",
             pageIndex: 0,
@@ -84,7 +84,7 @@ function SwitchSearch({
         disabled={isLoading}
         id="search-switch"
       />
-      <Label htmlFor="search-switch">URL</Label>
+      <Label htmlFor="search-switch">Email</Label>
     </div>
   );
 }

@@ -25,6 +25,7 @@ export const DataTableTransitionWrapper = ({
       isLoading={isLoading}
       startTransition={startTransition}
       dataCount={dataCount || 0}
+      showSearchSwitch
     >
       <DataTable
         columns={userColumns({
