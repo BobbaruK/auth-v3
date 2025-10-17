@@ -2,6 +2,8 @@
 
 import { CustomAvatar } from "@/components/custom-avatar";
 import { Badge } from "@/components/ui/badge";
+import { SelectCell } from "@/core/table/components/select-column/cell";
+import { SelectHeader } from "@/core/table/components/select-column/header";
 import { THeadDropdown } from "@/core/table/components/thead-dropdown";
 import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";
 import { columnId } from "@/lib/utils/column-id";
@@ -15,10 +17,37 @@ import AdminActions from "./admin-actions";
 export const userColumns = ({
   isLoading,
   startTransition,
+  visibleUsers,
 }: {
   isLoading: boolean;
   startTransition: TransitionStartFunction;
+  visibleUsers: UserSession[];
 }): ColumnDef<UserSession>[] => [
+  // Select
+  {
+    ...columnId({ id: "select" }),
+    enableHiding: false,
+    header: () => {
+      return (
+        <SelectHeader
+          data={visibleUsers}
+          isLoading={isLoading}
+          startTransition={startTransition}
+        />
+      );
+    },
+    cell: ({ row }) => {
+      const id = row.original.id;
+
+      return (
+        <SelectCell
+          id={id}
+          isLoading={isLoading}
+          startTransition={startTransition}
+        />
+      );
+    },
+  },
   // Avatar
   {
     ...columnId({ id: "avatar" }),

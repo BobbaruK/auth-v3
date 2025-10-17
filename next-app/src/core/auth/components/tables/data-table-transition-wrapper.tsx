@@ -31,6 +31,7 @@ export const DataTableTransitionWrapper = ({
         columns={userColumns({
           isLoading,
           startTransition,
+          visibleUsers: data,
         })}
         data={data}
         columnVisibilityObj={columnVisibilityObj}
