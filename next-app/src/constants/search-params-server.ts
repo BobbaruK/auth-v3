@@ -23,12 +23,14 @@ export const serverSearchParams = () => ({
     .withOptions({ shallow: false }),
 
   // Searching
-  search: parseAsString.withOptions({
+  search: parseAsString.withDefault("").withOptions({
     shallow: false,
   }),
-  searchBy: parseAsStringEnum(["name", "url"]).withDefault("name").withOptions({
-    shallow: false,
-  }),
+  searchBy: parseAsStringEnum(["email", "name"])
+    .withDefault("name")
+    .withOptions({
+      shallow: false,
+    }),
 
   // Sorting
   sortBy: parseAsString.withDefault("createdAt").withOptions({
