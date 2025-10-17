@@ -1,7 +1,9 @@
+import { TableRowSelect } from "@/types/table-row-select";
 import React, { TransitionStartFunction, useContext } from "react";
 
 type TableContextType = {
   handleDelete?: () => void;
+  dataSelected?: TableRowSelect;
   dataCount: number;
   showSearchSwitch?: boolean;
   isLoading: boolean;
@@ -10,6 +12,7 @@ type TableContextType = {
 
 const TableContext = React.createContext<TableContextType>({
   handleDelete: () => {},
+  dataSelected: {} as TableRowSelect,
   dataCount: 0,
   isLoading: false,
   startTransition: () => {},
