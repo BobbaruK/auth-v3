@@ -22,27 +22,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
+import { banUser, unbanUser } from "@/core/auth/actions/ban-user";
+import { impersonateUser } from "@/core/auth/actions/impersonate-user";
+import { removeUser } from "@/core/auth/actions/remove-user";
 import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
-import { Session, UserSession } from "@/types/session";
+import { UserSession } from "@/types/session";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
-import { banUser, unbanUser } from "../actions/ban-user";
-import { impersonateUser } from "../actions/impersonate-user";
-import { removeUser } from "../actions/remove-user";
 
 interface Props {
-  session: Session | null;
   user: UserSession;
 }
 
-const AdminActions = ({ session, user }: Props) => {
+const AdminActions = ({ user }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const { refetch } = useSession();
+  const { refetch, data } = useSession();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [copiedText, copy] = useCopyToClipboard();
 
@@ -151,6 +150,7 @@ const AdminActions = ({ session, user }: Props) => {
               icon={MoreIcon}
               iconPlacement="left"
               variant={"outline"}
+              className="size-8"
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -162,12 +162,12 @@ const AdminActions = ({ session, user }: Props) => {
             <DropdownMenuItem asChild>
               <Link href={`/profile/${user.id}`}>Go to profile</Link>
             </DropdownMenuItem>
-            {session?.user.role !== UserRole.USER &&
-              session?.user.id !== user.id &&
+            {data?.user.role !== UserRole.USER &&
+              data?.user.id !== user.id &&
               user.role !== UserRole.OWNER && (
                 <>
                   <DropdownMenuSeparator />
-                  {session?.user.role === UserRole.OWNER && (
+                  {data?.user.role === UserRole.OWNER && (
                     <DropdownMenuItem onClick={handleImpersonate}>
                       Impersonate
                     </DropdownMenuItem>
