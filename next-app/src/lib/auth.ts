@@ -34,6 +34,8 @@ import {
   username,
 } from "better-auth/plugins";
 
+const TESTING = false;
+
 export const auth = betterAuth({
   appName: "Auth v3",
   database: prismaAdapter(db, {
@@ -72,6 +74,13 @@ export const auth = betterAuth({
       sendChangeEmailVerification: async ({ user, newEmail, url, token }) => {
         const actualUser = user as UserSession;
 
+        if (TESTING) {
+          console.log({
+            sendChangeEmailVerification: { actualUser, newEmail, url, token },
+          });
+          return;
+        }
+
         await sendChangeEmail({
           name: actualUser.firstName,
           oldMail: actualUser.email,
@@ -86,6 +95,13 @@ export const auth = betterAuth({
       deleteTokenExpiresIn: DELETE_ACCOUNT_TOKEN_EXPIRES,
       sendDeleteAccountVerification: async ({ user, url, token }) => {
         const actualUser = user as UserSession;
+
+        if (TESTING) {
+          console.log({
+            sendDeleteAccountVerification: { actualUser, url, token },
+          });
+          return;
+        }
 
         await confirmDeleteAccountEmail({
           name: actualUser.firstName,
@@ -120,6 +136,11 @@ export const auth = betterAuth({
     sendResetPassword: async ({ user, url, token }) => {
       const actualUser = user as UserSession;
 
+      if (TESTING) {
+        console.log({ sendResetPassword: { actualUser, url, token } });
+        return;
+      }
+
       await sendResetPasswordEmail({
         email: actualUser.email,
         name: actualUser.firstName,
@@ -138,6 +159,11 @@ export const auth = betterAuth({
     expiresIn: VERIFICATION_MAIL_TOKEN_EXPIRES,
     sendVerificationEmail: async ({ user, url, token }) => {
       const actualUser = user as UserSession;
+
+      if (TESTING) {
+        console.log({ sendVerificationEmail: { actualUser, url, token } });
+        return;
+      }
 
       await sendVerificationEmail({
         name: actualUser.firstName,
@@ -290,11 +316,27 @@ export const auth = betterAuth({
     }),
     lastLoginMethod({
       storeInDatabase: true,
+      customResolveMethod: (context) => {
+        if (context.path === "/magic-link/verify") {
+          return "magic-link";
+        }
+
+        if (context.path === "/sign-in/username") {
+          return "username";
+        }
+
+        return null;
+      },
     }),
     magicLink({
       expiresIn: MAGIC_LINK_TOKEN_EXPIRES,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       sendMagicLink: async ({ email, token, url }, request) => {
+        if (TESTING) {
+          console.log({ sendMagicLink: { email, token, url } });
+          return;
+        }
+
         const domain = email.split("@")[1];
 
         if (!VALID_DOMAINS.includes(domain))
@@ -302,7 +344,6 @@ export const auth = betterAuth({
             message: MESSAGES.INVALID_FIELDS,
           });
 
-        // send email to user
         await sendMagicLinkEmail({
           email,
           url,
