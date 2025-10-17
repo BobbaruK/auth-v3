@@ -28,7 +28,7 @@ const MESSAGES_FN = () => {
     TOKEN_INVALID: "Invalid token.",
     TOKEN_MISSING: "Token missing.",
     TWO_FACTOR_DISABLED: "Two-factor authentication disabled.",
-    USER_ADMIN_BAN: "User banned successfully:",
+    USER_ADMIN_BAN: "User(s) banned successfully:",
     USER_ADMIN_IMPERSONATE: "User impersonation started:",
     USER_ADMIN_OWNER: "Cannot ban, delete, or impersonate an OWNER.",
     USER_ADMIN_REMOVE: "User removed successfully:",
