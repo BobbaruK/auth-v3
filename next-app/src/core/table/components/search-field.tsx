@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { CustomButton } from "@/components/custom-button";
+import { ErrorIcon } from "@/components/icons/error";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { DEBOUNCE_DEFAULT } from "@/constants/misc";
 import { useSearchParams } from "@/hooks/use-search-params";
 import { TransitionStartFunction, useRef } from "react";
-import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useDebounceCallback } from "usehooks-ts";
 import { useTableContext } from "../providers/table-provider";
 
@@ -33,19 +33,22 @@ export const SearchField = () => {
         className="max-w-sm"
       />
       {search && (
-        <Button
-          className="[&_svg]:size-5"
-          size={"icon"}
-          variant={"outline"}
-          onClick={() => {
-            const el = searchElRef.current as HTMLInputElement;
-            debounced(null);
-            el.value = "";
-            el.focus();
-          }}
-        >
-          <IoIosCloseCircleOutline />
-        </Button>
+        <>
+          <CustomButton
+            buttonLabel="Reset search field"
+            variant={"outline"}
+            icon={ErrorIcon}
+            iconPlacement="left"
+            size={"icon"}
+            className="size-9 min-w-9"
+            onClick={() => {
+              const el = searchElRef.current as HTMLInputElement;
+              debounced(null);
+              el.value = "";
+              el.focus();
+            }}
+          />
+        </>
       )}
       {showSearchSwitch && (
         <SwitchSearch isLoading={isLoading} startTransition={startTransition} />
