@@ -1,4 +1,5 @@
 import {
+  parseAsArrayOf,
   parseAsBoolean,
   parseAsIndex,
   parseAsInteger,
@@ -37,6 +38,11 @@ export const serverSearchParams = () => ({
     shallow: false,
   }),
   sort: parseAsStringEnum(["asc", "desc"]).withDefault("desc").withOptions({
+    shallow: false,
+  }),
+
+  // Select
+  selected: parseAsArrayOf(parseAsString, ";").withDefault([]).withOptions({
     shallow: false,
   }),
 });

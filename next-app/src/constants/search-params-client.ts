@@ -1,4 +1,5 @@
 import {
+  parseAsArrayOf,
   parseAsBoolean,
   parseAsIndex,
   parseAsInteger,
@@ -48,6 +49,12 @@ export const clientSearchParams = (
     startTransition,
   }),
   sort: parseAsStringEnum(["asc", "desc"]).withDefault("desc").withOptions({
+    shallow: false,
+    startTransition,
+  }),
+
+  // Select
+  selected: parseAsArrayOf(parseAsString, ";").withDefault([]).withOptions({
     shallow: false,
     startTransition,
   }),
