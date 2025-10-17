@@ -10,11 +10,14 @@ interface Props {
 }
 
 const UsersPage = async ({ searchParams }: Props) => {
-  const { pageIndex, pageSize } = await loadSearchParams(searchParams);
+  const { pageIndex, pageSize, sortBy, sort } =
+    await loadSearchParams(searchParams);
 
   const usersData = await getUsers({
     pageNumber: pageIndex,
     perPage: pageSize,
+    sortBy,
+    sortDirection: sort || undefined,
   });
   const users = usersData?.data as UserSession[];
 
@@ -23,6 +26,9 @@ const UsersPage = async ({ searchParams }: Props) => {
   return (
     <PageStructure>
       <h1 className="text-3xl font-bold">Users ({totalUsers})</h1>
+
+      <p>{sortBy}</p>
+      <p>{sort}</p>
 
       <DataTableTransitionWrapper
         data={users}

@@ -7,18 +7,26 @@ import { headers } from "next/headers";
 export const getUsers = async ({
   pageNumber,
   perPage,
+  sortBy,
+  sortDirection,
 }: {
   perPage?: number;
   pageNumber?: number;
+  sortBy: string;
+  sortDirection: "asc" | "desc" | undefined;
 }) => {
   const limit = perPage || PAGINATION_DEFAULT;
   const offset = pageNumber ? pageNumber * limit : 0;
+
+  console.log({ perPage, pageNumber, sortBy, sortDirection });
 
   try {
     const users = await auth.api.listUsers({
       query: {
         limit,
         offset,
+        sortBy,
+        sortDirection,
       },
       headers: await headers(),
     });
