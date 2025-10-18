@@ -4,6 +4,10 @@ import { AirplayIcon } from "@/components/icons/airplay";
 import { BanIcon } from "@/components/icons/ban";
 import { CalendarIcon } from "@/components/icons/calendar";
 import { CameraIcon } from "@/components/icons/camera";
+import { ChevronDownIcon } from "@/components/icons/chevron-down";
+import { ChevronLeftIcon } from "@/components/icons/chevron-left";
+import { ChevronRightIcon } from "@/components/icons/chevron-right";
+import { ChevronUpIcon } from "@/components/icons/chevron-up";
 import { CogIcon } from "@/components/icons/cog";
 import { CopyIcon } from "@/components/icons/copy";
 import { DiscordIcon } from "@/components/icons/discord";
@@ -180,6 +184,22 @@ const icons: {
   {
     name: "DiscordIcon",
     icon: DiscordIcon,
+  },
+  {
+    name: "ChevronRightIcon",
+    icon: ChevronRightIcon,
+  },
+  {
+    name: "ChevronLeftIcon",
+    icon: ChevronLeftIcon,
+  },
+  {
+    name: "ChevronUpIcon",
+    icon: ChevronUpIcon,
+  },
+  {
+    name: "ChevronDownIcon",
+    icon: ChevronDownIcon,
   },
 ];
 
