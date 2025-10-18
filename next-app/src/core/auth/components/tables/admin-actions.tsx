@@ -2,9 +2,7 @@
 
 import { CustomButton } from "@/components/custom-button";
 import { MoreIcon } from "@/components/icons/more";
-import { TrashIcon } from "@/components/icons/trash";
 import ResponsiveDialog from "@/components/responsive-dialog";
-import { DialogClose } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,9 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
+import DeleteUser from "@/core/admin/components/delete-user";
 import { unbanUser } from "@/core/auth/actions/ban-user";
 import { impersonateUser } from "@/core/auth/actions/impersonate-user";
-import { removeUser } from "@/core/auth/actions/remove-user";
 import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
 import { UserSession } from "@/types/session";
@@ -44,24 +42,6 @@ const AdminActions = ({ user }: Props) => {
   const handleUnBan = () => {
     startTransition(async () => {
       unbanUser(user)
-        .then((data) => {
-          if (data.error) {
-            toast.error(data.error);
-          }
-
-          if (data.success) {
-            toast.success(data.success);
-          }
-        })
-        .catch(() => {
-          toast.error(MESSAGES.SOMETHING_WRONG);
-        });
-    });
-  };
-
-  const handleDeleteUser = () => {
-    startTransition(async () => {
-      removeUser(user)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
@@ -138,7 +118,7 @@ const AdminActions = ({ user }: Props) => {
             users={[user]}
             isLoading={isPending}
             startTransition={startTransition}
-            setBanDialog={setOpenBanDialog}
+            setOpenBanDialog={setOpenBanDialog}
           />
         </Suspense>
       </ResponsiveDialog>
@@ -167,21 +147,12 @@ const AdminActions = ({ user }: Props) => {
             "This action cannot be undone. This will permanently delete this account and remove it's data from our servers.",
         }}
       >
-        <div className="flex items-center justify-end gap-4">
-          <DialogClose asChild>
-            <CustomButton
-              buttonLabel="Delete user"
-              variant={"danger"}
-              icon={TrashIcon}
-              iconPlacement="left"
-              hideLabelOnMobile={false}
-              onClick={handleDeleteUser}
-            />
-          </DialogClose>
-          <DialogClose asChild>
-            <CustomButton buttonLabel="Cancel" variant={"outline"} />
-          </DialogClose>
-        </div>
+        <DeleteUser
+          users={[user]}
+          isLoading={isPending}
+          startTransition={startTransition}
+          setOpenDeleteDialog={setOpenDeleteDialog}
+        />
       </ResponsiveDialog>
 
       <DropdownMenu>

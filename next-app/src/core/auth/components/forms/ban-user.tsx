@@ -28,14 +28,14 @@ interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   users: UserSession[];
   isLoading: boolean;
   startTransition: TransitionStartFunction;
-  setBanDialog?: (open: boolean) => void;
+  setOpenBanDialog?: (open: boolean) => void;
 }
 
 const BanUserForm = ({
   users,
   isLoading,
   startTransition,
-  setBanDialog,
+  setOpenBanDialog,
   ...restProps
 }: Props) => {
   const form = useForm<z.infer<typeof BanUserSchema>>({
@@ -49,7 +49,7 @@ const BanUserForm = ({
   const userIdBatches = chunkArray(users, BATCH_ITEMS);
 
   const onSubmit = (values: z.infer<typeof BanUserSchema>) => {
-    setBanDialog?.(false);
+    setOpenBanDialog?.(false);
 
     startTransition(async () => {
       for (const batch of userIdBatches) {
@@ -141,7 +141,7 @@ const BanUserForm = ({
             variant={"outline"}
             disabled={isLoading}
             skeletonClassName="grow"
-            onClick={() => setBanDialog?.(false)}
+            onClick={() => setOpenBanDialog?.(false)}
           />
         </div>
       </form>
