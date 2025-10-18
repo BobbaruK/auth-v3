@@ -30,6 +30,7 @@ const TableProvider = ({
   children,
   handleDelete,
   dataCount,
+  dataSelected,
   showSearchSwitch,
   isLoading,
   startTransition,
@@ -39,6 +40,7 @@ const TableProvider = ({
       value={{
         handleDelete,
         dataCount: dataCount || 0,
+        dataSelected,
         isLoading,
         startTransition,
         showSearchSwitch,

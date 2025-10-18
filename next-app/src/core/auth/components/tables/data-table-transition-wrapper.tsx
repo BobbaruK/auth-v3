@@ -11,12 +11,14 @@ interface Props {
   data: UserSession[];
   dataCount: number | null;
   columnVisibilityObj?: VisibilityState;
+  dataSelected?: UserSession[];
 }
 
 export const DataTableTransitionWrapper = ({
   data,
   dataCount,
   columnVisibilityObj,
+  dataSelected,
 }: Props) => {
   const [isLoading, startTransition] = useTransition();
 
@@ -25,6 +27,10 @@ export const DataTableTransitionWrapper = ({
       isLoading={isLoading}
       startTransition={startTransition}
       dataCount={dataCount || 0}
+      dataSelected={{
+        type: "users",
+        data: dataSelected || null,
+      }}
       showSearchSwitch
     >
       <DataTable
