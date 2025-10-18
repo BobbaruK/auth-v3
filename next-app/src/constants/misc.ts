@@ -157,3 +157,11 @@ export const MAGIC_LINK_TOKEN_EXPIRES = 60 * 5;
  * const debouncedSearch = debounce(searchFunction, DEBOUNCE_DEFAULT);
  */
 export const DEBOUNCE_DEFAULT = 500; // (milliseconds)
+
+/**
+ * Default batch items for handling multiple db queries.
+ *
+ * @constant
+ * @default 2 // items
+ */
+export const BATCH_ITEMS = 2; // (items)

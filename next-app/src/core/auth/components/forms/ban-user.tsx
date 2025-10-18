@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { BATCH_ITEMS } from "@/constants/misc";
 import { cn } from "@/lib/utils";
 import { chunkArray } from "@/lib/utils/chunk-array";
 import { UserSession } from "@/types/session";
@@ -45,7 +46,7 @@ const BanUserForm = ({
     },
   });
 
-  const userIdBatches = chunkArray(users, 2);
+  const userIdBatches = chunkArray(users, BATCH_ITEMS);
 
   const onSubmit = (values: z.infer<typeof BanUserSchema>) => {
     setBanDialog?.(false);
