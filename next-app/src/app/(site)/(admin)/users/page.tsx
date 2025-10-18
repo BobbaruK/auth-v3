@@ -1,7 +1,7 @@
 import { PageStructure } from "@/components/page-structure";
 import { loadSearchParams } from "@/components/search-params";
 import { DataTableTransitionWrapper } from "@/core/auth/components/tables/data-table-transition-wrapper";
-import { getUsers } from "@/core/auth/data/get-users";
+import { getPrismaUsers, getUsers } from "@/core/auth/data/get-users";
 import { UserSession } from "@/types/session";
 import { SearchParams } from "nuqs/server";
 
@@ -20,6 +20,8 @@ const UsersPage = async ({ searchParams }: Props) => {
     // filtering
     search,
     searchBy,
+    // Select
+    selected,
   } = await loadSearchParams(searchParams);
 
   const usersData = await getUsers({
@@ -37,6 +39,15 @@ const UsersPage = async ({ searchParams }: Props) => {
 
   const totalUsers = usersData?.total || 0;
 
+  const usersSelected: UserSession[] | null = await getPrismaUsers({
+    where: {
+      id: {
+        in: selected || [],
+      },
+    },
+    perPage: -1,
+  });
+
   return (
     <PageStructure>
       <h1 className="text-3xl font-bold">Users ({totalUsers})</h1>
@@ -44,10 +55,11 @@ const UsersPage = async ({ searchParams }: Props) => {
       <DataTableTransitionWrapper
         data={users}
         dataCount={totalUsers}
+        dataSelected={usersSelected || []}
         columnVisibilityObj={{
           username: false,
-          banReason: false,
-          banExpires: false,
+          banReason: true,
+          banExpires: true,
           lastLoginAt: false,
           lastLoginMethod: false,
         }}
