@@ -29,6 +29,8 @@ export const banUser = async (
     await auth.api.banUser({
       body: {
         userId: user.id,
+        banReason: undefined,
+        banExpiresIn: 60,
       },
       headers: await headers(),
     });

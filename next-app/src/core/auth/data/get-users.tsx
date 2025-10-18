@@ -1,7 +1,9 @@
 "use server";
 
 import { PAGINATION_DEFAULT } from "@/constants/table";
+import { Prisma } from "@/generated/prisma";
 import { auth } from "@/lib/auth";
+import db from "@/lib/prisma";
 import { headers } from "next/headers";
 
 export const getUsers = async ({
@@ -23,7 +25,7 @@ export const getUsers = async ({
   const offset = pageNumber ? pageNumber * limit : 0;
 
   try {
-    const users = await auth.api.listUsers({
+    const data = await auth.api.listUsers({
       query: {
         // pagination
         limit,
@@ -40,9 +42,39 @@ export const getUsers = async ({
     });
 
     return {
-      data: users.users,
-      total: users.total,
+      data: data.users,
+      total: data.total,
     };
+  } catch (error) {
+    console.error("Something went wrong: ", JSON.stringify(error));
+
+    return null;
+  }
+};
+
+export const getPrismaUsers = async ({
+  where,
+  perPage,
+  pageNumber,
+  orderBy,
+}: {
+  where?: Prisma.auth_userWhereInput;
+  perPage?: number;
+  pageNumber?: number;
+  orderBy?: Prisma.auth_userOrderByWithRelationInput;
+}) => {
+  const pageSize = perPage || PAGINATION_DEFAULT;
+  const skip = pageNumber ? pageNumber * pageSize : 0;
+
+  try {
+    const user = await db.auth_user.findMany({
+      ...(orderBy ? { orderBy } : {}),
+      ...(where ? { where } : {}),
+      skip,
+      take: perPage && Math.sign(perPage) === 1 ? pageSize : undefined,
+    });
+
+    return user;
   } catch (error) {
     console.error("Something went wrong: ", JSON.stringify(error));
 
