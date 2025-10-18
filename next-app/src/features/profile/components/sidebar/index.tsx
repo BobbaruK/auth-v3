@@ -45,6 +45,34 @@ const ProfileSidebar = ({ user, session }: Props) => {
           )}
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
+          {user.banned && (
+            <div className="bg-danger/20 text-danger-foreground border-danger flex flex-col justify-between gap-2 rounded-md border p-1">
+              <p className="flex flex-wrap items-center justify-between gap-2">
+                <span className="">Banned until:</span>
+                <span>
+                  {user.banExpires
+                    ? dateFormatter({
+                        date: user.banExpires,
+                        options: {
+                          timeZone: "Europe/Bucharest",
+                          hourCycle: "h23",
+                          month: "short",
+                          day: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          second: "2-digit",
+                        },
+                      })
+                    : "Indefinite"}
+                </span>
+              </p>
+              <p className="flex flex-wrap items-center justify-between gap-2">
+                <span className="">Ban reason:</span>
+                <span>{user.banReason}</span>
+              </p>
+            </div>
+          )}
           <p className="flex flex-wrap items-center justify-between gap-2">
             <span className="text-muted-foreground">Member since:</span>
             <span>
@@ -58,6 +86,7 @@ const ProfileSidebar = ({ user, session }: Props) => {
                   year: "numeric",
                   hour: "2-digit",
                   minute: "2-digit",
+                  second: "2-digit",
                 },
               })}
             </span>
@@ -75,6 +104,7 @@ const ProfileSidebar = ({ user, session }: Props) => {
                   year: "numeric",
                   hour: "2-digit",
                   minute: "2-digit",
+                  second: "2-digit",
                 },
               })}
             </span>

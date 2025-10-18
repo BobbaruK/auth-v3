@@ -1,29 +1,23 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import ResponsiveDialog from "@/components/responsive-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DialogClose } from "@/components/ui/dialog";
 import { MESSAGES } from "@/constants/messages";
-import { banUser, unbanUser } from "@/core/auth/actions/ban-user";
+import { unbanUser } from "@/core/auth/actions/ban-user";
 import { impersonateUser } from "@/core/auth/actions/impersonate-user";
 import { removeUser } from "@/core/auth/actions/remove-user";
+import { BanUserFormSkeleton } from "@/core/auth/components/forms/ban-user";
 import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
 import { Session } from "@/types/session";
 import { UserProfile } from "@/types/user-profile";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-import { toast } from "sonner";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { lazy, Suspense, useState, useTransition } from "react";
+import { toast } from "sonner";
+const BanUserForm = lazy(() => import("@/core/auth/components/forms/ban-user"));
 
 interface Props {
   user: UserProfile;
@@ -32,26 +26,10 @@ interface Props {
 
 const AdminActions = ({ user, session }: Props) => {
   const [isPending, startTransition] = useTransition();
+  const [openBanDialog, setOpenBanDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const router = useRouter();
   const { refetch } = useSession();
-
-  const handleBan = () => {
-    startTransition(async () => {
-      banUser(user)
-        .then((data) => {
-          if (data.error) {
-            toast.error(data.error);
-          }
-
-          if (data.success) {
-            toast.success(data.success);
-          }
-        })
-        .catch(() => {
-          toast.error(MESSAGES.SOMETHING_WRONG);
-        });
-    });
-  };
 
   const handleUnBan = () => {
     startTransition(async () => {
@@ -135,48 +113,81 @@ const AdminActions = ({ user, session }: Props) => {
             onClick={handleUnBan}
           />
         ) : (
-          <CustomButton
-            buttonLabel="Ban"
-            variant={"danger"}
-            className="w-full"
-            disabled={isPending}
-            onClick={handleBan}
-          />
+          <>
+            <ResponsiveDialog
+              open={openBanDialog}
+              setOpen={setOpenBanDialog}
+              trigger={{
+                type: "element",
+                element: (
+                  <CustomButton
+                    buttonLabel="Ban"
+                    variant={"danger"}
+                    className="w-full"
+                    disabled={isPending}
+                    onClick={() => setOpenBanDialog(true)}
+                  />
+                ),
+                hidden: false,
+              }}
+              header={{
+                title: {
+                  label: "Ban user",
+                },
+              }}
+            >
+              <Suspense fallback={<BanUserFormSkeleton />}>
+                <BanUserForm
+                  users={[user]}
+                  isLoading={isPending}
+                  startTransition={startTransition}
+                  setBanDialog={setOpenBanDialog}
+                />
+              </Suspense>
+            </ResponsiveDialog>
+          </>
         )}
 
-        <Dialog>
-          <DialogTrigger asChild>
-            <CustomButton
-              buttonLabel="Delete"
-              variant={"destructive"}
-              className="w-full"
-              disabled={isPending}
-            />
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Are you absolutely sure?</DialogTitle>
-              <DialogDescription>
-                This action cannot be undone. This will permanently delete this
-                account and remove it&apos;s data from our servers.
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <DialogClose asChild>
-                <CustomButton
-                  buttonLabel="Delete user"
-                  variant={"danger"}
-                  icon={TrashIcon}
-                  iconPlacement="left"
-                  onClick={handleDeleteUser}
-                />
-              </DialogClose>
-              <DialogClose asChild>
-                <CustomButton buttonLabel="Cancel" variant={"outline"} />
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <ResponsiveDialog
+          open={openDeleteDialog}
+          setOpen={setOpenDeleteDialog}
+          trigger={{
+            type: "element",
+            element: (
+              <CustomButton
+                buttonLabel="Delete"
+                variant={"destructive"}
+                className="w-full"
+                disabled={isPending}
+                onClick={() => setOpenDeleteDialog(true)}
+              />
+            ),
+            hidden: false,
+          }}
+          header={{
+            title: {
+              label: "Are you absolutely sure?",
+            },
+            description:
+              "This action cannot be undone. This will permanently delete this account and remove it's data from our servers.",
+          }}
+        >
+          <div className="flex items-center justify-end gap-4">
+            <DialogClose asChild>
+              <CustomButton
+                buttonLabel="Delete user"
+                variant={"danger"}
+                icon={TrashIcon}
+                iconPlacement="left"
+                hideLabelOnMobile={false}
+                onClick={handleDeleteUser}
+              />
+            </DialogClose>
+            <DialogClose asChild>
+              <CustomButton buttonLabel="Cancel" variant={"outline"} />
+            </DialogClose>
+          </div>
+        </ResponsiveDialog>
       </CardContent>
     </Card>
   );
