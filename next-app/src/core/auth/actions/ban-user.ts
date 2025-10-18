@@ -8,9 +8,15 @@ import { UserSession } from "@/types/session";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
-export const banUser = async (
-  user: UserSession,
-): Promise<
+export const banUser = async ({
+  user,
+  banReason,
+  banExpiresIn,
+}: {
+  user: UserSession;
+  banReason?: string;
+  banExpiresIn?: number;
+}): Promise<
   | {
       error: string;
       success?: undefined;
@@ -29,8 +35,8 @@ export const banUser = async (
     await auth.api.banUser({
       body: {
         userId: user.id,
-        banReason: undefined,
-        banExpiresIn: 60,
+        banReason,
+        banExpiresIn: banExpiresIn,
       },
       headers: await headers(),
     });
