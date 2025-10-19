@@ -39,7 +39,7 @@ const UsersPage = async ({ searchParams }: Props) => {
 
   const totalUsers = usersData?.total || 0;
 
-  const usersSelected: UserSession[] | null = await getPrismaUsers({
+  const usersSelected = await getPrismaUsers({
     where: {
       id: {
         in: selected || [],
@@ -47,6 +47,14 @@ const UsersPage = async ({ searchParams }: Props) => {
     },
     perPage: -1,
   });
+
+  if (usersData.error) {
+    return (
+      <PageStructure>
+        <h1 className="text-3xl font-bold">Forbidden!</h1>
+      </PageStructure>
+    );
+  }
 
   return (
     <PageStructure>
