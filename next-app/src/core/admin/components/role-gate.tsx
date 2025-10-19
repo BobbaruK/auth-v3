@@ -1,7 +1,7 @@
+import { CustomAlert } from "@/components/custom-alert";
 import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
 import { ReactNode } from "react";
-import { CustomAlert } from "./custom-alert";
 
 interface Props {
   children: ReactNode;

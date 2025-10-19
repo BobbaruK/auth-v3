@@ -19,9 +19,9 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { BATCH_ITEMS } from "@/constants/misc";
 import { PAGINATION_ARR } from "@/constants/table";
+import { unbanUser } from "@/core/admin/actions/ban-user";
 import DeleteUser from "@/core/admin/components/delete-user";
-import { unbanUser } from "@/core/auth/actions/ban-user";
-import { BanUserFormSkeleton } from "@/core/auth/components/forms/ban-user";
+import { BanUserFormSkeleton } from "@/core/admin/components/forms/ban-user";
 import { useSearchParams } from "@/hooks/use-search-params";
 import { chunkArray } from "@/lib/utils/chunk-array";
 import { lazy, Suspense, useState } from "react";
@@ -33,7 +33,9 @@ import {
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 import { useTableContext } from "../providers/table-provider";
-const BanUserForm = lazy(() => import("@/core/auth/components/forms/ban-user"));
+const BanUserForm = lazy(
+  () => import("@/core/admin/components/forms/ban-user"),
+);
 
 export function DataTablePagination() {
   const { dataCount, isLoading, startTransition, dataSelected } =

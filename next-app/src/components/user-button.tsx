@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
-import { stopImpersonatingUser } from "@/core/auth/actions/impersonate-user";
 import { signOut } from "@/core/auth/actions/sign-out";
 import { UserRole } from "@/generated/prisma";
 import { Session } from "@/types/session";
@@ -28,6 +27,7 @@ import { LogoutIcon } from "./icons/logout";
 import { UserIcon } from "./icons/user";
 import { UsersIcon } from "./icons/users";
 import { useSession } from "@/lib/auth-client";
+import { stopImpersonatingUser } from "@/core/admin/actions/impersonate-user";
 
 interface Props {
   session: Session | null;

@@ -12,9 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
+import { unbanUser } from "@/core/admin/actions/ban-user";
+import { impersonateUser } from "@/core/admin/actions/impersonate-user";
 import DeleteUser from "@/core/admin/components/delete-user";
-import { unbanUser } from "@/core/auth/actions/ban-user";
-import { impersonateUser } from "@/core/auth/actions/impersonate-user";
+import { BanUserFormSkeleton } from "@/core/admin/components/forms/ban-user";
 import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
 import { UserSession } from "@/types/session";
@@ -23,8 +24,9 @@ import { useRouter } from "next/navigation";
 import { lazy, Suspense, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
-import { BanUserFormSkeleton } from "../forms/ban-user";
-const BanUserForm = lazy(() => import("@/core/auth/components/forms/ban-user"));
+const BanUserForm = lazy(
+  () => import("@/core/admin/components/forms/ban-user"),
+);
 
 interface Props {
   user: UserSession;

@@ -1,7 +1,7 @@
 import { PageStructure } from "@/components/page-structure";
 import { loadSearchParams } from "@/components/search-params";
-import { DataTableTransitionWrapper } from "@/core/auth/components/tables/data-table-transition-wrapper";
-import { getPrismaUsers, getUsers } from "@/core/auth/data/get-users";
+import { DataTableTransitionWrapper } from "@/core/admin/components/tables/data-table-transition-wrapper";
+import { getPrismaUsers, getUsers } from "@/core/admin/data/get-users";
 import { UserSession } from "@/types/session";
 import { SearchParams } from "nuqs/server";
 

@@ -3,9 +3,9 @@
 import { CustomAlert } from "@/components/custom-alert";
 import { CustomButton } from "@/components/custom-button";
 import { PageStructure } from "@/components/page-structure";
-import { RoleGate } from "@/components/role-gate";
 import { Card, CardContent } from "@/components/ui/card";
-import { admin } from "@/core/auth/actions/admin";
+import { admin } from "@/core/admin/actions/admin";
+import { RoleGate } from "@/core/admin/components/role-gate";
 import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
 import { toast } from "sonner";

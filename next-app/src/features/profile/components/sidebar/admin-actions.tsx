@@ -4,10 +4,10 @@ import { CustomButton } from "@/components/custom-button";
 import ResponsiveDialog from "@/components/responsive-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MESSAGES } from "@/constants/messages";
+import { unbanUser } from "@/core/admin/actions/ban-user";
+import { impersonateUser } from "@/core/admin/actions/impersonate-user";
 import DeleteUser from "@/core/admin/components/delete-user";
-import { unbanUser } from "@/core/auth/actions/ban-user";
-import { impersonateUser } from "@/core/auth/actions/impersonate-user";
-import { BanUserFormSkeleton } from "@/core/auth/components/forms/ban-user";
+import { BanUserFormSkeleton } from "@/core/admin/components/forms/ban-user";
 import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
 import { Session } from "@/types/session";
@@ -15,7 +15,7 @@ import { UserProfile } from "@/types/user-profile";
 import { useRouter } from "next/navigation";
 import { lazy, Suspense, useState, useTransition } from "react";
 import { toast } from "sonner";
-const BanUserForm = lazy(() => import("@/core/auth/components/forms/ban-user"));
+const BanUserForm = lazy(() => import("@/core/admin/components/forms/ban-user"));
 
 interface Props {
   user: UserProfile;
