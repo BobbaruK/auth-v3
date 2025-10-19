@@ -27,7 +27,12 @@ export const userColumns = ({
   {
     ...columnId({ id: "select" }),
     enableHiding: false,
-    header: () => {
+    enableSorting: false,
+    enablePinning: true,
+    size: 50,
+    minSize: 48,
+    maxSize: 60,
+    header: ({}) => {
       return (
         <SelectHeader
           data={visibleUsers}
@@ -52,9 +57,23 @@ export const userColumns = ({
   {
     ...columnId({ id: "avatar" }),
     accessorFn: (originalRow) => originalRow.name.toLowerCase(),
+    enableHiding: true,
     enableSorting: false,
-    enableHiding: false,
-    header: "Avatar",
+    enablePinning: true,
+    size: 90,
+    minSize: 85,
+    maxSize: 100,
+    header: ({ column }) => (
+      <>
+        <THeadDropdown
+          id="avatar"
+          label={"Avatar"}
+          isLoading={isLoading}
+          startTransition={startTransition}
+          column={column}
+        />
+      </>
+    ),
     cell: ({ row }) => {
       const image = row.original.image;
       const userId = row.original.id;
@@ -76,13 +95,19 @@ export const userColumns = ({
     ...columnId({ id: "firstName" }),
     accessorFn: (originalRow) => originalRow.firstName.toLowerCase(),
     enableHiding: false,
-    header: () => {
+    enableSorting: true,
+    enablePinning: true,
+    size: 110,
+    minSize: 105,
+    maxSize: 150,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="firstName"
           label={"First name"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -108,13 +133,19 @@ export const userColumns = ({
     ...columnId({ id: "lastName" }),
     accessorFn: (originalRow) => originalRow.lastName.toLowerCase(),
     enableHiding: false,
-    header: () => {
+    enableSorting: true,
+    enablePinning: true,
+    size: 110,
+    minSize: 105,
+    maxSize: 150,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="lastName"
           label={"Last name"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -139,13 +170,19 @@ export const userColumns = ({
   {
     ...columnId({ id: "username" }),
     accessorFn: (originalRow) => originalRow.username,
-    header: () => {
+    enableSorting: true,
+    enablePinning: true,
+    size: 110,
+    minSize: 105,
+    maxSize: 150,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="username"
           label={"Username"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -169,13 +206,19 @@ export const userColumns = ({
     ...columnId({ id: "email" }),
     accessorFn: (originalRow) => originalRow.email,
     enableHiding: false,
-    header: () => {
+    enableSorting: true,
+    enablePinning: true,
+    size: 210,
+    minSize: 205,
+    maxSize: 250,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="email"
           label={"Email"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -197,13 +240,19 @@ export const userColumns = ({
   {
     ...columnId({ id: "role" }),
     accessorFn: (originalRow) => originalRow.role,
-    header: () => {
+    enableSorting: true,
+    enablePinning: true,
+    size: 85,
+    minSize: 80,
+    maxSize: 100,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="role"
           label={"Role"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -218,13 +267,19 @@ export const userColumns = ({
   {
     ...columnId({ id: "twoFaEnabled" }),
     accessorFn: (originalRow) => originalRow.twoFactorEnabled,
-    header: () => {
+    enableSorting: true,
+    enablePinning: true,
+    size: 120,
+    minSize: 118,
+    maxSize: 150,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="twoFaEnabled"
           label={"2FA Enabled"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -243,13 +298,19 @@ export const userColumns = ({
   {
     ...columnId({ id: "emailVerified" }),
     accessorFn: (originalRow) => originalRow.emailVerified,
-    header: () => {
+    enableSorting: true,
+    enablePinning: true,
+    size: 130,
+    minSize: 127,
+    maxSize: 150,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="emailVerified"
           label={"Email Verified"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -268,13 +329,19 @@ export const userColumns = ({
   {
     ...columnId({ id: "banned" }),
     accessorFn: (originalRow) => originalRow.banned,
-    header: () => {
+    enableSorting: true,
+    enablePinning: true,
+    size: 90,
+    minSize: 88,
+    maxSize: 100,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="banned"
           label={"Banned"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -293,13 +360,19 @@ export const userColumns = ({
   {
     ...columnId({ id: "banReason" }),
     accessorFn: (originalRow) => originalRow.banReason,
-    header: () => {
+    enableSorting: true,
+    enablePinning: true,
+    size: 120,
+    minSize: 110,
+    maxSize: 270,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="banReason"
           label={"Ban reason"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -319,14 +392,19 @@ export const userColumns = ({
     ...columnId({ id: "banExpires" }),
     accessorFn: (originalRow) => originalRow.banExpires,
     sortingFn: "datetime",
-    sortDescFirst: false,
-    header: () => {
+    enableSorting: true,
+    enablePinning: true,
+    size: 120,
+    minSize: 115,
+    maxSize: 170,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="banExpires"
           label={"Ban expires"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -351,14 +429,17 @@ export const userColumns = ({
     ...columnId({ id: "createdAt" }),
     accessorFn: (originalRow) => originalRow.createdAt,
     sortingFn: "datetime",
-    sortDescFirst: false,
-    header: () => {
+    size: 170,
+    minSize: 161 + 8,
+    maxSize: 200,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="createdAt"
           label={"Created At"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -383,14 +464,17 @@ export const userColumns = ({
     ...columnId({ id: "lastLoginAt" }),
     accessorFn: (originalRow) => originalRow.lastLoginAt,
     sortingFn: "datetime",
-    sortDescFirst: false,
-    header: () => {
+    size: 210,
+    minSize: 163 + 8,
+    maxSize: 250,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="lastLoginAt"
           label={"Last login at"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -414,13 +498,17 @@ export const userColumns = ({
   {
     ...columnId({ id: "lastLoginMethod" }),
     accessorFn: (originalRow) => originalRow.lastLoginMethod,
-    header: () => {
+    size: 170,
+    minSize: 156 + 8,
+    maxSize: 200,
+    header: ({ column }) => {
       return (
         <THeadDropdown
           id="lastLoginMethod"
           label={"Last login method"}
           isLoading={isLoading}
           startTransition={startTransition}
+          column={column}
         />
       );
     },
@@ -432,7 +520,20 @@ export const userColumns = ({
   {
     ...columnId({ id: "actions" }),
     enableHiding: false,
-    header: "Actions",
+    enableSorting: false,
+    size: 85,
+    minSize: 65 + 8,
+    maxSize: 100,
+    header: ({ column }) => (
+      <THeadDropdown
+        id="actions"
+        label={"Actions"}
+        isLoading={isLoading}
+        startTransition={startTransition}
+        column={column}
+      />
+    ),
+    enablePinning: true,
     cell: ({ row }) => {
       const user = row.original;
 

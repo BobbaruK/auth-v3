@@ -56,13 +56,6 @@ const UsersPage = async ({ searchParams }: Props) => {
         data={users}
         dataCount={totalUsers}
         dataSelected={usersSelected || []}
-        columnVisibilityObj={{
-          username: false,
-          banReason: true,
-          banExpires: true,
-          lastLoginAt: false,
-          lastLoginMethod: false,
-        }}
       />
 
       {/*
