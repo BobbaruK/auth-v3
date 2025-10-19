@@ -26,7 +26,7 @@ import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
 const DeleteAccountForm = lazy(
-  () => import("@/core/auth/components/forms/delete-account"),
+  () => import("@/core/user/components/form/delete-account"),
 );
 
 export const DeleteAccount = () => {

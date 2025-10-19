@@ -1,12 +1,12 @@
 "use server";
 
 import { MESSAGES } from "@/constants/messages";
-import { DeleteAccountSchema } from "@/core/auth/schemas/delete-account";
 import { auth } from "@/lib/auth";
 import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
+import { DeleteAccountSchema } from "../schemas/delete-account";
 
 export const deleteUser = async (
   values: z.infer<typeof DeleteAccountSchema>,

@@ -10,9 +10,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MESSAGES } from "@/constants/messages";
-import { changeEmail } from "@/core/auth/actions/change-email";
 import { ChangeEmailSchema } from "@/core/auth/schemas/change-email";
+import { changeEmail } from "@/core/user/actions/change-email";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TransitionStartFunction } from "react";
@@ -133,3 +134,27 @@ const ChangeEmailForm = ({
 };
 
 export default ChangeEmailForm;
+
+export function ChangeEmailSkeleton({
+  className,
+  ...restProps
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn("space-y-6", className)} {...restProps}>
+      <div className="space-y-4">
+        <div className="flex flex-col items-center justify-end gap-2">
+          <Skeleton className="h-[14px] w-full" />
+          <Skeleton className="h-[36px] w-full" />
+        </div>
+        <div className="flex flex-col items-center justify-end gap-2">
+          <Skeleton className="h-[14px] w-full" />
+          <Skeleton className="h-[36px] w-full" />
+        </div>
+      </div>
+      <div className="flex items-center justify-end gap-6">
+        <Skeleton className="h-10 grow" />
+        <Skeleton className="h-10 grow" />
+      </div>
+    </div>
+  );
+}

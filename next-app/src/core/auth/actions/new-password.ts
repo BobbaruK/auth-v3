@@ -1,7 +1,7 @@
 "use server";
 
 import { MESSAGES } from "@/constants/messages";
-import { NewPasswordSchema } from "@/core/auth/schemas/new-password";
+import { NewPasswordSchema } from "@/core/user/schemas/new-password";
 import { auth } from "@/lib/auth";
 import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";

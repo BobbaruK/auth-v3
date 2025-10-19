@@ -23,7 +23,7 @@ import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense, useEffect, useState } from "react";
 const ChangeAvatarForm = lazy(
-  () => import("@/core/auth/components/forms/change-avatar"),
+  () => import("@/core/user/components/form/change-avatar"),
 );
 
 export const ChangeAvatar = () => {

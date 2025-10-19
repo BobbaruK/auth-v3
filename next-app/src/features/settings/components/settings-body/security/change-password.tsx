@@ -16,16 +16,16 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ChangePasswordSkeleton } from "@/core/user/components/form/change-password";
+import { SetPasswordSkeleton } from "@/core/user/components/form/set-password";
 import { useSettingsContext } from "@/features/settings/providers/settings";
 import { useCustomMediaQuery } from "@/hooks/use-media-query";
-import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
 const ChangePasswordForm = lazy(
-  () => import("@/core/auth/components/forms/change-password"),
+  () => import("@/core/user/components/form/change-password"),
 );
 const SetPasswordForm = lazy(
-  () => import("@/core/auth/components/forms/set-password"),
+  () => import("@/core/user/components/form/set-password"),
 );
 
 export const ChangePassword = () => {
@@ -139,55 +139,3 @@ export const ChangePassword = () => {
     </div>
   );
 };
-
-function ChangePasswordSkeleton({
-  className,
-  ...restProps
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("flex flex-col gap-6", className)} {...restProps}>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
-        </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
-        </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
-        </div>
-      </div>
-      <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 grow" />
-        <Skeleton className="h-10 grow" />
-      </div>
-    </div>
-  );
-}
-
-function SetPasswordSkeleton({
-  className,
-  ...restProps
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("flex flex-col gap-6", className)} {...restProps}>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
-        </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
-        </div>
-      </div>
-      <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 grow" />
-        <Skeleton className="h-10 grow" />
-      </div>
-    </div>
-  );
-}

@@ -25,8 +25,8 @@ import {
   revokeOtherSeshs,
   revokeSelectedSesh,
   revokeSeshs,
-} from "@/core/auth/actions/sessions";
-import { getSessions } from "@/core/auth/data/get-sessions";
+} from "@/core/user/actions/sessions";
+import { getSessions } from "@/core/user/data/get-sessions";
 import { useSettingsContext } from "@/features/settings/providers/settings";
 import { signOut } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";

@@ -14,7 +14,7 @@ import { MESSAGES } from "@/constants/messages";
 import {
   linkAccount,
   unlinkAccount,
-} from "@/core/auth/actions/linking-account";
+} from "@/core/user/actions/linking-account";
 import { useSettingsContext } from "@/features/settings/providers/settings";
 import {
   SUPPORTED_OAUTH_PROVIDER_DETAILS,

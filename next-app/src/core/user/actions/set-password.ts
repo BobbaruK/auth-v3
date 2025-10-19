@@ -1,12 +1,12 @@
 "use server";
 
 import { MESSAGES } from "@/constants/messages";
-import { NewPasswordSchema } from "@/core/auth/schemas/new-password";
 import { auth } from "@/lib/auth";
 import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
+import { NewPasswordSchema } from "../schemas/new-password";
 
 export const setPassword = async (
   values: z.infer<typeof NewPasswordSchema>,

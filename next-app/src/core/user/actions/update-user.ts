@@ -1,12 +1,12 @@
 "use server";
 
 import { MESSAGES } from "@/constants/messages";
-import { PersonalSchema } from "@/core/auth/schemas/personal";
 import { auth } from "@/lib/auth";
 import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
+import { PersonalSchema } from "../schemas/personal";
 
 export const updateUser = async (
   values: z.infer<typeof PersonalSchema>,

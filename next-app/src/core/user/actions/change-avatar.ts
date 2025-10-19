@@ -6,7 +6,7 @@ import { catchError } from "@/lib/utils/catch-error-action";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
-import { ChangeAvatarSchema } from "@/core/auth/schemas/change-avatar";
+import { ChangeAvatarSchema } from "../schemas/change-avatar";
 
 export const changeAvatar = async (
   values: z.infer<typeof ChangeAvatarSchema>,
