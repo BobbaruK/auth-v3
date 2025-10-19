@@ -21,7 +21,6 @@ export const SelectHeader = <T extends { id: string }>({
   const isAllSelected = selected.length === dataCount;
   const isSomeSelected = selected.length > 0 && selected.length < dataCount;
 
-
   const handleSelect = () => {
     if (isAllSelected) {
       setSearchParams({ selected: null });
@@ -50,7 +49,7 @@ export const SelectHeader = <T extends { id: string }>({
   };
 
   return (
-    <div className="flex items-center justify-center gap-1">
+    <div className="flex h-9 items-center justify-center gap-2 p-0 text-inherit [&_svg]:size-3">
       <Checkbox
         checked={isAllSelected || (isSomeSelected && "indeterminate")}
         onCheckedChange={handleSelect}
