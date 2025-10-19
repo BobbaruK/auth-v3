@@ -19,7 +19,7 @@ const BanUserForm = lazy(() => import("@/core/auth/components/forms/ban-user"));
 
 interface Props {
   user: UserProfile;
-  session: Session;
+  session: Session | null;
 }
 
 const AdminActions = ({ user, session }: Props) => {

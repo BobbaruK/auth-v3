@@ -6,7 +6,7 @@ import { UserProfile } from "@/types/user-profile";
 
 interface Props {
   user: UserProfile;
-  session: Session;
+  session: Session | null;
 }
 
 const ProfileContent = ({ user, session }: Props) => {

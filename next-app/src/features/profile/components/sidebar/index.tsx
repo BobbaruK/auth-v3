@@ -20,7 +20,7 @@ import { LucideIconProps } from "@/types/icons";
 
 interface Props {
   user: UserProfile;
-  session: Session;
+  session: Session | null;
 }
 
 const ProfileSidebar = ({ user, session }: Props) => {
