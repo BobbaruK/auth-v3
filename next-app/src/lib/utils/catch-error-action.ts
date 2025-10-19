@@ -2,8 +2,9 @@ import { ErrorCode } from "@/types/errors";
 import { APIError } from "better-auth/api";
 
 export const catchError = (error: unknown) => {
-  console.error("Something went wrong: ", JSON.stringify(error));
+  // console.error("Something went wrong: ", JSON.stringify(error));
 
+  // TODO: Handle prisma errors too
   if (error instanceof APIError) {
     const errCode = error.body?.code as ErrorCode;
 
