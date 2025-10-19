@@ -18,18 +18,12 @@ import {
 } from "@/components/ui/drawer";
 import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { Header, Trigger } from "@/types/responsive-dialog";
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { CustomButton } from "./custom-button";
 
 interface Props {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: (open: boolean) => void;
   trigger: Trigger;
   header: Header;
   children: ReactNode;
