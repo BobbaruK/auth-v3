@@ -2,27 +2,10 @@
 
 import { CustomButton } from "@/components/custom-button";
 import { TrashIcon } from "@/components/icons/trash";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import ResponsiveDialog from "@/components/responsive-dialog";
+import { DialogClose } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSettingsContext } from "@/features/settings/providers/settings";
-import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
 const DeleteAccountForm = lazy(
@@ -37,7 +20,6 @@ export const DeleteAccount = () => {
     openDeleteAccountDialog,
     setOpenDeleteAccountDialog,
   } = useSettingsContext();
-  const isDesktop = useCustomMediaQuery();
 
   return (
     <div className="flex items-center justify-between">
@@ -47,12 +29,13 @@ export const DeleteAccount = () => {
           Permanently delete your account and all data
         </p>
       </div>
-      {isDesktop ? (
-        <Dialog
-          open={openDeleteAccountDialog}
-          onOpenChange={setOpenDeleteAccountDialog}
-        >
-          <DialogTrigger asChild>
+
+      <ResponsiveDialog
+        open={openDeleteAccountDialog}
+        setOpen={setOpenDeleteAccountDialog}
+        trigger={{
+          type: "element",
+          element: (
             <CustomButton
               buttonLabel="Delete Account"
               icon={TrashIcon}
@@ -61,80 +44,35 @@ export const DeleteAccount = () => {
               hideLabelOnMobile={false}
               disabled={isLoading}
             />
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Delete Account</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to delete your account? This action cannot
-                be undone.
-              </DialogDescription>
-            </DialogHeader>
-            <Suspense fallback={<DeleteAccountSkeleton />}>
-              <DeleteAccountForm
-                userEmail={user.email}
-                isPending={isLoading}
-                startTransition={startTransition}
-                setOpenDeleteAccountDialog={setOpenDeleteAccountDialog}
-                closeDialog={
-                  <DialogClose asChild>
-                    <CustomButton
-                      buttonLabel="Cancel"
-                      variant={"outline"}
-                      disabled={isLoading}
-                      className="w-full"
-                    />
-                  </DialogClose>
-                }
-              />
-            </Suspense>
-          </DialogContent>
-        </Dialog>
-      ) : (
-        <Drawer
-          open={openDeleteAccountDialog}
-          onOpenChange={setOpenDeleteAccountDialog}
-        >
-          <DrawerTrigger asChild>
-            <CustomButton
-              buttonLabel="Delete Account"
-              icon={TrashIcon}
-              variant={"danger"}
-              iconPlacement="left"
-              hideLabelOnMobile={false}
-              disabled={isLoading}
-            />
-          </DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader className="text-left">
-              <DrawerTitle>Delete Account</DrawerTitle>
-              <DrawerDescription>
-                Are you sure you want to delete your account? This action cannot
-                be undone.
-              </DrawerDescription>
-            </DrawerHeader>
-            <Suspense fallback={<DeleteAccountSkeleton />}>
-              <DeleteAccountForm
-                className="p-4"
-                userEmail={user.email}
-                isPending={isLoading}
-                startTransition={startTransition}
-                setOpenDeleteAccountDialog={setOpenDeleteAccountDialog}
-                closeDialog={
-                  <DrawerClose asChild>
-                    <CustomButton
-                      buttonLabel="Cancel"
-                      variant={"outline"}
-                      className="w-full"
-                      disabled={isLoading}
-                    />
-                  </DrawerClose>
-                }
-              />
-            </Suspense>
-          </DrawerContent>
-        </Drawer>
-      )}
+          ),
+        }}
+        header={{
+          title: {
+            label: "Delete Account",
+          },
+          description:
+            "Are you sure you want to delete your account? This action cannot be undone.",
+        }}
+      >
+        <Suspense fallback={<DeleteAccountSkeleton />}>
+          <DeleteAccountForm
+            userEmail={user.email}
+            isPending={isLoading}
+            startTransition={startTransition}
+            setOpenDeleteAccountDialog={setOpenDeleteAccountDialog}
+            closeDialog={
+              <DialogClose asChild>
+                <CustomButton
+                  buttonLabel="Cancel"
+                  variant={"outline"}
+                  disabled={isLoading}
+                  className="w-full"
+                />
+              </DialogClose>
+            }
+          />
+        </Suspense>
+      </ResponsiveDialog>
     </div>
   );
 };

@@ -252,3 +252,15 @@ function DeviceIcon({ deviceType }: { deviceType: UAParser.IDevice["type"] }) {
 
   return <MonitorIcon />;
 }
+
+export function SessionFallback() {
+  return (
+    <div className="flex flex-col gap-6">
+      <Skeleton className="h-80 w-full" />
+      <div className="flex items-center justify-end gap-4">
+        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-10 w-24" />
+      </div>
+    </div>
+  );
+}

@@ -1,25 +1,9 @@
 import { CustomButton } from "@/components/custom-button";
+import ResponsiveDialog from "@/components/responsive-dialog";
 import TextSeparator from "@/components/text-separator";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MESSAGES } from "@/constants/messages";
 import { useSettingsContext } from "@/features/settings/providers/settings";
-import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
 const OTPVerificationForm = lazy(
@@ -28,75 +12,43 @@ const OTPVerificationForm = lazy(
 
 const TwoFactorScanQR = () => {
   const {
-    user,
     totpURI,
     openScanQRCodeDialog,
     setOpenScanQRCodeDialog,
     setOpenBackupCodesDialog,
   } = useSettingsContext();
-  const isDesktop = useCustomMediaQuery();
 
-  return isDesktop ? (
-    <>
-      <Dialog
-        open={openScanQRCodeDialog}
-        onOpenChange={setOpenScanQRCodeDialog}
-      >
-        <DialogTrigger asChild hidden>
+  return (
+    <ResponsiveDialog
+      open={openScanQRCodeDialog}
+      setOpen={setOpenScanQRCodeDialog}
+      trigger={{
+        type: "element",
+        hidden: true,
+        element: (
           <CustomButton
-            buttonLabel={user?.twoFactorEnabled ? "Disable" : "Enable"}
+            buttonLabel={"Get the codes"}
             variant={"outline"}
             size={"sm"}
           />
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>2FA Verification</DialogTitle>
-            <DialogDescription>{MESSAGES.QR_SCAN}</DialogDescription>
-          </DialogHeader>
-          <Suspense fallback={<TwoFactorScanQRSkeleton />}>
-            <OTPVerificationForm
-              otpLink={totpURI}
-              isFirstTime
-              setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
-              setOpenBackupCodesDialog={setOpenBackupCodesDialog}
-            />
-          </Suspense>
-        </DialogContent>
-      </Dialog>
-    </>
-  ) : (
-    <>
-      <Drawer
-        open={openScanQRCodeDialog}
-        onOpenChange={setOpenScanQRCodeDialog}
-      >
-        <DrawerTrigger asChild hidden>
-          <CustomButton
-            buttonLabel={user?.twoFactorEnabled ? "Disable" : "Enable"}
-            variant={"outline"}
-            size={"sm"}
-          />
-        </DrawerTrigger>
-        <DrawerContent className="p-4">
-          <DrawerHeader className="text-left">
-            <DrawerTitle>2FA Verification</DrawerTitle>
-            <DrawerDescription>{MESSAGES.QR_SCAN}</DrawerDescription>
-          </DrawerHeader>
-
-          <Suspense
-            fallback={<TwoFactorScanQRSkeleton className="mb-4 px-4" />}
-          >
-            <OTPVerificationForm
-              otpLink={totpURI}
-              isFirstTime
-              setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
-              setOpenBackupCodesDialog={setOpenBackupCodesDialog}
-            />
-          </Suspense>
-        </DrawerContent>
-      </Drawer>
-    </>
+        ),
+      }}
+      header={{
+        title: {
+          label: `2FA Verification`,
+        },
+        description: MESSAGES.QR_SCAN,
+      }}
+    >
+      <Suspense fallback={<TwoFactorScanQRSkeleton />}>
+        <OTPVerificationForm
+          otpLink={totpURI}
+          isFirstTime
+          setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
+          setOpenBackupCodesDialog={setOpenBackupCodesDialog}
+        />
+      </Suspense>
+    </ResponsiveDialog>
   );
 };
 

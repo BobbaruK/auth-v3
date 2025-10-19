@@ -1,23 +1,7 @@
 import { CustomButton } from "@/components/custom-button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import ResponsiveDialog from "@/components/responsive-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSettingsContext } from "@/features/settings/providers/settings";
-import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
 const ActivationTwoFactorForm = lazy(
@@ -35,78 +19,40 @@ const TwoFactorActivation = () => {
     setTotpURI,
     setOpenScanQRCodeDialog,
   } = useSettingsContext();
-  const isDesktop = useCustomMediaQuery();
 
-  return isDesktop ? (
-    <>
-      <Dialog
-        open={openActivate2faDialog}
-        onOpenChange={setOpenActivate2faDialog}
-      >
-        <DialogTrigger asChild>
+  return (
+    <ResponsiveDialog
+      open={openActivate2faDialog}
+      setOpen={setOpenActivate2faDialog}
+      trigger={{
+        type: "element",
+        element: (
           <CustomButton
             buttonLabel={user?.twoFactorEnabled ? "Disable" : "Enable"}
             variant={"outline"}
             size={"sm"}
           />
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>
-              {user?.twoFactorEnabled ? "Deactivate" : "Activate"} 2FA
-            </DialogTitle>
-            <DialogDescription>Enter your password below.</DialogDescription>
-          </DialogHeader>
-          <Suspense fallback={<TwoFASkeleton />}>
-            <ActivationTwoFactorForm
-              user={user}
-              isLoading={isLoading}
-              startTransition={startTransition}
-              setTotpURI={setTotpURI}
-              setOpenActivate2faDialog={setOpenActivate2faDialog}
-              setBackupCodes={setBackupCodes}
-              setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
-            />
-          </Suspense>
-        </DialogContent>
-      </Dialog>
-    </>
-  ) : (
-    <>
-      <Drawer
-        open={openActivate2faDialog}
-        onOpenChange={setOpenActivate2faDialog}
-      >
-        <DrawerTrigger asChild>
-          <CustomButton
-            buttonLabel={user?.twoFactorEnabled ? "Disable" : "Enable"}
-            variant={"outline"}
-            size={"sm"}
-          />
-        </DrawerTrigger>
-        <DrawerContent>
-          <DrawerHeader className="text-left">
-            <DrawerTitle>
-              {user?.twoFactorEnabled ? "Deactivate" : "Activate"} 2FA
-            </DrawerTitle>
-            <DrawerDescription>Enter your password below.</DrawerDescription>
-          </DrawerHeader>
-
-          <Suspense fallback={<TwoFASkeleton className="mb-4 px-4" />}>
-            <ActivationTwoFactorForm
-              className="p-4"
-              user={user}
-              isLoading={false}
-              startTransition={startTransition}
-              setTotpURI={setTotpURI}
-              setOpenActivate2faDialog={setOpenActivate2faDialog}
-              setBackupCodes={setBackupCodes}
-              setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
-            />
-          </Suspense>
-        </DrawerContent>
-      </Drawer>
-    </>
+        ),
+      }}
+      header={{
+        title: {
+          label: `${user?.twoFactorEnabled ? "Deactivate" : "Activate"} 2FA`,
+        },
+        description: "Enter your password below.",
+      }}
+    >
+      <Suspense fallback={<TwoFASkeleton />}>
+        <ActivationTwoFactorForm
+          user={user}
+          isLoading={isLoading}
+          startTransition={startTransition}
+          setTotpURI={setTotpURI}
+          setOpenActivate2faDialog={setOpenActivate2faDialog}
+          setBackupCodes={setBackupCodes}
+          setOpenScanQRCodeDialog={setOpenScanQRCodeDialog}
+        />
+      </Suspense>
+    </ResponsiveDialog>
   );
 };
 

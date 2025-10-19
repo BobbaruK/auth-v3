@@ -2,24 +2,10 @@
 
 import { CustomButton } from "@/components/custom-button";
 import { KeyIcon } from "@/components/icons/key";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import ResponsiveDialog from "@/components/responsive-dialog";
 import { ChangePasswordSkeleton } from "@/core/user/components/form/change-password";
 import { SetPasswordSkeleton } from "@/core/user/components/form/set-password";
 import { useSettingsContext } from "@/features/settings/providers/settings";
-import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { lazy, Suspense } from "react";
 const ChangePasswordForm = lazy(
   () => import("@/core/user/components/form/change-password"),
@@ -36,7 +22,6 @@ export const ChangePassword = () => {
     isLoading,
     startTransition,
   } = useSettingsContext();
-  const isDesktop = useCustomMediaQuery();
 
   const userProviders = user.accounts.map((provider) => provider.providerId);
   const hasCredential = userProviders.includes("credential");
@@ -50,12 +35,12 @@ export const ChangePassword = () => {
         </p>
       </div>
 
-      {isDesktop ? (
-        <Dialog
-          open={openChangePasswordDialog}
-          onOpenChange={setOpenChangePasswordDialog}
-        >
-          <DialogTrigger asChild>
+      <ResponsiveDialog
+        open={openChangePasswordDialog}
+        setOpen={setOpenChangePasswordDialog}
+        trigger={{
+          type: "element",
+          element: (
             <CustomButton
               buttonLabel={`${hasCredential ? "Change" : "Set"} Password`}
               variant={"outline"}
@@ -63,79 +48,32 @@ export const ChangePassword = () => {
               iconPlacement="left"
               hideLabelOnMobile={false}
             />
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>
-                {hasCredential ? "Change" : "Set"} your password
-              </DialogTitle>
-            </DialogHeader>
-            {hasCredential ? (
-              <Suspense fallback={<ChangePasswordSkeleton />}>
-                <ChangePasswordForm
-                  isLoading={isLoading}
-                  startTransition={startTransition}
-                  setOpenChangePasswordDialog={setOpenChangePasswordDialog}
-                />
-              </Suspense>
-            ) : (
-              <Suspense fallback={<SetPasswordSkeleton />}>
-                <SetPasswordForm
-                  isLoading={isLoading}
-                  startTransition={startTransition}
-                  setOpenChangePasswordDialog={setOpenChangePasswordDialog}
-                />
-              </Suspense>
-            )}
-          </DialogContent>
-        </Dialog>
-      ) : (
-        <Drawer
-          open={openChangePasswordDialog}
-          onOpenChange={setOpenChangePasswordDialog}
-        >
-          <DrawerTrigger asChild>
-            <CustomButton
-              buttonLabel={`${hasCredential ? "Change" : "Set"} Password`}
-              variant={"outline"}
-              icon={KeyIcon}
-              iconPlacement="left"
-              hideLabelOnMobile={false}
+          ),
+        }}
+        header={{
+          title: {
+            label: `${hasCredential ? "Change" : "Set"} your password`,
+          },
+        }}
+      >
+        {hasCredential ? (
+          <Suspense fallback={<ChangePasswordSkeleton />}>
+            <ChangePasswordForm
+              isLoading={isLoading}
+              startTransition={startTransition}
+              setOpenChangePasswordDialog={setOpenChangePasswordDialog}
             />
-          </DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader className="text-left">
-              <DrawerTitle>
-                {hasCredential ? "Change" : "Set"} your password
-              </DrawerTitle>
-            </DrawerHeader>
-
-            {hasCredential ? (
-              <Suspense
-                fallback={<ChangePasswordSkeleton className="mb-4 px-4" />}
-              >
-                <ChangePasswordForm
-                  className="mb-4 px-4"
-                  isLoading={isLoading}
-                  startTransition={startTransition}
-                  setOpenChangePasswordDialog={setOpenChangePasswordDialog}
-                />
-              </Suspense>
-            ) : (
-              <Suspense
-                fallback={<SetPasswordSkeleton className="mb-4 px-4" />}
-              >
-                <SetPasswordForm
-                  className="mb-4 px-4"
-                  isLoading={isLoading}
-                  startTransition={startTransition}
-                  setOpenChangePasswordDialog={setOpenChangePasswordDialog}
-                />
-              </Suspense>
-            )}
-          </DrawerContent>
-        </Drawer>
-      )}
+          </Suspense>
+        ) : (
+          <Suspense fallback={<SetPasswordSkeleton />}>
+            <SetPasswordForm
+              isLoading={isLoading}
+              startTransition={startTransition}
+              setOpenChangePasswordDialog={setOpenChangePasswordDialog}
+            />
+          </Suspense>
+        )}
+      </ResponsiveDialog>
     </div>
   );
 };
