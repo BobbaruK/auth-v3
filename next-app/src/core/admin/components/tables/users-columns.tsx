@@ -26,6 +26,9 @@ export const userColumns = ({
   // Select
   {
     ...columnId({ id: "select" }),
+    meta: {
+      label: "Select",
+    },
     enableHiding: false,
     enableSorting: false,
     enablePinning: true,
@@ -56,6 +59,9 @@ export const userColumns = ({
   // Avatar
   {
     ...columnId({ id: "avatar" }),
+    meta: {
+      label: "Avatar",
+    },
     accessorFn: (originalRow) => originalRow.name.toLowerCase(),
     enableHiding: true,
     enableSorting: false,
@@ -93,6 +99,9 @@ export const userColumns = ({
   // First Name
   {
     ...columnId({ id: "firstName" }),
+    meta: {
+      label: "First name",
+    },
     accessorFn: (originalRow) => originalRow.firstName.toLowerCase(),
     enableHiding: false,
     enableSorting: true,
@@ -131,6 +140,9 @@ export const userColumns = ({
   // Last Name
   {
     ...columnId({ id: "lastName" }),
+    meta: {
+      label: "Last name",
+    },
     accessorFn: (originalRow) => originalRow.lastName.toLowerCase(),
     enableHiding: false,
     enableSorting: true,
@@ -169,6 +181,9 @@ export const userColumns = ({
   // Username
   {
     ...columnId({ id: "username" }),
+    meta: {
+      label: "Username",
+    },
     accessorFn: (originalRow) => originalRow.username,
     enableSorting: true,
     enablePinning: true,
@@ -204,6 +219,9 @@ export const userColumns = ({
   // Email
   {
     ...columnId({ id: "email" }),
+    meta: {
+      label: "Email",
+    },
     accessorFn: (originalRow) => originalRow.email,
     enableHiding: false,
     enableSorting: true,
@@ -239,6 +257,9 @@ export const userColumns = ({
   // Role
   {
     ...columnId({ id: "role" }),
+    meta: {
+      label: "Role",
+    },
     accessorFn: (originalRow) => originalRow.role,
     enableSorting: true,
     enablePinning: true,
@@ -266,6 +287,9 @@ export const userColumns = ({
   // 2FA Enabled
   {
     ...columnId({ id: "twoFaEnabled" }),
+    meta: {
+      label: "2FA enabled",
+    },
     accessorFn: (originalRow) => originalRow.twoFactorEnabled,
     enableSorting: true,
     enablePinning: true,
@@ -297,6 +321,9 @@ export const userColumns = ({
   // Email Verified
   {
     ...columnId({ id: "emailVerified" }),
+    meta: {
+      label: "Email verified",
+    },
     accessorFn: (originalRow) => originalRow.emailVerified,
     enableSorting: true,
     enablePinning: true,
@@ -328,6 +355,9 @@ export const userColumns = ({
   // Banned
   {
     ...columnId({ id: "banned" }),
+    meta: {
+      label: "Banned",
+    },
     accessorFn: (originalRow) => originalRow.banned,
     enableSorting: true,
     enablePinning: true,
@@ -359,6 +389,9 @@ export const userColumns = ({
   // Ban reason
   {
     ...columnId({ id: "banReason" }),
+    meta: {
+      label: "Ban reason",
+    },
     accessorFn: (originalRow) => originalRow.banReason,
     enableSorting: true,
     enablePinning: true,
@@ -390,6 +423,9 @@ export const userColumns = ({
   // Ban expires
   {
     ...columnId({ id: "banExpires" }),
+    meta: {
+      label: "Ban expires",
+    },
     accessorFn: (originalRow) => originalRow.banExpires,
     sortingFn: "datetime",
     enableSorting: true,
@@ -427,10 +463,13 @@ export const userColumns = ({
   // Created At
   {
     ...columnId({ id: "createdAt" }),
+    meta: {
+      label: "Created at",
+    },
     accessorFn: (originalRow) => originalRow.createdAt,
     sortingFn: "datetime",
     size: 170,
-    minSize: 161 + 8,
+    minSize: 170,
     maxSize: 200,
     header: ({ column }) => {
       return (
@@ -462,10 +501,13 @@ export const userColumns = ({
   // Last login at
   {
     ...columnId({ id: "lastLoginAt" }),
+    meta: {
+      label: "Last login at",
+    },
     accessorFn: (originalRow) => originalRow.lastLoginAt,
     sortingFn: "datetime",
     size: 210,
-    minSize: 163 + 8,
+    minSize: 170,
     maxSize: 250,
     header: ({ column }) => {
       return (
@@ -497,9 +539,12 @@ export const userColumns = ({
   // Last login method
   {
     ...columnId({ id: "lastLoginMethod" }),
+    meta: {
+      label: "Last login method",
+    },
     accessorFn: (originalRow) => originalRow.lastLoginMethod,
     size: 170,
-    minSize: 156 + 8,
+    minSize: 165,
     maxSize: 200,
     header: ({ column }) => {
       return (
@@ -519,10 +564,13 @@ export const userColumns = ({
   // Actions
   {
     ...columnId({ id: "actions" }),
+    meta: {
+      label: "Actions",
+    },
     enableHiding: false,
     enableSorting: false,
-    size: 85,
-    minSize: 65 + 8,
+    size: 90,
+    minSize: 75,
     maxSize: 100,
     header: ({ column }) => (
       <THeadDropdown
