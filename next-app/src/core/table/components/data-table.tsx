@@ -161,7 +161,8 @@ export function DataTable<TData, TValue>({
         <div className={cn({ "border-b": showPagination !== false })}>
           <Table
             style={{
-              width: table.getTotalSize(),
+              // width: table.getTotalSize(),
+              width: "100%",
             }}
           >
             <TableHeader>
