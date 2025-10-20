@@ -1,14 +1,10 @@
-"use server";
-
 import { PAGINATION_DEFAULT } from "@/constants/table";
 import { Prisma } from "@/generated/prisma";
 import { auth } from "@/lib/auth";
 import db from "@/lib/prisma";
-import { catchError } from "@/lib/utils/catch-error-action";
-import { UserWithRole } from "better-auth/plugins/admin";
 import { headers } from "next/headers";
 
-export const getUsers = async ({
+export const getUsersBAuth = async ({
   pageNumber,
   perPage,
   sortBy,
@@ -22,18 +18,7 @@ export const getUsers = async ({
   sortDirection: "asc" | "desc" | undefined;
   searchField: "email" | "name" | undefined;
   searchValue: string;
-}): Promise<
-  | {
-      data?: undefined;
-      total?: undefined;
-      error: string;
-    }
-  | {
-      data: never[] | UserWithRole[];
-      total: number;
-      error?: undefined;
-    }
-> => {
+}) => {
   const limit = perPage || PAGINATION_DEFAULT;
   const offset = pageNumber ? pageNumber * limit : 0;
 
@@ -58,13 +43,12 @@ export const getUsers = async ({
       data: data.users,
       total: data.total,
     };
-  } catch (error) {
-    // TODO: do this for all get data functions
-    return catchError(error);
+  } catch {
+    return null;
   }
 };
 
-export const getPrismaUsers = async ({
+export const getUsersPrisma = async ({
   where,
   perPage,
   pageNumber,

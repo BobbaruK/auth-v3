@@ -1,7 +1,7 @@
 import { PageStructure } from "@/components/page-structure";
 import { loadSearchParams } from "@/components/search-params";
 import { DataTableTransitionWrapper } from "@/core/admin/components/tables/data-table-transition-wrapper";
-import { getPrismaUsers, getUsers } from "@/core/admin/data/get-users";
+import { getUsersPrisma, getUsersBAuth } from "@/core/admin/data/get-users";
 import { UserSession } from "@/types/session";
 import { SearchParams } from "nuqs/server";
 
@@ -24,7 +24,7 @@ const UsersPage = async ({ searchParams }: Props) => {
     selected,
   } = await loadSearchParams(searchParams);
 
-  const usersData = await getUsers({
+  const usersData = await getUsersBAuth({
     // pagination
     pageNumber: pageIndex,
     perPage: pageSize,
@@ -35,11 +35,21 @@ const UsersPage = async ({ searchParams }: Props) => {
     searchValue: search,
     searchField: searchBy,
   });
-  const users = usersData?.data as UserSession[];
 
-  const totalUsers = usersData?.total || 0;
+  if (!usersData) {
+    return (
+      <PageStructure>
+        <h1 className="text-3xl font-bold">No data!</h1>
+        <p>No users returned</p>
+      </PageStructure>
+    );
+  }
 
-  const usersSelected = await getPrismaUsers({
+  const users = usersData.data as UserSession[];
+
+  const totalUsers = usersData.total || 0;
+
+  const usersSelected = await getUsersPrisma({
     where: {
       id: {
         in: selected || [],
@@ -47,14 +57,6 @@ const UsersPage = async ({ searchParams }: Props) => {
     },
     perPage: -1,
   });
-
-  if (usersData.error) {
-    return (
-      <PageStructure>
-        <h1 className="text-3xl font-bold">Forbidden!</h1>
-      </PageStructure>
-    );
-  }
 
   return (
     <PageStructure>
