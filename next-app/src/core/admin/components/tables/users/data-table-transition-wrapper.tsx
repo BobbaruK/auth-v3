@@ -5,6 +5,8 @@ import TableProvider from "@/core/table/providers/table-provider";
 import { UserSession } from "@/types/session";
 import { useTransition } from "react";
 import { userColumns } from "./users-columns";
+import PaginationActions from "./pagination-actions";
+import { TableRowSelect } from "@/types/table-row-select";
 
 interface Props {
   data: UserSession[];
@@ -19,15 +21,24 @@ export const DataTableTransitionWrapper = ({
 }: Props) => {
   const [isLoading, startTransition] = useTransition();
 
+  const selected: TableRowSelect = {
+    type: "users",
+    data: dataSelected || null,
+  };
+
   return (
     <TableProvider
       isLoading={isLoading}
       startTransition={startTransition}
       dataCount={dataCount || 0}
-      dataSelected={{
-        type: "users",
-        data: dataSelected || null,
-      }}
+      dataSelected={selected}
+      paginationActions={
+        <PaginationActions
+          dataSelected={selected}
+          isLoading={isLoading}
+          startTransition={startTransition}
+        />
+      }
       showSearchSwitch
     >
       <DataTable

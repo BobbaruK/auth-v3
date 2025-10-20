@@ -15,14 +15,16 @@ import { UserProfile } from "@/types/user-profile";
 import { useRouter } from "next/navigation";
 import { lazy, Suspense, useState, useTransition } from "react";
 import { toast } from "sonner";
-const BanUserForm = lazy(() => import("@/core/admin/components/forms/ban-user"));
+const BanUserForm = lazy(
+  () => import("@/core/admin/components/forms/ban-user"),
+);
 
 interface Props {
   user: UserProfile;
   session: Session | null;
 }
 
-const AdminActions = ({ user, session }: Props) => {
+const ProfileActions = ({ user, session }: Props) => {
   const [isPending, startTransition] = useTransition();
   const [openBanDialog, setOpenBanDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -77,7 +79,7 @@ const AdminActions = ({ user, session }: Props) => {
         {session?.user.role === UserRole.OWNER && (
           <CustomButton
             buttonLabel="Impersonate"
-            variant={"outline"}
+            variant={"info"}
             className="w-full"
             disabled={isPending}
             onClick={handleImpersonate}
@@ -167,4 +169,4 @@ const AdminActions = ({ user, session }: Props) => {
   );
 };
 
-export default AdminActions;
+export default ProfileActions;

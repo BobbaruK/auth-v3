@@ -12,7 +12,7 @@ import { UserSession } from "@/types/session";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { TransitionStartFunction } from "react";
-import AdminActions from "./admin-actions";
+import RowActions from "./row-actions";
 
 export const userColumns = ({
   isLoading,
@@ -587,7 +587,7 @@ export const userColumns = ({
 
       return (
         <div className="grid place-items-center p-2">
-          <AdminActions user={user} />
+          <RowActions user={user} />
         </div>
       );
     },

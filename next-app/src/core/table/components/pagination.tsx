@@ -1,14 +1,6 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
-import ResponsiveDialog from "@/components/responsive-dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -17,142 +9,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { BATCH_ITEMS } from "@/constants/misc";
 import { PAGINATION_ARR } from "@/constants/table";
-import { unbanUser } from "@/core/admin/actions/ban-user";
-import DeleteUser from "@/core/admin/components/delete-user";
-import { BanUserFormSkeleton } from "@/core/admin/components/forms/ban-user";
 import { useSearchParams } from "@/hooks/use-search-params";
-import { chunkArray } from "@/lib/utils/chunk-array";
-import { lazy, Suspense, useState } from "react";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
-import { toast } from "sonner";
-import { useCopyToClipboard } from "usehooks-ts";
 import { useTableContext } from "../providers/table-provider";
-const BanUserForm = lazy(
-  () => import("@/core/admin/components/forms/ban-user"),
-);
 
 export function DataTablePagination() {
-  const { dataCount, isLoading, startTransition, dataSelected } =
+  const { dataCount, isLoading, startTransition, paginationActions } =
     useTableContext();
   const [{ pageSize, pageIndex, selected }, setSearchParams] =
     useSearchParams(startTransition);
-  const [copiedText, copy] = useCopyToClipboard();
-  const [openBanDialog, setOpenBanDialog] = useState(false);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const totalPages = Math.ceil(dataCount / pageSize);
-  const userIdBatches = chunkArray(dataSelected?.data || [], BATCH_ITEMS);
-
-  const handleCopy = (text: string) => () => {
-    copy(text);
-    if (!text) {
-      toast.error("Nothing to copy");
-      return;
-    }
-
-    copy(text)
-      .then(() => {
-        toast.success("Copied", {
-          description: <div className="line-clamp-1">{copiedText || text}</div>,
-        });
-      })
-      .catch((error) => {
-        if (error instanceof Error) console.error(error.message);
-
-        toast.error("Failed to copy!");
-      });
-  };
-
-  const handleUnban = () => {
-    startTransition(async () => {
-      for (const batch of userIdBatches) {
-        const results = (await Promise.allSettled(
-          batch.map((user) => unbanUser(user)),
-        )) as {
-          status: string;
-          value: {
-            error?: string;
-            success?: string;
-          };
-        }[];
-
-        for (const result of results) {
-          // console.log(result.value);
-
-          if (result.value.error) toast.error(result.value.error);
-          if (result.value.success) toast.success(result.value.success);
-        }
-
-        // console.log("Batch done:", results);
-        await new Promise((r) => setTimeout(r, 200));
-      }
-    });
-  };
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-4">
-      <ResponsiveDialog
-        open={openBanDialog}
-        setOpen={setOpenBanDialog}
-        trigger={{
-          type: "label",
-          label: "Ban",
-          hidden: true,
-        }}
-        header={{
-          title: {
-            label: "Ban user(s)",
-          },
-        }}
-      >
-        <Suspense fallback={<BanUserFormSkeleton />}>
-          <BanUserForm
-            users={dataSelected?.data || []}
-            isLoading={isLoading}
-            startTransition={startTransition}
-            setOpenBanDialog={setOpenBanDialog}
-          />
-        </Suspense>
-      </ResponsiveDialog>
-
-      <ResponsiveDialog
-        open={openDeleteDialog}
-        setOpen={setOpenDeleteDialog}
-        trigger={{
-          type: "element",
-          element: (
-            <CustomButton
-              buttonLabel="Delete"
-              variant={"destructive"}
-              className="w-full"
-              disabled={isLoading}
-              onClick={() => setOpenDeleteDialog(true)}
-            />
-          ),
-          hidden: true,
-        }}
-        header={{
-          title: {
-            label: "Are you absolutely sure?",
-          },
-          description:
-            "This action cannot be undone. This will permanently delete this account and remove it's data from our servers.",
-        }}
-      >
-        <DeleteUser
-          users={dataSelected?.data || []}
-          isLoading={isLoading}
-          startTransition={startTransition}
-          setOpenDeleteDialog={setOpenDeleteDialog}
-        />
-      </ResponsiveDialog>
-
       <div className="flex flex-wrap items-center gap-4">
         <div className="text-muted-foreground flex-1 text-sm">
           {isLoading ? (
@@ -164,42 +39,7 @@ export function DataTablePagination() {
           )}
         </div>
 
-        {selected.length > 0 && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <CustomButton
-                buttonLabel="Actions"
-                size={"sm"}
-                variant={"outline"}
-                className="h-8"
-                disabled={isLoading}
-              />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem
-                onClick={handleCopy(selected.map((id) => `${id}`).join("\n"))}
-              >
-                Copy id(s)
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                variant="destructive"
-                onClick={() => setOpenBanDialog(true)}
-              >
-                Ban
-              </DropdownMenuItem>
-              <DropdownMenuItem variant="default" onClick={handleUnban}>
-                Unban
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                variant="destructive"
-                onClick={() => setOpenDeleteDialog(true)}
-              >
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
+        {selected.length > 0 && paginationActions}
       </div>
 
       <div className="flex flex-wrap items-center gap-6 lg:space-x-8">

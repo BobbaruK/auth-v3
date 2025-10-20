@@ -1,19 +1,19 @@
 import { TableRowSelect } from "@/types/table-row-select";
-import React, { TransitionStartFunction, useContext } from "react";
+import React, { ReactNode, TransitionStartFunction, useContext } from "react";
 
 type TableContextType = {
-  handleDelete?: () => void;
-  dataSelected?: TableRowSelect;
+  dataSelected: TableRowSelect;
   dataCount: number;
   showSearchSwitch?: boolean;
+  paginationActions: ReactNode;
   isLoading: boolean;
   startTransition: TransitionStartFunction;
 };
 
 const TableContext = React.createContext<TableContextType>({
-  handleDelete: () => {},
   dataSelected: {} as TableRowSelect,
   dataCount: 0,
+  paginationActions: null,
   isLoading: false,
   startTransition: () => {},
 });
@@ -28,20 +28,20 @@ interface Props extends TableContextType {
 
 const TableProvider = ({
   children,
-  handleDelete,
   dataCount,
   dataSelected,
   showSearchSwitch,
+  paginationActions,
   isLoading,
   startTransition,
 }: Props) => {
   return (
     <TableContext.Provider
       value={{
-        handleDelete,
         dataCount: dataCount || 0,
         dataSelected,
         isLoading,
+        paginationActions,
         startTransition,
         showSearchSwitch,
       }}

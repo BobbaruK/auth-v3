@@ -32,7 +32,7 @@ interface Props {
   user: UserSession;
 }
 
-const AdminActions = ({ user }: Props) => {
+const RowActions = ({ user }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { refetch, data } = useSession();
@@ -177,45 +177,40 @@ const AdminActions = ({ user }: Props) => {
           <DropdownMenuItem asChild>
             <Link href={`/profile/${user.id}`}>Go to profile</Link>
           </DropdownMenuItem>
-          {data?.user.role !== UserRole.USER &&
-            data?.user.id !== user.id &&
-            user.role !== UserRole.OWNER && (
-              <>
-                <DropdownMenuSeparator />
-                {data?.user.role === UserRole.OWNER && (
-                  <DropdownMenuItem onClick={handleImpersonate}>
-                    Impersonate
-                  </DropdownMenuItem>
-                )}
-                {user.banned ? (
-                  <DropdownMenuItem
-                    onClick={handleUnBan}
-                    variant="default"
-                    className="text-warning-foreground bg-warning"
-                  >
-                    Unban
-                  </DropdownMenuItem>
-                ) : (
-                  <DropdownMenuItem
-                    onClick={() => setOpenBanDialog(true)}
-                    variant="destructive"
-                  >
-                    Ban
-                  </DropdownMenuItem>
-                )}
 
-                <DropdownMenuItem
-                  variant="destructive"
-                  onClick={() => setOpenDeleteDialog(true)}
-                >
-                  Delete
-                </DropdownMenuItem>
-              </>
-            )}
+          <DropdownMenuSeparator />
+          {data?.user.role === UserRole.OWNER && (
+            <DropdownMenuItem variant="info" onClick={handleImpersonate}>
+              Impersonate
+            </DropdownMenuItem>
+          )}
+          {user.banned ? (
+            <DropdownMenuItem
+              onClick={handleUnBan}
+              variant="warning"
+              // className="text-warning-foreground bg-warning"
+            >
+              Unban
+            </DropdownMenuItem>
+          ) : (
+            <DropdownMenuItem
+              onClick={() => setOpenBanDialog(true)}
+              variant="danger"
+            >
+              Ban
+            </DropdownMenuItem>
+          )}
+
+          <DropdownMenuItem
+            variant="destructive"
+            onClick={() => setOpenDeleteDialog(true)}
+          >
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
   );
 };
 
-export default AdminActions;
+export default RowActions;

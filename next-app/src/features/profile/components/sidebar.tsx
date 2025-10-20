@@ -1,6 +1,7 @@
 import { CustomAvatar } from "@/components/custom-avatar";
 import { AdminIcon } from "@/components/icons/admin";
 import { OwnerIcon } from "@/components/icons/owner";
+import { UserIcon } from "@/components/icons/user";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -9,14 +10,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import ProfileActions from "@/core/admin/components/profile-actions";
 import { UserRole } from "@/generated/prisma";
 import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";
 import { dateFormatter } from "@/lib/utils/format-date";
+import { LucideIconProps } from "@/types/icons";
 import { Session } from "@/types/session";
 import { UserProfile } from "@/types/user-profile";
-import AdminActions from "./admin-actions";
-import { UserIcon } from "@/components/icons/user";
-import { LucideIconProps } from "@/types/icons";
 
 interface Props {
   user: UserProfile;
@@ -29,7 +29,7 @@ const ProfileSidebar = ({ user, session }: Props) => {
   return (
     <>
       {session?.user.role !== UserRole.USER && !isSameUser && (
-        <AdminActions user={user} session={session} />
+        <ProfileActions user={user} session={session} />
       )}
 
       <Card>
