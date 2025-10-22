@@ -7,11 +7,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 import { AccountVisibility } from "./account-visibility";
 import { ChangeEmail } from "./change-email";
 import { DeleteAccount } from "./delete-account";
 
-export const Account = () => {
+const Account = () => {
   return (
     <>
       <Card>
@@ -44,7 +46,7 @@ export const Account = () => {
         </CardContent>
       </Card>
 
-      <Card className="border-destructive/50 shadow-danger">
+      <Card className="border-destructive/50 shadow-destructive">
         <CardHeader>
           <CardTitle className="text-destructive">Danger Zone</CardTitle>
           <CardDescription>
@@ -56,5 +58,74 @@ export const Account = () => {
         </CardContent>
       </Card>
     </>
+  );
+};
+
+export default Account;
+
+export const AccountSkeleton = ({
+  className,
+  ...restProps
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div className="space-y-6">
+      <Card className={cn(className)} {...restProps}>
+        <CardHeader>
+          <CardTitle>
+            <Skeleton className="h-4 w-60" />
+          </CardTitle>
+          <CardDescription>
+            <Skeleton className="h-5 w-80" />
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <Skeleton className="h-6 w-60" />
+              <Skeleton className="h-5 w-80" />
+            </div>
+            <Skeleton className="h-10 w-20" />
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <Skeleton className="h-6 w-60" />
+              <Skeleton className="h-5 w-80" />
+            </div>
+            <Skeleton className="h-10 w-20" />
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <Skeleton className="h-6 w-60" />
+              <Skeleton className="h-5 w-80" />
+            </div>
+            <Skeleton className="h-10 w-20" />
+          </div>
+        </CardContent>
+      </Card>
+      <Card
+        className={cn("border-destructive/50 shadow-destructive", className)}
+        {...restProps}
+      >
+        <CardHeader>
+          <CardTitle>
+            <Skeleton className="bg-destructive h-4 w-60" />
+          </CardTitle>
+          <CardDescription>
+            <Skeleton className="h-5 w-80" />
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <Skeleton className="h-6 w-60" />
+              <Skeleton className="h-5 w-80" />
+            </div>
+            <Skeleton className="bg-destructive h-10 w-20" />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };

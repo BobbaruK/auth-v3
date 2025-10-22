@@ -5,6 +5,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 import Accounts from "./accounts";
 
 const AccountLinkingTab = () => {
@@ -24,3 +26,27 @@ const AccountLinkingTab = () => {
 };
 
 export default AccountLinkingTab;
+
+export const AccountLinkingSkeleton = ({
+  className,
+  ...restProps
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <Card className={cn(className)} {...restProps}>
+      <CardHeader>
+        <CardTitle>
+          <Skeleton className="h-4 w-60" />
+        </CardTitle>
+        <CardDescription>
+          <Skeleton className="h-5 w-80" />
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="grid grid-cols-[repeat(auto-fill,minmax(190px,1fr))] gap-4">
+        <Skeleton className="h-[220px] w-full" />
+        <Skeleton className="h-[220px] w-full" />
+        <Skeleton className="h-[220px] w-full" />
+        <Skeleton className="h-[220px] w-full" />
+      </CardContent>
+    </Card>
+  );
+};

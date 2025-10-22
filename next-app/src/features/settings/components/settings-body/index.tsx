@@ -1,8 +1,21 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Account } from "./account";
-import AccountLinkingTab from "./account-linking";
-import { PersonalInformation } from "./personal-info";
-import { Security } from "./security";
+import dynamic from "next/dynamic";
+import { AccountSkeleton } from "./account";
+import { AccountLinkingSkeleton } from "./account-linking";
+import { PersonalInformationSkeleton } from "./personal-info";
+import { SecuritySkeleton } from "./security";
+const PersonalInformation = dynamic(() => import("./personal-info"), {
+  loading: () => <PersonalInformationSkeleton />,
+});
+const Account = dynamic(() => import("./account"), {
+  loading: () => <AccountSkeleton />,
+});
+const AccountLinkingTab = dynamic(() => import("./account-linking"), {
+  loading: () => <AccountLinkingSkeleton />,
+});
+const Security = dynamic(() => import("./security"), {
+  loading: () => <SecuritySkeleton />,
+});
 
 export const SettingsBody = () => {
   return (

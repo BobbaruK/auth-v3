@@ -6,8 +6,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PersonalForm } from "./personal-form";
+import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export const PersonalInformation = () => {
+const PersonalInformation = () => {
   return (
     <Card>
       <CardHeader>
@@ -18,6 +20,53 @@ export const PersonalInformation = () => {
       </CardHeader>
       <CardContent className="space-y-6">
         <PersonalForm />
+      </CardContent>
+    </Card>
+  );
+};
+
+export default PersonalInformation;
+
+export const PersonalInformationSkeleton = ({
+  className,
+  ...restProps
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <Card className={cn(className)} {...restProps}>
+      <CardHeader>
+        <CardTitle>
+          <Skeleton className="h-4 w-60" />
+        </CardTitle>
+        <CardDescription>
+          <Skeleton className="h-5 w-80" />
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-[14px] w-56" />
+            <Skeleton className="h-[36px] w-full" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-[14px] w-56" />
+            <Skeleton className="h-[36px] w-full" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-[14px] w-56" />
+            <Skeleton className="h-[36px] w-full" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-[14px] w-56" />
+            <Skeleton className="h-[36px] w-full" />
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-[14px] w-56" />
+          <Skeleton className="h-16 w-full" />
+        </div>
+        <div className="flex flex-col justify-end gap-2">
+          <Skeleton className="ms-auto h-10 w-16" />
+        </div>
       </CardContent>
     </Card>
   );
