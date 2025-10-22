@@ -5,6 +5,7 @@ import { AccountLinkingSkeleton } from "./account-linking";
 import { PersonalInformationSkeleton } from "./personal-info";
 import { SecuritySkeleton } from "./security";
 const PersonalInformation = dynamic(() => import("./personal-info"), {
+  ssr: false,
   loading: () => <PersonalInformationSkeleton />,
 });
 const Account = dynamic(() => import("./account"), {

@@ -4,14 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Account } from "@/types/account";
 import { UserProfile } from "@/types/user-profile";
 import {
-  ActionDispatch,
   createContext,
   TransitionStartFunction,
   useContext,
+  useTransition,
 } from "react";
 import {
-  SettingsReducerAction,
   SettingsReducerState,
+  useSettingsReducer,
 } from "../hooks/use-settings-reducer";
 
 type SettingsContextType = {
@@ -80,22 +80,13 @@ interface Props {
   children: React.ReactNode;
   user: UserProfile;
   accounts: Account[];
-  state: SettingsReducerState;
-  dispatch: ActionDispatch<[action: SettingsReducerAction]>;
-  isLoading: boolean;
-  startTransition: TransitionStartFunction;
 }
 
-export default function SettingsProvider({
-  children,
-  user,
-  accounts,
-  state,
-  dispatch,
-  isLoading,
-  startTransition,
-}: Props) {
+export default function SettingsProvider({ children, user, accounts }: Props) {
   const SHOW_CONTEXT_SETTINGS = false;
+
+  const [isLoading, startTransition] = useTransition();
+  const { state, dispatch } = useSettingsReducer();
 
   return (
     <SettingsContext.Provider
@@ -177,7 +168,7 @@ export default function SettingsProvider({
 
 function ReducerSettings({ state }: { state: SettingsReducerState }) {
   return (
-    <div className="text-muted-foreground bg-muted border-muted-foreground pointer-events-none fixed top-12 left-10 z-[99999999] w-96 rounded-lg border p-2 opacity-80 hover:opacity-100">
+    <div className="text-muted-foreground bg-muted border-muted-foreground pointer-events-none fixed top-12 left-10 z-99999999 w-96 rounded-lg border p-2 opacity-80 hover:opacity-100">
       <p className="flex items-center gap-1">
         totpURI:{" "}
         <Badge
