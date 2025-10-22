@@ -1,5 +1,12 @@
 "use client";
 
+import { CustomAvatar } from "@/components/custom-avatar";
+import { BanIcon } from "@/components/icons/ban";
+import { CogIcon } from "@/components/icons/cog";
+import { LoginIcon } from "@/components/icons/login";
+import { LogoutIcon } from "@/components/icons/logout";
+import { UserIcon } from "@/components/icons/user";
+import { UsersIcon } from "@/components/icons/users";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,23 +18,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
+import { stopImpersonatingUser } from "@/core/admin/actions/impersonate-user";
 import { signOut } from "@/core/auth/actions/sign-out";
 import { UserRole } from "@/generated/prisma";
+import { useSession } from "@/lib/auth-client";
 import { Session } from "@/types/session";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { startTransition, useState } from "react";
 import { toast } from "sonner";
-import { CustomAvatar } from "./custom-avatar";
-import { BanIcon } from "./icons/ban";
-import { CogIcon } from "./icons/cog";
-import { LoginIcon } from "./icons/login";
-import { LogoutIcon } from "./icons/logout";
-import { UserIcon } from "./icons/user";
-import { UsersIcon } from "./icons/users";
-import { useSession } from "@/lib/auth-client";
-import { stopImpersonatingUser } from "@/core/admin/actions/impersonate-user";
 
 interface Props {
   session: Session | null;

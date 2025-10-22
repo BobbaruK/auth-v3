@@ -1,6 +1,6 @@
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { UserSession } from "@/types/session";
-import { Badge } from "./ui/badge";
 
 interface Props {
   user?: UserSession | null;

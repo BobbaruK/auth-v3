@@ -1,7 +1,7 @@
 "use client";
 
 import { PageStructure } from "@/components/page-structure";
-import { UserInfo } from "@/components/user-info";
+import { UserInfo } from "@/core/user/components/user-info";
 import { useSession } from "@/lib/auth-client";
 
 const ClientPage = () => {

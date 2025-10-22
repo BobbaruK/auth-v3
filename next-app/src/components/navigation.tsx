@@ -10,14 +10,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { UserButton } from "@/core/user/components/user-button";
 import { cn } from "@/lib/utils";
 import { Session } from "@/types/session";
 import Link from "next/link";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
-import { MenuIcon } from "./icons/menu";
-import { UserButton } from "./user-button";
 import { CustomButton } from "./custom-button";
+import { MenuIcon } from "./icons/menu";
 
 /**
  * https://www.shadcn.io/components/navbar/navbar-01
@@ -114,7 +114,7 @@ export const Navigation = React.forwardRef<HTMLElement, NavbarProps>(
       <nav
         ref={combinedRef}
         className={cn(
-          "bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full backdrop-blur [&_*]:no-underline",
+          "bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full backdrop-blur **:no-underline",
           className,
         )}
         {...props}
