@@ -1,22 +1,28 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import { AccountIcon } from "@/components/icons/account";
+import { BanIcon } from "@/components/icons/ban";
+import { CopyIcon } from "@/components/icons/copy";
+import { ImpersonateIcon } from "@/components/icons/impersonate";
 import { MoreIcon } from "@/components/icons/more";
+import { ShieldBanIcon } from "@/components/icons/shield-ban";
+import { TrashIcon } from "@/components/icons/trash";
+import { UnbanIcon } from "@/components/icons/unban";
 import ResponsiveDialog from "@/components/responsive-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
 import { unbanUser } from "@/core/admin/actions/ban-user";
 import { impersonateUser } from "@/core/admin/actions/impersonate-user";
+import { revokeUserSessions } from "@/core/admin/actions/revoke-sessions";
 import DeleteUser from "@/core/admin/components/delete-user";
 import { BanUserFormSkeleton } from "@/core/admin/components/forms/ban-user";
-import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
 import { UserSession } from "@/types/session";
 import Link from "next/link";
@@ -35,7 +41,7 @@ interface Props {
 const RowActions = ({ user }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const { refetch, data } = useSession();
+  const { refetch } = useSession();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [copiedText, copy] = useCopyToClipboard();
   const [openBanDialog, setOpenBanDialog] = useState(false);
@@ -44,6 +50,24 @@ const RowActions = ({ user }: Props) => {
   const handleUnBan = () => {
     startTransition(async () => {
       unbanUser(user)
+        .then((data) => {
+          if (data.error) {
+            toast.error(data.error);
+          }
+
+          if (data.success) {
+            toast.success(data.success);
+          }
+        })
+        .catch(() => {
+          toast.error(MESSAGES.SOMETHING_WRONG);
+        });
+    });
+  };
+
+  const handleRevokeUserSessions = () => {
+    startTransition(async () => {
+      revokeUserSessions(user)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
@@ -169,27 +193,40 @@ const RowActions = ({ user }: Props) => {
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleCopy(user.id)}>
-            Copy ID
+            <CopyIcon /> Copy ID
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href={`/profile/${user.id}`}>Go to profile</Link>
+            <Link href={`/profile/${user.id}`}>
+              <AccountIcon />
+              Go to profile
+            </Link>
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
-          {data?.user.role === UserRole.OWNER && (
-            <DropdownMenuItem variant="info" onClick={handleImpersonate}>
-              Impersonate
-            </DropdownMenuItem>
-          )}
+
+          <DropdownMenuItem onClick={handleImpersonate}>
+            <ImpersonateIcon />
+            Impersonate
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={handleRevokeUserSessions}
+            variant="warning"
+          >
+            <ShieldBanIcon />
+            Revoke sessions
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
           {user.banned ? (
             <DropdownMenuItem
               onClick={handleUnBan}
               variant="warning"
               // className="text-warning-foreground bg-warning"
             >
+              <UnbanIcon />
               Unban
             </DropdownMenuItem>
           ) : (
@@ -197,6 +234,7 @@ const RowActions = ({ user }: Props) => {
               onClick={() => setOpenBanDialog(true)}
               variant="danger"
             >
+              <BanIcon />
               Ban
             </DropdownMenuItem>
           )}
@@ -205,6 +243,7 @@ const RowActions = ({ user }: Props) => {
             variant="destructive"
             onClick={() => setOpenDeleteDialog(true)}
           >
+            <TrashIcon />
             Delete
           </DropdownMenuItem>
         </DropdownMenuContent>

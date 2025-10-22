@@ -31,6 +31,12 @@ export const banUser = async ({
       error: MESSAGES.USER_ADMIN_OWNER,
     };
 
+  if (user.banned) {
+    return {
+      error: `${MESSAGES.USER_ALREADY_BANNED} (${user.email})`,
+    };
+  }
+
   try {
     await auth.api.banUser({
       body: {
@@ -63,6 +69,12 @@ export const unbanUser = async (
       success?: undefined;
     }
 > => {
+  if (!user.banned) {
+    return {
+      error: `${MESSAGES.USER_ALREADY_UNBANNED} (${user.email})`,
+    };
+  }
+
   try {
     await auth.api.unbanUser({
       body: {

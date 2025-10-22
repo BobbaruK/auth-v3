@@ -1,6 +1,11 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import { BanIcon } from "@/components/icons/ban";
+import { CopyIcon } from "@/components/icons/copy";
+import { ShieldBanIcon } from "@/components/icons/shield-ban";
+import { TrashIcon } from "@/components/icons/trash";
+import { UnbanIcon } from "@/components/icons/unban";
 import ResponsiveDialog from "@/components/responsive-dialog";
 import {
   DropdownMenu,
@@ -11,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { BATCH_ITEMS } from "@/constants/misc";
 import { unbanUser } from "@/core/admin/actions/ban-user";
+import { revokeUserSessions } from "@/core/admin/actions/revoke-sessions";
 import { chunkArray } from "@/lib/utils/chunk-array";
 import { TableRowSelect } from "@/types/table-row-select";
 import { lazy, Suspense, TransitionStartFunction, useState } from "react";
@@ -62,7 +68,35 @@ const PaginationActions = ({
     startTransition(async () => {
       for (const batch of userIdBatches) {
         const results = (await Promise.allSettled(
-          batch.map((user) => unbanUser(user)),
+          batch.map((user) => {
+            return unbanUser(user);
+          }),
+        )) as {
+          status: string;
+          value: {
+            error?: string;
+            success?: string;
+          };
+        }[];
+
+        for (const result of results) {
+          // console.log(result.value);
+
+          if (result.value.error) toast.error(result.value.error);
+          if (result.value.success) toast.success(result.value.success);
+        }
+
+        // console.log("Batch done:", results);
+        await new Promise((r) => setTimeout(r, 200));
+      }
+    });
+  };
+
+  const handleRevokeUserSessions = () => {
+    startTransition(async () => {
+      for (const batch of userIdBatches) {
+        const results = (await Promise.allSettled(
+          batch.map((user) => revokeUserSessions(user)),
         )) as {
           status: string;
           value: {
@@ -158,22 +192,40 @@ const PaginationActions = ({
               dataSelected?.data?.map((user) => user.id).join("\n") || "",
             )}
           >
+            <CopyIcon />
             Copy id(s)
           </DropdownMenuItem>
+
           <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            onClick={handleRevokeUserSessions}
+            variant="warning"
+          >
+            <ShieldBanIcon />
+            Revoke sessions
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
           <DropdownMenuItem
             variant="danger"
             onClick={() => setOpenBanDialog(true)}
           >
+            <BanIcon />
             Ban
           </DropdownMenuItem>
+
           <DropdownMenuItem variant="warning" onClick={handleUnban}>
+            <UnbanIcon />
             Unban
           </DropdownMenuItem>
+
           <DropdownMenuItem
             variant="destructive"
             onClick={() => setOpenDeleteDialog(true)}
           >
+            <TrashIcon />
             Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
