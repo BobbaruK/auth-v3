@@ -55,7 +55,7 @@ const Accounts = () => {
   };
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,_minmax(190px,_1fr))] gap-4">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(190px,1fr))] gap-4">
       {SUPPORTED_OAUTH_PROVIDERS.map((provider) => (
         <Card
           key={provider}
