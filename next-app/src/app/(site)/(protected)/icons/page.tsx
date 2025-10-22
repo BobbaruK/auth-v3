@@ -29,7 +29,7 @@ import { MonitorIcon } from "@/components/icons/monitor";
 import { MoonIcon } from "@/components/icons/moon";
 import { MoreIcon } from "@/components/icons/more";
 import { OwnerIcon } from "@/components/icons/owner";
-import { RoleIcon } from "@/components/icons/role";
+import { RolesIcon } from "@/components/icons/roles";
 import { ShieldIcon } from "@/components/icons/shield";
 import { ShieldBanIcon } from "@/components/icons/shield-ban";
 import { TabletIcon } from "@/components/icons/tablet";
@@ -218,8 +218,8 @@ const icons: {
     icon: ImpersonateIcon,
   },
   {
-    name: "RoleIcon",
-    icon: RoleIcon,
+    name: "RolesIcon",
+    icon: RolesIcon,
   },
 ];
 
