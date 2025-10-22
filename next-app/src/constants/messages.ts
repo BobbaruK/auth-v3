@@ -36,6 +36,7 @@ const MESSAGES_FN = () => {
     USER_ADMIN_REMOVE: "User removed successfully.",
     USER_ADMIN_STOP_IMPERSONATE: "Stopped impersonating any user.",
     USER_ADMIN_UNBAN: "User unbanned successfully.",
+    USER_ADMIN_CHANGE_ROLE: "User role successfully updated.",
     USER_AVATAR_REMOVE: "Avatar removed successfully.",
     USER_AVATAR_UPDATE: "Avatar updated successfully.",
     USER_ALREADY_BANNED: "User is already banned.",
