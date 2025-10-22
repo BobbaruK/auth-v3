@@ -18,6 +18,7 @@ import { GithubIcon } from "@/components/icons/github";
 import { GogglesIcon } from "@/components/icons/goggles";
 import { GoogleIcon } from "@/components/icons/google";
 import { HomeIcon } from "@/components/icons/home";
+import { ImpersonateIcon } from "@/components/icons/impersonate";
 import { KeyIcon } from "@/components/icons/key";
 import { LinkIcon } from "@/components/icons/link";
 import { LoginIcon } from "@/components/icons/login";
@@ -28,11 +29,14 @@ import { MonitorIcon } from "@/components/icons/monitor";
 import { MoonIcon } from "@/components/icons/moon";
 import { MoreIcon } from "@/components/icons/more";
 import { OwnerIcon } from "@/components/icons/owner";
+import { RoleIcon } from "@/components/icons/role";
 import { ShieldIcon } from "@/components/icons/shield";
+import { ShieldBanIcon } from "@/components/icons/shield-ban";
 import { TabletIcon } from "@/components/icons/tablet";
 import { TerminalIcon } from "@/components/icons/terminal";
 import { TrashIcon } from "@/components/icons/trash";
 import { TVIcon } from "@/components/icons/tv";
+import { UnbanIcon } from "@/components/icons/unban";
 import { UnlinkIcon } from "@/components/icons/unlink";
 import { UserIcon } from "@/components/icons/user";
 import { UsersIcon } from "@/components/icons/users";
@@ -201,6 +205,22 @@ const icons: {
     name: "ChevronDownIcon",
     icon: ChevronDownIcon,
   },
+  {
+    name: "ShieldBanIcon",
+    icon: ShieldBanIcon,
+  },
+  {
+    name: "UnbanIcon",
+    icon: UnbanIcon,
+  },
+  {
+    name: "ImpersonateIcon",
+    icon: ImpersonateIcon,
+  },
+  {
+    name: "RoleIcon",
+    icon: RoleIcon,
+  },
 ];
 
 const IconsPage = () => {
@@ -208,7 +228,7 @@ const IconsPage = () => {
     <PageStructure>
       <h1 className="text-3xl font-bold">Icons ({icons.length})</h1>
 
-      <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
         {icons
           .sort((a, b) => {
             const nameA = a.name.toUpperCase();
