@@ -1,7 +1,4 @@
 import { CustomAvatar } from "@/components/custom-avatar";
-import { AdminIcon } from "@/components/icons/admin";
-import { OwnerIcon } from "@/components/icons/owner";
-import { UserIcon } from "@/components/icons/user";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -11,10 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import ProfileActions from "@/core/admin/components/profile-actions";
+import { RoleIcon } from "@/core/auth/components/role-icon";
 import { UserRole } from "@/generated/prisma";
 import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";
 import { dateFormatter } from "@/lib/utils/format-date";
-import { LucideIconProps } from "@/types/icons";
 import { Session } from "@/types/session";
 import { UserProfile } from "@/types/user-profile";
 
@@ -123,16 +120,3 @@ const ProfileSidebar = ({ user, session }: Props) => {
 };
 
 export default ProfileSidebar;
-
-function RoleIcon({ role, ...props }: { role: UserRole } & LucideIconProps) {
-  switch (role) {
-    case UserRole.ADMIN:
-      return <AdminIcon {...props} />;
-
-    case UserRole.OWNER:
-      return <OwnerIcon {...props} />;
-
-    default:
-      return <UserIcon {...props} />;
-  }
-}

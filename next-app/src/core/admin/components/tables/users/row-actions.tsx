@@ -6,6 +6,7 @@ import { BanIcon } from "@/components/icons/ban";
 import { CopyIcon } from "@/components/icons/copy";
 import { ImpersonateIcon } from "@/components/icons/impersonate";
 import { MoreIcon } from "@/components/icons/more";
+import { RolesIcon } from "@/components/icons/roles";
 import { ShieldBanIcon } from "@/components/icons/shield-ban";
 import { TrashIcon } from "@/components/icons/trash";
 import { UnbanIcon } from "@/components/icons/unban";
@@ -14,7 +15,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
@@ -23,13 +30,16 @@ import { impersonateUser } from "@/core/admin/actions/impersonate-user";
 import { revokeUserSessions } from "@/core/admin/actions/revoke-sessions";
 import DeleteUser from "@/core/admin/components/delete-user";
 import { BanUserFormSkeleton } from "@/core/admin/components/forms/ban-user";
+import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
+import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";
 import { UserSession } from "@/types/session";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { lazy, Suspense, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
+import { setUserRole } from "../../../actions/set-user-role";
 const BanUserForm = lazy(
   () => import("@/core/admin/components/forms/ban-user"),
 );
@@ -46,6 +56,9 @@ const RowActions = ({ user }: Props) => {
   const [copiedText, copy] = useCopyToClipboard();
   const [openBanDialog, setOpenBanDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [userRoleState, setUserRoleState] = useState(user.role as string);
+
+  const roles = Object.values(UserRole);
 
   const handleUnBan = () => {
     startTransition(async () => {
@@ -123,6 +136,24 @@ const RowActions = ({ user }: Props) => {
       });
   };
 
+  const handleChangeUserRole = (newRole: UserRole) => {
+    startTransition(async () => {
+      setUserRole({ user, role: newRole })
+        .then((data) => {
+          if (data.error) {
+            toast.error(data.error);
+          }
+
+          if (data.success) {
+            toast.success(data.success);
+          }
+        })
+        .catch(() => {
+          toast.error(MESSAGES.SOMETHING_WRONG);
+        });
+    });
+  };
+
   return (
     <>
       <ResponsiveDialog
@@ -197,7 +228,7 @@ const RowActions = ({ user }: Props) => {
             <CopyIcon /> Copy ID
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href={`/profile/${user.id}`}>
+            <Link href={`/profile/${user.slug}`}>
               <AccountIcon />
               Go to profile
             </Link>
@@ -217,6 +248,30 @@ const RowActions = ({ user }: Props) => {
             <ShieldBanIcon />
             Revoke sessions
           </DropdownMenuItem>
+
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger className="flex items-center gap-2">
+              <RolesIcon size={16} /> Role
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuRadioGroup
+                  value={userRoleState}
+                  onValueChange={setUserRoleState}
+                >
+                  {roles.map((role) => (
+                    <DropdownMenuRadioItem
+                      key={role}
+                      value={role}
+                      onClick={() => handleChangeUserRole(role)}
+                    >
+                      {capitalizeFirstLetter(role)}
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
 
           <DropdownMenuSeparator />
 

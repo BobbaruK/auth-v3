@@ -3,6 +3,7 @@
 import { CustomButton } from "@/components/custom-button";
 import { BanIcon } from "@/components/icons/ban";
 import { CopyIcon } from "@/components/icons/copy";
+import { RolesIcon } from "@/components/icons/roles";
 import { ShieldBanIcon } from "@/components/icons/shield-ban";
 import { TrashIcon } from "@/components/icons/trash";
 import { UnbanIcon } from "@/components/icons/unban";
@@ -11,12 +12,20 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BATCH_ITEMS } from "@/constants/misc";
 import { unbanUser } from "@/core/admin/actions/ban-user";
 import { revokeUserSessions } from "@/core/admin/actions/revoke-sessions";
+import { setUserRole } from "@/core/admin/actions/set-user-role";
+import { RoleIcon as RoleIconComp } from "@/core/auth/components/role-icon";
+import { UserRole } from "@/generated/prisma";
+import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";
 import { chunkArray } from "@/lib/utils/chunk-array";
 import { TableRowSelect } from "@/types/table-row-select";
 import { lazy, Suspense, TransitionStartFunction, useState } from "react";
@@ -44,6 +53,7 @@ const PaginationActions = ({
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const userIdBatches = chunkArray(dataSelected?.data || [], BATCH_ITEMS);
+  const roles = Object.values(UserRole);
 
   const handleCopy = (text: string) => () => {
     if (!text) {
@@ -64,13 +74,11 @@ const PaginationActions = ({
       });
   };
 
-  const handleUnban = () => {
+  const handleRevokeUserSessions = () => {
     startTransition(async () => {
       for (const batch of userIdBatches) {
         const results = (await Promise.allSettled(
-          batch.map((user) => {
-            return unbanUser(user);
-          }),
+          batch.map((user) => revokeUserSessions(user)),
         )) as {
           status: string;
           value: {
@@ -92,11 +100,39 @@ const PaginationActions = ({
     });
   };
 
-  const handleRevokeUserSessions = () => {
+  const handleChangeUserRole = (newRole: UserRole) => {
     startTransition(async () => {
       for (const batch of userIdBatches) {
         const results = (await Promise.allSettled(
-          batch.map((user) => revokeUserSessions(user)),
+          batch.map((user) => setUserRole({ user, role: newRole })),
+        )) as {
+          status: string;
+          value: {
+            error?: string;
+            success?: string;
+          };
+        }[];
+
+        for (const result of results) {
+          // console.log(result.value);
+
+          if (result.value.error) toast.error(result.value.error);
+          if (result.value.success) toast.success(result.value.success);
+        }
+
+        // console.log("Batch done:", results);
+        await new Promise((r) => setTimeout(r, 200));
+      }
+    });
+  };
+
+  const handleUnban = () => {
+    startTransition(async () => {
+      for (const batch of userIdBatches) {
+        const results = (await Promise.allSettled(
+          batch.map((user) => {
+            return unbanUser(user);
+          }),
         )) as {
           status: string;
           value: {
@@ -205,6 +241,25 @@ const PaginationActions = ({
             <ShieldBanIcon />
             Revoke sessions
           </DropdownMenuItem>
+
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger className="flex items-center gap-2">
+              <RolesIcon size={16} /> Role
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                {roles.map((role) => (
+                  <DropdownMenuItem
+                    key={role}
+                    onClick={() => handleChangeUserRole(role)}
+                  >
+                    <RoleIconComp role={role} />
+                    {capitalizeFirstLetter(role)}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
 
           <DropdownMenuSeparator />
 

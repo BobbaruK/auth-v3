@@ -2,9 +2,11 @@
 
 import { CustomAvatar } from "@/components/custom-avatar";
 import { Badge } from "@/components/ui/badge";
+import { RoleIcon } from "@/core/auth/components/role-icon";
 import { SelectCell } from "@/core/table/components/select-column/cell";
 import { SelectHeader } from "@/core/table/components/select-column/header";
 import { THeadDropdown } from "@/core/table/components/thead-dropdown";
+import { UserRole } from "@/generated/prisma";
 import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";
 import { columnId } from "@/lib/utils/column-id";
 import { dateFormatter } from "@/lib/utils/format-date";
@@ -279,9 +281,17 @@ export const userColumns = ({
     },
 
     cell: ({ row }) => {
-      const role = row.original.role;
+      const role = row.original.role as UserRole;
 
-      return role ? <Badge variant="info">{role}</Badge> : "-";
+      return role ? (
+        <Badge variant="info">
+          <RoleIcon role={role} />
+
+          {role}
+        </Badge>
+      ) : (
+        "-"
+      );
     },
   },
   // 2FA Enabled

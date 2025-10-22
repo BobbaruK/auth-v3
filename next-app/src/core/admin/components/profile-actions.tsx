@@ -3,23 +3,34 @@
 import { CustomButton } from "@/components/custom-button";
 import { BanIcon } from "@/components/icons/ban";
 import { ImpersonateIcon } from "@/components/icons/impersonate";
+import { RolesIcon } from "@/components/icons/roles";
 import { ShieldBanIcon } from "@/components/icons/shield-ban";
 import { TrashIcon } from "@/components/icons/trash";
 import { UnbanIcon } from "@/components/icons/unban";
 import ResponsiveDialog from "@/components/responsive-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
 import { unbanUser } from "@/core/admin/actions/ban-user";
 import { impersonateUser } from "@/core/admin/actions/impersonate-user";
 import DeleteUser from "@/core/admin/components/delete-user";
 import { BanUserFormSkeleton } from "@/core/admin/components/forms/ban-user";
+import { RoleIcon } from "@/core/auth/components/role-icon";
+import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
+import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";
 import { Session } from "@/types/session";
 import { UserProfile } from "@/types/user-profile";
 import { useRouter } from "next/navigation";
 import { lazy, ReactNode, Suspense, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { revokeUserSessions } from "../actions/revoke-sessions";
+import { setUserRole } from "../actions/set-user-role";
 const BanUserForm = lazy(
   () => import("@/core/admin/components/forms/ban-user"),
 );
@@ -36,23 +47,7 @@ const ProfileActions = ({ user }: Props) => {
   const router = useRouter();
   const { refetch } = useSession();
 
-  const handleUnBan = () => {
-    startTransition(async () => {
-      unbanUser(user)
-        .then((data) => {
-          if (data.error) {
-            toast.error(data.error);
-          }
-
-          if (data.success) {
-            toast.success(data.success);
-          }
-        })
-        .catch(() => {
-          toast.error(MESSAGES.SOMETHING_WRONG);
-        });
-    });
-  };
+  const roles = Object.values(UserRole);
 
   const handleImpersonate = () => {
     startTransition(async () => {
@@ -78,6 +73,42 @@ const ProfileActions = ({ user }: Props) => {
   const handleRevokeUserSessions = () => {
     startTransition(async () => {
       revokeUserSessions(user)
+        .then((data) => {
+          if (data.error) {
+            toast.error(data.error);
+          }
+
+          if (data.success) {
+            toast.success(data.success);
+          }
+        })
+        .catch(() => {
+          toast.error(MESSAGES.SOMETHING_WRONG);
+        });
+    });
+  };
+
+  const handleChangeUserRole = (newRole: UserRole) => {
+    startTransition(async () => {
+      setUserRole({ user, role: newRole })
+        .then((data) => {
+          if (data.error) {
+            toast.error(data.error);
+          }
+
+          if (data.success) {
+            toast.success(data.success);
+          }
+        })
+        .catch(() => {
+          toast.error(MESSAGES.SOMETHING_WRONG);
+        });
+    });
+  };
+
+  const handleUnBan = () => {
+    startTransition(async () => {
+      unbanUser(user)
         .then((data) => {
           if (data.error) {
             toast.error(data.error);
@@ -120,6 +151,33 @@ const ProfileActions = ({ user }: Props) => {
             disabled={isPending}
             onClick={handleRevokeUserSessions}
           />
+        </ProfileAdminRow>
+
+        <ProfileAdminRow label={"Set role"}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <CustomButton
+                buttonLabel="Revoke sessions"
+                icon={RolesIcon}
+                iconPlacement="left"
+                size={"icon"}
+                disabled={isPending}
+                onClick={handleRevokeUserSessions}
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {roles.map((role) => (
+                <DropdownMenuItem
+                  key={role}
+                  onClick={() => handleChangeUserRole(role)}
+                  variant={role === user.role ? "info" : "default"}
+                >
+                  <RoleIcon role={role} />
+                  {capitalizeFirstLetter(role)}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </ProfileAdminRow>
 
         <ProfileAdminRow label={user.banned ? "Unban" : "Ban"}>
