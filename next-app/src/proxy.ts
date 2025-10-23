@@ -7,11 +7,9 @@ import {
   PUBLIC_ROUTES,
 } from "./constants/routes";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { nextUrl } = request;
   const sessionCookie = getSessionCookie(request);
-
-  // const res = NextResponse.next();
 
   const isLoggedIn = !!sessionCookie;
 
@@ -25,28 +23,17 @@ export async function middleware(request: NextRequest) {
   if (isForbiddenRoute) return NextResponse.redirect(new URL("/", request.url));
 
   if (isAuthRoute) {
-    // if (isLoggedIn) {
-    //   return NextResponse.redirect(
-    //     new URL(DEFAULT_LOGIN_REDIRECT, request.url)
-    //   );
-    // }
+    if (isLoggedIn) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
     return;
   }
 
-  if (isLoggedIn === false && !isPublicRoute) {
+  if (!isLoggedIn && !isPublicRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return;
-
-  // THIS IS NOT SECURE!
-  // This is the recommended approach to optimistically redirect users
-  // We recommend handling auth checks in each page/route
-  // if (!sessionCookie) {
-  //   return NextResponse.redirect(new URL("/", request.url));
-  // }
-
-  // return NextResponse.next();
 }
 
 export const config = {

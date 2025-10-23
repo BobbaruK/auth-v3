@@ -130,6 +130,7 @@ export const UserButton = ({ session }: Props) => {
             <DropdownMenuSeparator />
           </>
         )}
+        {/* TODO: users shows when not logged in */}
         {user?.role !== UserRole.USER && (
           <>
             <DropdownMenuLabel>Admin</DropdownMenuLabel>
