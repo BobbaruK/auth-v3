@@ -5,6 +5,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { RegisterSchema } from "@/core/auth/schemas/register";
 import { auth } from "@/lib/auth";
 import { catchError } from "@/lib/utils/catch-error-action";
+import { createFormattedSlug } from "@/lib/utils/format-string";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 
@@ -34,6 +35,8 @@ export const signUpEmail = async (
   const { firstName, lastName, userName, email, password } =
     validatedFields.data;
 
+  const slug = createFormattedSlug(firstName, lastName, userName);
+
   try {
     const { available } = await auth.api.isUsernameAvailable({
       body: {
@@ -50,6 +53,7 @@ export const signUpEmail = async (
         name: `${lastName} ${firstName}`,
         firstName,
         lastName,
+        slug,
         username: userName,
         email,
         password,

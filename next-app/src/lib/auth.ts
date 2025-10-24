@@ -33,8 +33,9 @@ import {
   twoFactor,
   username,
 } from "better-auth/plugins";
+import { createFormattedSlug } from "./utils/format-string";
 
-const TESTING = false;
+const TESTING = true;
 
 export const auth = betterAuth({
   appName: "Auth v3",
@@ -52,9 +53,9 @@ export const auth = betterAuth({
         type: "string",
         required: true,
       },
-      bio: {
+      slug: {
         type: "string",
-        required: false,
+        required: true,
       },
       isAccountVisible: {
         type: "boolean",
@@ -177,22 +178,39 @@ export const auth = betterAuth({
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      mapProfileToUser: (profile) => ({
-        firstName: profile.name.split(" ")[0],
-        lastName: profile.name.split(" ")[1] || profile.name.split(" ")[0],
-        username: `${profile.login}_${new Date().getTime()}`,
-        displayUsername: `${profile.login}_${new Date().getTime()}`,
-      }),
+      mapProfileToUser: (profile) => {
+        const firstName = profile.name.split(" ")[0];
+        const lastName =
+          profile.name.split(" ")[1] || profile.name.split(" ")[0];
+        const username = `${profile.login}_${new Date().getTime()}`;
+        const slug = createFormattedSlug(firstName, lastName, username);
+
+        return {
+          firstName,
+          lastName,
+          username,
+          displayUsername: username,
+          slug,
+        };
+      },
     },
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      mapProfileToUser: (profile) => ({
-        firstName: profile.given_name,
-        lastName: profile.family_name,
-        username: `${profile.given_name}_${new Date().getTime()}`,
-        displayUsername: `${profile.given_name}_${new Date().getTime()}`,
-      }),
+      mapProfileToUser: (profile) => {
+        const firstName = profile.given_name;
+        const lastName = profile.family_name;
+        const username = `${profile.given_name}_${new Date().getTime()}`;
+        const slug = createFormattedSlug(firstName, lastName, username);
+
+        return {
+          firstName,
+          lastName,
+          username,
+          displayUsername: username,
+          slug,
+        };
+      },
     },
   },
   hooks: {
@@ -218,6 +236,7 @@ export const auth = betterAuth({
           const username = `doughnut_${timestamp}`;
           const displayUsername = `Doughnut_${timestamp}`;
           const name = `${firstName} ${lastName}`;
+          const slug = createFormattedSlug(firstName, lastName, username);
 
           const magicLinkData =
             context?.path === "/magic-link/verify"
@@ -227,6 +246,7 @@ export const auth = betterAuth({
                   username,
                   name,
                   displayUsername,
+                  slug,
                 }
               : {};
 
