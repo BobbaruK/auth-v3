@@ -27,7 +27,11 @@ const SettingsPage = async () => {
       </PageStructure>
     );
 
-  const user = await getUser(session.user.id);
+  const user = await getUser({
+    where: {
+      id: session.user.id,
+    },
+  });
 
   if (!user)
     return (

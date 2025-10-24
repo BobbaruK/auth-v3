@@ -17,7 +17,11 @@ const ProfilePage = async ({ params }: Props) => {
     headers: await headers(),
   });
 
-  const user = await getUser(userId);
+  const user = await getUser({
+    where: {
+      slug: userId,
+    },
+  });
 
   if (!user)
     return (
