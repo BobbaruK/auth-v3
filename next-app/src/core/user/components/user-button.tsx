@@ -92,32 +92,20 @@ export const UserButton = ({ session }: Props) => {
               {user?.displayUsername || user.name}
             </DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              {pathname !== "/settings" ? (
-                <Link
-                  href={"/settings"}
-                  className="flex cursor-pointer items-center justify-start gap-2 p-2"
-                >
-                  <CogIcon /> Settings
-                </Link>
-              ) : (
-                <span className="flex cursor-pointer items-center justify-start gap-2 p-2">
-                  <CogIcon /> Settings
-                </span>
-              )}
+              <Link
+                href={"/settings"}
+                className="flex cursor-pointer items-center justify-start gap-2 p-2"
+              >
+                <CogIcon /> Settings
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              {pathname !== `/profile/${user.id}` ? (
-                <Link
-                  href={`/profile/${user.id}`}
-                  className="flex cursor-pointer items-center justify-start gap-2 p-2"
-                >
-                  <UserIcon /> Profile
-                </Link>
-              ) : (
-                <span className="flex cursor-pointer items-center justify-start gap-2 p-2">
-                  <UserIcon /> Profile
-                </span>
-              )}
+              <Link
+                href={`/profile/${user.slug}`}
+                className="flex cursor-pointer items-center justify-start gap-2 p-2"
+              >
+                <UserIcon /> Profile
+              </Link>
             </DropdownMenuItem>
             {session.session.impersonatedBy && (
               <DropdownMenuItem
@@ -130,8 +118,7 @@ export const UserButton = ({ session }: Props) => {
             <DropdownMenuSeparator />
           </>
         )}
-        {/* TODO: users shows when not logged in */}
-        {user?.role !== UserRole.USER && (
+        {session && user?.role !== UserRole.USER && (
           <>
             <DropdownMenuLabel>Admin</DropdownMenuLabel>
             <DropdownMenuItem asChild>

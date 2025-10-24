@@ -3,6 +3,7 @@
 import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
 import { catchError } from "@/lib/utils/catch-error-action";
+import { createFormattedSlug } from "@/lib/utils/format-string";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
@@ -34,6 +35,8 @@ export const updateUser = async (
 
   const { firstName, lastName, userName, bio } = validatedFields.data;
 
+  const slug = createFormattedSlug(firstName, lastName, userName);
+
   try {
     const { available } = await auth.api.isUsernameAvailable({
       body: {
@@ -52,12 +55,14 @@ export const updateUser = async (
       body: {
         firstName,
         lastName,
+        slug,
         username: userName,
         name: `${lastName} ${firstName}`,
-        bio,
       },
       headers: await headers(),
     });
+
+    // TODO: handle bio
 
     revalidatePath("/");
 

@@ -1,11 +1,15 @@
+import { Prisma } from "@/generated/prisma";
 import db from "@/lib/prisma";
 
-export const getUser = async (id: string) => {
+// export const getUser = async (id: string) => {
+export const getUser = async ({
+  where,
+}: {
+  where: Prisma.auth_userWhereUniqueInput;
+}) => {
   try {
     const user = await db.auth_user.findUnique({
-      where: {
-        id,
-      },
+      where,
       include: {
         accounts: {
           select: {

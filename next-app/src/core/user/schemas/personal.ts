@@ -5,6 +5,6 @@ export const PersonalSchema = z.object({
   firstName: FIRSTNAME,
   lastName: LASTNAME,
   userName: USERNAME,
-  email: EMAIL,
+  slug: z.string(),
   bio: BIO,
 });
