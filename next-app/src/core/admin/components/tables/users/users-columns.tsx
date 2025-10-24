@@ -84,13 +84,13 @@ export const userColumns = ({
     ),
     cell: ({ row }) => {
       const image = row.original.image;
-      const userId = row.original.id;
+      const userSlug = row.original.slug;
 
       return (
         <div className="flex flex-col gap-2">
           <Link
             className="flex h-auto items-center justify-start gap-2 p-0 hover:cursor-pointer"
-            href={`/profile/${userId}`}
+            href={`/profile/${userSlug}`}
           >
             <CustomAvatar image={image} />
           </Link>
@@ -125,13 +125,13 @@ export const userColumns = ({
 
     cell: ({ row }) => {
       const firstName = row.original.firstName;
-      const userId = row.original.id;
+      const userSlug = row.original.slug;
 
       return (
         <div className="flex flex-col gap-2">
           <Link
             className="flex h-auto items-center justify-start gap-2 p-0 hover:cursor-pointer"
-            href={`/profile/${userId}`}
+            href={`/profile/${userSlug}`}
           >
             {firstName}
           </Link>
@@ -166,13 +166,13 @@ export const userColumns = ({
 
     cell: ({ row }) => {
       const lastName = row.original.lastName;
-      const userId = row.original.id;
+      const userSlug = row.original.slug;
 
       return (
         <div className="flex flex-col gap-2">
           <Link
             className="flex h-auto items-center justify-start gap-2 p-0 hover:cursor-pointer"
-            href={`/profile/${userId}`}
+            href={`/profile/${userSlug}`}
           >
             {lastName}
           </Link>
@@ -206,12 +206,12 @@ export const userColumns = ({
 
     cell: ({ row }) => {
       const displayUsername = row.original.displayUsername;
-      const userId = row.original.id;
+      const userSlug = row.original.slug;
 
       return (
         <Link
           className="flex h-auto items-center justify-start gap-2 p-0 hover:cursor-pointer"
-          href={`/profile/${userId}`}
+          href={`/profile/${userSlug}`}
         >
           {displayUsername || "-"}
         </Link>
