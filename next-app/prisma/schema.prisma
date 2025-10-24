@@ -28,8 +28,9 @@ model auth_user {
   name             String
   firstName        String
   lastName         String
-  username         String?
-  displayUsername  String?
+  slug             String    @unique
+  username         String    @unique
+  displayUsername  String    @unique
   email            String    @unique
   emailVerified    Boolean   @default(false)
   image            String?
@@ -47,7 +48,7 @@ model auth_user {
   accounts   auth_account[]
   twofactors auth_two_factor[]
 
-  @@index([email])
+  @@index([email, slug])
   @@map("user")
 }
 
