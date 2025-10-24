@@ -35,7 +35,7 @@ import {
 } from "better-auth/plugins";
 import { createFormattedSlug } from "./utils/format-string";
 
-const TESTING = true;
+const TESTING = false;
 
 export const auth = betterAuth({
   appName: "Auth v3",
