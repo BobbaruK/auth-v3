@@ -131,8 +131,8 @@ function ChangeAvatarSkeleton({
       <div className={cn("flex flex-col gap-6", className)} {...restProps}>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col items-center gap-2">
-            <Skeleton className="h-[14px] w-full" />
-            <Skeleton className="h-[36px] w-full" />
+            <Skeleton className="h-3.5 w-full" />
+            <Skeleton className="h-9 w-full" />
             <Skeleton className="h-5 w-full" />
           </div>
         </div>

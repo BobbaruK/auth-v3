@@ -55,7 +55,7 @@ export function DataTablePagination() {
             }}
             disabled={isLoading}
           >
-            <SelectTrigger className="h-8 w-[80px]">
+            <SelectTrigger className="h-8 w-20">
               <SelectValue placeholder={pageSize} />
             </SelectTrigger>
             <SelectContent side="top">

@@ -85,8 +85,8 @@ function DeleteAccountSkeleton({
     <div className={cn("space-y-6", className)} {...restProps}>
       <div className="space-y-4">
         <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-[14px] w-full" />
-          <Skeleton className="h-[36px] w-full" />
+          <Skeleton className="h-3.5 w-full" />
+          <Skeleton className="h-9 w-full" />
         </div>
       </div>
       <div className="flex items-center justify-end gap-6">

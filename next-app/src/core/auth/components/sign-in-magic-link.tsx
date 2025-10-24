@@ -98,8 +98,8 @@ function MagicLinkFormSkeleton({
   return (
     <div className={cn("space-y-4", className)} {...restProps}>
       <div className="flex flex-col items-center justify-end gap-2">
-        <Skeleton className="h-[14px] w-full" />
-        <Skeleton className="h-[36px] w-full" />
+        <Skeleton className="h-3.5 w-full" />
+        <Skeleton className="h-9 w-full" />
       </div>
       <div className="flex items-center justify-end gap-6">
         <Skeleton className="h-10 w-[90px]" />
