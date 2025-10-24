@@ -5,9 +5,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PersonalForm } from "./personal-form";
-import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { PersonalForm } from "./personal-form";
 
 const PersonalInformation = () => {
   return (
@@ -44,24 +44,24 @@ export const PersonalInformationSkeleton = ({
       <CardContent className="space-y-6">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="flex flex-col gap-2">
-            <Skeleton className="h-[14px] w-56" />
-            <Skeleton className="h-[36px] w-full" />
+            <Skeleton className="h-3.5 w-56" />
+            <Skeleton className="h-9 w-full" />
           </div>
           <div className="flex flex-col gap-2">
-            <Skeleton className="h-[14px] w-56" />
-            <Skeleton className="h-[36px] w-full" />
+            <Skeleton className="h-3.5 w-56" />
+            <Skeleton className="h-9 w-full" />
           </div>
           <div className="flex flex-col gap-2">
-            <Skeleton className="h-[14px] w-56" />
-            <Skeleton className="h-[36px] w-full" />
+            <Skeleton className="h-3.5 w-56" />
+            <Skeleton className="h-9 w-full" />
           </div>
           <div className="flex flex-col gap-2">
-            <Skeleton className="h-[14px] w-56" />
-            <Skeleton className="h-[36px] w-full" />
+            <Skeleton className="h-3.5 w-56" />
+            <Skeleton className="h-9 w-full" />
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <Skeleton className="h-[14px] w-56" />
+          <Skeleton className="h-3.5 w-56" />
           <Skeleton className="h-16 w-full" />
         </div>
         <div className="flex flex-col justify-end gap-2">

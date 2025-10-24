@@ -16,7 +16,9 @@ import { updateUser } from "@/core/user/actions/update-user";
 import { PersonalSchema } from "@/core/user/schemas/personal";
 import { useSettingsContext } from "@/features/settings/providers/settings";
 import { useSession } from "@/lib/auth-client";
+import { createFormattedSlug } from "@/lib/utils/format-string";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -29,10 +31,11 @@ export const PersonalForm = () => {
       firstName: user?.firstName,
       lastName: user?.lastName,
       userName: user?.displayUsername || undefined,
-      email: user?.email,
+      slug: user.slug,
       bio: user?.bio || undefined,
     },
   });
+  const router = useRouter();
   const { refetch } = useSession();
 
   const onSubmit = (values: z.infer<typeof PersonalSchema>) => {
@@ -77,6 +80,16 @@ export const PersonalForm = () => {
                     type="text"
                     placeholder="John"
                     disabled={isLoading}
+                    onKeyUp={() => {
+                      form.setValue(
+                        "slug",
+                        createFormattedSlug(
+                          field.value,
+                          form.getValues("lastName"),
+                          form.getValues("userName"),
+                        ),
+                      );
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -95,6 +108,16 @@ export const PersonalForm = () => {
                     type="text"
                     placeholder="Doe"
                     disabled={isLoading}
+                    onKeyUp={() => {
+                      form.setValue(
+                        "slug",
+                        createFormattedSlug(
+                          form.getValues("firstName"),
+                          field.value,
+                          form.getValues("userName"),
+                        ),
+                      );
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -113,6 +136,16 @@ export const PersonalForm = () => {
                     type="text"
                     placeholder="Doughnut"
                     disabled={isLoading}
+                    onKeyUp={() => {
+                      form.setValue(
+                        "slug",
+                        createFormattedSlug(
+                          form.getValues("firstName"),
+                          form.getValues("lastName"),
+                          field.value,
+                        ),
+                      );
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -121,15 +154,15 @@ export const PersonalForm = () => {
           />
           <FormField
             control={form.control}
-            name="email"
+            name="slug"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Slug</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    type="email"
-                    placeholder="john.doe@example.com"
+                    type="text"
+                    placeholder="doe-john-doughnut"
                     disabled={true}
                   />
                 </FormControl>
