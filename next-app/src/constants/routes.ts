@@ -1,4 +1,4 @@
-export const DEFAULT_LOGIN_REDIRECT = "/settings";
+export const DEFAULT_LOGIN_REDIRECT = "/";
 export const DEFAULT_API_ERROR_REDIRECT = "/auth/error";
 export const AUTH_ROUTES = ["/login", "/register", "/reset", "/new-password"];
 export const API_AUTH_PREFIX = "/api/auth";

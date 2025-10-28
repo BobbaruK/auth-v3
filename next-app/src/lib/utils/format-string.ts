@@ -33,7 +33,7 @@ export const createFormattedSlug = (
   lastName: string,
   username: string,
 ) => {
-  const slug = firstName + "-" + username + "-" + lastName;
+  const slug = firstName + "-" + lastName + "-" + username;
 
   return formatString(slug);
 };

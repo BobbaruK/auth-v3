@@ -41,9 +41,21 @@ export const UserInfo = ({ user }: Props) => {
           </p>
         </div>
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+          <p className="text-sm font-medium">Slug</p>
+          <p className="max-w-[180px] truncate rounded-md bg-slate-100 p-1 font-mono text-xs text-black">
+            {user?.slug}
+          </p>
+        </div>
+        <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <p className="text-sm font-medium">Email</p>
           <p className="max-w-[180px] truncate rounded-md bg-slate-100 p-1 font-mono text-xs text-black">
             {user?.email}
+          </p>
+        </div>
+        <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+          <p className="text-sm font-medium">Image</p>
+          <p className="max-w-[180px] truncate rounded-md bg-slate-100 p-1 font-mono text-xs text-black">
+            {user?.image}
           </p>
         </div>
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
