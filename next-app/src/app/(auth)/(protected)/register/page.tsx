@@ -2,7 +2,12 @@ import { PageStructure } from "@/components/page-structure";
 import { Button } from "@/components/ui/button";
 import { AuthCard } from "@/core/auth/components/auth-card";
 import { SignUpForm } from "@/core/auth/components/forms/sign-up";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Register",
+};
 
 const RegisterPage = () => {
   return (

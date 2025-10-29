@@ -5,7 +5,12 @@ import { MESSAGES } from "@/constants/messages";
 import { getUser } from "@/core/user/data/get-user";
 import SettingsContent from "@/features/settings/components/settings-content";
 import { auth } from "@/lib/auth";
+import { Metadata } from "next";
 import { headers } from "next/headers";
+
+export const metadata: Metadata = {
+  title: "Settings",
+};
 
 const SettingsPage = async () => {
   const session = await auth.api.getSession({

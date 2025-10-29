@@ -6,9 +6,24 @@ import ProfileContent from "@/features/profile/components/content";
 import ProfileSidebar from "@/features/profile/components/sidebar";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import type { Metadata } from "next";
 
 interface Props {
   params: Promise<{ userId: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const slug = (await params).userId;
+
+  const user = await getUser({
+    where: {
+      slug,
+    },
+  });
+
+  return {
+    title: user?.displayUsername,
+  };
 }
 
 const ProfilePage = async ({ params }: Props) => {

@@ -3,7 +3,12 @@ import { loadSearchParams } from "@/components/search-params";
 import { DataTableTransitionWrapper } from "@/core/admin/components/tables/users/data-table-transition-wrapper";
 import { getUsersPrisma, getUsersBAuth } from "@/core/admin/data/get-users";
 import { UserSession } from "@/types/session";
+import { Metadata } from "next";
 import { SearchParams } from "nuqs/server";
+
+export const metadata: Metadata = {
+  title: "Users",
+};
 
 interface Props {
   searchParams: Promise<SearchParams>;

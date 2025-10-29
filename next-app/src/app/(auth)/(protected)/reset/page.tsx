@@ -1,6 +1,11 @@
 import { PageStructure } from "@/components/page-structure";
 import { AuthCard } from "@/core/auth/components/auth-card";
 import { ResetPasswordForm } from "@/core/auth/components/forms/reset-password";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Reset",
+};
 
 const ResetPasswordPage = () => {
   return (

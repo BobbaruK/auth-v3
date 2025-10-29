@@ -2,6 +2,11 @@ import { PageStructure } from "@/components/page-structure";
 import { AuthCard } from "@/core/auth/components/auth-card";
 import { NewPasswordForm } from "@/core/auth/components/forms/new-password";
 import { ErrorCode } from "@/types/errors";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "New password",
+};
 
 interface Props {
   searchParams: Promise<{

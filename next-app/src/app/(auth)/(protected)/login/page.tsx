@@ -5,7 +5,12 @@ import { AuthCard } from "@/core/auth/components/auth-card";
 import { SignInForm } from "@/core/auth/components/forms/sign-in";
 import SignInMagicLink from "@/core/auth/components/sign-in-magic-link";
 import SignInProviders from "@/core/auth/components/sign-in-providers";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Login",
+};
 
 const LoginPage = async () => {
   return (

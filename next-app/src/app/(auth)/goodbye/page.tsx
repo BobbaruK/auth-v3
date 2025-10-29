@@ -1,8 +1,13 @@
 import { CustomButton } from "@/components/custom-button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { auth } from "@/lib/auth";
+import { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Goodbye",
+};
 
 const GoodByePage = async () => {
   const session = await auth.api.getSession({ headers: await headers() });

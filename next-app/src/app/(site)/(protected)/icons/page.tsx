@@ -43,7 +43,12 @@ import { UsersIcon } from "@/components/icons/users";
 import { WatchIcon } from "@/components/icons/watch";
 import { PageStructure } from "@/components/page-structure";
 import { Card, CardContent } from "@/components/ui/card";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Icons",
+};
 
 const icons: {
   name: string;

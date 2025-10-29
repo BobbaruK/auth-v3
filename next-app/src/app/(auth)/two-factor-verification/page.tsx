@@ -6,10 +6,15 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { AuthCard } from "@/core/auth/components/auth-card";
 import OTPVerificationForm from "@/core/auth/components/forms/otp-verification";
 import { auth } from "@/lib/auth";
+import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SearchParams } from "nuqs/server";
+
+export const metadata: Metadata = {
+  title: "Two factor verification",
+};
 
 interface Props {
   searchParams: Promise<SearchParams>;

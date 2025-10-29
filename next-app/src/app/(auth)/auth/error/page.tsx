@@ -2,6 +2,11 @@ import { CustomButton } from "@/components/custom-button";
 import { ErrorIcon } from "@/components/icons/error";
 import { PageStructure } from "@/components/page-structure";
 import { AuthCard } from "@/core/auth/components/auth-card";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Authentication error",
+};
 
 interface Props {
   searchParams: Promise<{
