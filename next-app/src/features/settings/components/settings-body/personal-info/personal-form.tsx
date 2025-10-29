@@ -18,7 +18,6 @@ import { useSettingsContext } from "@/features/settings/providers/settings";
 import { useSession } from "@/lib/auth-client";
 import { createFormattedSlug } from "@/lib/utils/format-string";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -35,12 +34,11 @@ export const PersonalForm = () => {
       bio: user?.bio || undefined,
     },
   });
-  const router = useRouter();
   const { refetch } = useSession();
 
   const onSubmit = (values: z.infer<typeof PersonalSchema>) => {
     startTransition(async () => {
-      updateUser(values, user?.displayUsername || "")
+      updateUser(values, user)
         .then((data) => {
           if (data.username_error) {
             form.setError("userName", {

@@ -2,8 +2,10 @@
 
 import { MESSAGES } from "@/constants/messages";
 import { auth } from "@/lib/auth";
+import db from "@/lib/prisma";
 import { catchError } from "@/lib/utils/catch-error-action";
 import { createFormattedSlug } from "@/lib/utils/format-string";
+import { UserProfile } from "@/types/user-profile";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
@@ -11,7 +13,7 @@ import { PersonalSchema } from "../schemas/personal";
 
 export const updateUser = async (
   values: z.infer<typeof PersonalSchema>,
-  userUsername: string,
+  user: UserProfile,
 ): Promise<
   | {
       error: string;
@@ -44,7 +46,7 @@ export const updateUser = async (
       },
     });
 
-    if (!available && userUsername !== userName) {
+    if (!available && user.displayUsername !== userName) {
       return {
         error: MESSAGES.USERNAME_NOT_AVAILABLE,
         username_error: true,
@@ -62,7 +64,12 @@ export const updateUser = async (
       headers: await headers(),
     });
 
-    // TODO: handle bio
+    await db.auth_user.update({
+      where: { id: user.id },
+      data: {
+        bio,
+      },
+    });
 
     revalidatePath("/");
 
