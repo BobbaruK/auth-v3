@@ -33,7 +33,7 @@ import { cn } from "@/lib/utils";
 import { dateFormatter } from "@/lib/utils/format-date";
 import { Session, SessionObj } from "@/types/session";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useEffectEvent, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { UAParser } from "ua-parser-js";
 
@@ -49,7 +49,7 @@ const SessionsTable = ({ setOpenSessionsDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const fetchSessions = () =>
+  const fetchSessions = useEffectEvent(() => {
     startProviderTransition(
       async () =>
         await getSessions()
@@ -62,13 +62,10 @@ const SessionsTable = ({ setOpenSessionsDialog, ...restProps }: Props) => {
             setOpenSessionsDialog(false);
           }),
     );
+  });
 
   useEffect(() => {
     fetchSessions();
-
-    return () => {};
-    // TODO: useCallback
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const revokeSession = (token: string) =>

@@ -14,7 +14,6 @@ export const AccountVisibility = () => {
 
   const handleCheck = () => {
     startTransition(async () => {
-      // TODO: maybe server?
       await updateUser({
         isAccountVisible: !isChecked,
       })
