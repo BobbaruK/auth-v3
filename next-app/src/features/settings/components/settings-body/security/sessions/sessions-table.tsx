@@ -49,7 +49,7 @@ const SessionsTable = ({ setOpenSessionsDialog, ...restProps }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const fetchSessions = useEffectEvent(() => {
+  const fetchSessions = () =>
     startProviderTransition(
       async () =>
         await getSessions()
@@ -62,10 +62,11 @@ const SessionsTable = ({ setOpenSessionsDialog, ...restProps }: Props) => {
             setOpenSessionsDialog(false);
           }),
     );
-  });
+
+  const fetchSessionsOnMounted = useEffectEvent(() => fetchSessions());
 
   useEffect(() => {
-    fetchSessions();
+    fetchSessionsOnMounted();
   }, []);
 
   const revokeSession = (token: string) =>

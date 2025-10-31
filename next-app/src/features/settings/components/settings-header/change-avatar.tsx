@@ -2,7 +2,6 @@
 
 import { CustomButton } from "@/components/custom-button";
 import { CameraIcon } from "@/components/icons/camera";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +20,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSettingsContext } from "@/features/settings/providers/settings";
 import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense } from "react";
 const ChangeAvatarForm = lazy(
   () => import("@/core/user/components/form/change-avatar"),
 );
@@ -35,22 +34,6 @@ export const ChangeAvatar = () => {
     startTransition,
   } = useSettingsContext();
   const isDesktop = useCustomMediaQuery();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) {
-    return (
-      <Button
-        size="icon"
-        variant="outline"
-        className="absolute -right-2 -bottom-2 h-8 w-8 rounded-full"
-        disabled={isLoading}
-      >
-        <CameraIcon />
-      </Button>
-    );
-  }
 
   if (isDesktop) {
     return (
@@ -64,6 +47,7 @@ export const ChangeAvatar = () => {
             className="absolute -right-2 -bottom-2 h-8 w-8 rounded-full"
             size={"icon"}
             disabled={isLoading}
+            skeletonClassName="absolute -right-2 -bottom-2 h-8 w-8 rounded-full"
           />
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
@@ -97,6 +81,7 @@ export const ChangeAvatar = () => {
           className="absolute -right-2 -bottom-2 h-8 w-8 rounded-full"
           size={"icon"}
           disabled={isLoading}
+          skeletonClassName="absolute -right-2 -bottom-2 h-8 w-8 rounded-full"
         />
       </DrawerTrigger>
       <DrawerContent>
