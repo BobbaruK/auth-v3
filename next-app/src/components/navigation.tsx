@@ -23,6 +23,8 @@ import { MenuIcon } from "./icons/menu";
  * https://www.shadcn.io/components/navbar/navbar-01
  */
 
+// TODO: I need to do my own navigation
+
 // Simple logo component for the navbar
 const Logo = (props: React.SVGAttributes<SVGElement>) => {
   return (
@@ -150,6 +152,7 @@ export const Navigation = React.forwardRef<HTMLElement, NavbarProps>(
                             className={cn(
                               "flex w-full cursor-pointer items-center rounded-md px-3 py-2 text-sm font-medium no-underline transition-colors",
                             )}
+                            skeletonClassName="w-[75px]"
                           />
                         </NavigationMenuItem>
                       ))}
@@ -175,8 +178,9 @@ export const Navigation = React.forwardRef<HTMLElement, NavbarProps>(
                           linkHref={link.href}
                           variant={link.active ? "outline" : "link"}
                           className={cn(
-                            "group focus:bg-accent focus:text-accent-foreground inline-flex h-9 w-max cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-medium no-underline transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50",
+                            "group focus:bg-accent focus:text-accent-foreground inline-flex w-max cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-medium no-underline transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50",
                           )}
+                          skeletonClassName="w-[75px]"
                         />
                       </NavigationMenuItem>
                     ))}

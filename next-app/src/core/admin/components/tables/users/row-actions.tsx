@@ -52,7 +52,6 @@ const RowActions = ({ user }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { refetch } = useSession();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [copiedText, copy] = useCopyToClipboard();
   const [openBanDialog, setOpenBanDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -221,6 +220,7 @@ const RowActions = ({ user }: Props) => {
             iconPlacement="left"
             variant={"outline"}
             className="size-8"
+            skeletonClassName="size-8"
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">

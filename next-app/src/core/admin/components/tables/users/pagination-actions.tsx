@@ -219,6 +219,7 @@ const PaginationActions = ({
             size={"sm"}
             variant={"outline"}
             className="h-8"
+            skeletonClassName="w-[73px] h-8"
             disabled={isLoading}
           />
         </DropdownMenuTrigger>

@@ -138,6 +138,7 @@ const ProfileActions = ({ user }: Props) => {
             size={"icon"}
             disabled={isPending}
             onClick={handleImpersonate}
+            skeletonClassName="w-10"
           />
         </ProfileAdminRow>
 
@@ -150,6 +151,7 @@ const ProfileActions = ({ user }: Props) => {
             variant={"warning"}
             disabled={isPending}
             onClick={handleRevokeUserSessions}
+            skeletonClassName="w-10"
           />
         </ProfileAdminRow>
 
@@ -162,7 +164,7 @@ const ProfileActions = ({ user }: Props) => {
                 iconPlacement="left"
                 size={"icon"}
                 disabled={isPending}
-                onClick={handleRevokeUserSessions}
+                skeletonClassName="w-10"
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
@@ -190,43 +192,43 @@ const ProfileActions = ({ user }: Props) => {
               variant={"success"}
               disabled={isPending}
               onClick={handleUnBan}
+              skeletonClassName="w-10"
             />
           ) : (
-            <>
-              <ResponsiveDialog
-                open={openBanDialog}
-                setOpen={setOpenBanDialog}
-                trigger={{
-                  type: "element",
-                  element: (
-                    <CustomButton
-                      buttonLabel="Ban"
-                      icon={BanIcon}
-                      iconPlacement="left"
-                      size={"icon"}
-                      variant={"danger"}
-                      disabled={isPending}
-                      onClick={() => setOpenBanDialog(true)}
-                    />
-                  ),
-                  hidden: false,
-                }}
-                header={{
-                  title: {
-                    label: "Ban user",
-                  },
-                }}
-              >
-                <Suspense fallback={<BanUserFormSkeleton />}>
-                  <BanUserForm
-                    users={[user]}
-                    isLoading={isPending}
-                    startTransition={startTransition}
-                    setOpenBanDialog={setOpenBanDialog}
+            <ResponsiveDialog
+              open={openBanDialog}
+              setOpen={setOpenBanDialog}
+              trigger={{
+                type: "element",
+                element: (
+                  <CustomButton
+                    buttonLabel="Ban"
+                    icon={BanIcon}
+                    iconPlacement="left"
+                    size={"icon"}
+                    variant={"danger"}
+                    disabled={isPending}
+                    onClick={() => setOpenBanDialog(true)}
+                    skeletonClassName="w-10"
                   />
-                </Suspense>
-              </ResponsiveDialog>
-            </>
+                ),
+                hidden: false,
+              }}
+              header={{
+                title: {
+                  label: "Ban user",
+                },
+              }}
+            >
+              <Suspense fallback={<BanUserFormSkeleton />}>
+                <BanUserForm
+                  users={[user]}
+                  isLoading={isPending}
+                  startTransition={startTransition}
+                  setOpenBanDialog={setOpenBanDialog}
+                />
+              </Suspense>
+            </ResponsiveDialog>
           )}
         </ProfileAdminRow>
 
@@ -245,6 +247,7 @@ const ProfileActions = ({ user }: Props) => {
                   variant={"destructive"}
                   disabled={isPending}
                   onClick={() => setOpenDeleteDialog(true)}
+                  skeletonClassName="w-10"
                 />
               ),
               hidden: false,
