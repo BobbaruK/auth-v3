@@ -135,6 +135,7 @@ const OTPVerificationForm = ({
               icon={CopyIcon}
               iconPlacement="left"
               className="ms-auto size-10 min-w-10"
+              skeletonClassName="ms-auto size-10 min-w-10"
               onClick={handleCopy(secret)}
             />
           </div>
