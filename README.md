@@ -4,7 +4,7 @@ This repository contains a **Next.js** application fully dockerized and built wi
 
 ## Table of Contents
 
-- [Tech Stack](#tech-stack)
+- [Tech Stack](#tech-stack-and-important-packages)
 - [Overview](#overview)
 - [Server Setup](#server-setup)
   - [Development](#development)
@@ -14,53 +14,66 @@ This repository contains a **Next.js** application fully dockerized and built wi
   - [Commit Types](#commit-types)
   - [Examples](#examples)
   - [Notes](#notes)
+- [Backup and restore postgres databases in docker](#backup-and-restore-postgres-databases-in-docker)
+  - [Backup](#backup)
+    - [gzip](#gzip)
+    - [brotli or bzip2](#brotli-or-bzip2)
+  - [Restore](#restore)
 
-## Tech Stack & Important Packages
+## Tech Stack and Important Packages
 
 ### Core
 
 - **next** – Full-stack React framework (SSR, SSG, routing).
-- **react / react-dom** – React UI library and DOM renderer.
+- **react / react-dom** – React 19 UI library and DOM renderer with concurrent features.
 
 ### Database
 
-- **prisma / @prisma/client** – Type-safe ORM for PostgreSQL, migrations, and query building.
+- **prisma / @prisma/client** – Type-safe ORM for PostgreSQL, with support for schema migrations and query building.
+- **@prisma/extension-accelerate** – Prisma Accelerate extension for improved query performance and caching.
 
 ### Forms & Validation
 
-- **react-hook-form** – Form management in React.
-- **@hookform/resolvers** – Integrates schema validation (e.g., Zod) with React Hook Form.
-- **zod** – Schema validation in TypeScript.
+- **react-hook-form** – Lightweight form management for React.
+- **@hookform/resolvers** – Connects schema validation libraries (e.g., Zod) to React Hook Form.
+- **zod** – TypeScript-first schema validation and parsing.
 
 ### UI & Styling
 
-- **tailwindcss** – Utility-first CSS framework for rapid styling.
-- **tailwind-merge** – Combine and override Tailwind classes safely.
+- **tailwindcss** – Utility-first CSS framework for rapid styling (v4).
+- **@tailwindcss/typography** – Tailwind plugin for rich text content styling.
+- **tailwind-merge** – Safely merge and override Tailwind classes.
 - **clsx** – Utility for conditional class concatenation.
-- **class-variance-authority** – Manage UI class variants.
-- **shadcn/ui** – Accessible, customizable UI components.
-- **lucide-react / react-icons** – SVG icon libraries for React.
-- **sonner** – Elegant toast notifications.
+- **class-variance-authority (CVA)** – Variant management for component styling.
+- **shadcn/ui** – Accessible, headless UI components built on top of Radix primitives.
+- **@radix-ui/react-\*** – Unstyled accessible components (dialog, dropdown, tabs, etc.).
+- **lucide-react / react-icons** – Icon libraries providing scalable SVG icons.
+- **tw-animate-css** – Tailwind plugin for CSS-based animations.
+- **vaul** – Accessible drawer components for modern UIs.
+- **sonner** – Beautiful toast notifications for React.
 
 ### Auth & Security
 
-- **better-auth** – Authentication with cookies / JWT.
-- **input-otp** – OTP input components for login flows.
+- **better-auth** – Authentication library supporting cookies, JWT, and advanced user management flows.
+- **input-otp** – Ready-to-use OTP input components for authentication screens.
 
-### Theming / Utilities
+### Theming & Utilities
 
-- **next-themes** – Dark / light mode support.
-- **usehooks-ts** – Reusable React hooks written in TypeScript.
+- **next-themes** – Manage dark/light mode and custom themes in Next.js.
+- **usehooks-ts** – Collection of reusable React hooks written in TypeScript.
+- **nuqs** – URL state management hooks for query parameters.
+- **ua-parser-js** – User-Agent parser for device and browser detection.
 
 ### Email
 
-- **resend** – Sending emails via API.
-- **@react-email/components / @react-email/render** – Building and rendering emails in React.
+- **resend** – API for sending transactional emails.
+- **@react-email/components / @react-email/render / react-email** – Build, render, and preview emails using React components.
 
-### Dev & Linting
+### Development & Linting
 
-- **typescript** – TypeScript type system.
-- **eslint / eslint-config-next / eslint-plugin-boundaries** – Linting and best practices.
+- **typescript** – Strongly typed JavaScript for better tooling and maintainability.
+- **eslint / eslint-config-next / eslint-plugin-boundaries** – Linting, code quality, and project structure enforcement.
+- **prettier / prettier-plugin-tailwindcss** – Code formatting with Tailwind class sorting.
 
 ## Overview
 
@@ -122,9 +135,10 @@ Each commit message should have the following format:
 - **deps** → dependency updates (upgrade/downgrade libraries)
 - **db** → database-related changes (Prisma migrations, seeds)
 - **docker** → Docker-related changes (Dockerfile, docker-compose)
-- **release** → versioning and release-related commits (version bumps, changelogs, preparing or publishing a new release)
 
 ### Examples
+
+`<type>(<scope>): <short description>`
 
 - feat(auth): add JWT authentication
 - fix(api): handle null values in user controller
@@ -144,3 +158,73 @@ Each commit message should have the following format:
 - Use **English** for consistency
 - Use **imperative mood**: "add feature" not "added feature"
 - When in doubt, prefer **feat** or **fix**, and add a clear scope
+
+## Backup and restore postgres databases in docker
+
+### Backup
+
+All DBs
+
+```sh
+docker exec -t your-db-container pg_dumpall -c -U db_user > dump_`date +%Y-%m-%d"_"%H_%M_%S`.sql
+```
+
+Specific DB
+
+```sh
+docker exec -t your_db_container pg_dump -U db_user db_name --clean > dump_db_name_`date +%Y-%m-%d"_"%H_%M_%S`.sql
+```
+
+### gzip
+
+All DBs
+
+```sh
+docker exec -t your-db-container pg_dumpall -c -U db_user | gzip > dump_`date +%Y-%m-%d"_"%H_%M_%S`.sql.gz
+```
+
+Specific DB
+
+```sh
+docker exec -t your-db-container pg_dump -U db_user db_name | gzip > dump_db_name_`date +%Y-%m-%d"_"%H_%M_%S`.sql.gz
+```
+
+### brotli or bzip2
+
+All DBs
+
+```sh
+docker exec -t your-db-container pg_dumpall -c -U db_user | brotli --best > dump_`date +%Y-%m-%d"_"%H_%M_%S`.sql.br
+```
+
+Specific DB
+
+```sh
+docker exec -t your-db-container pg_dump -U db_user db_name | brotli > dump_db_name_`date +%Y-%m-%d"_"%H_%M_%S`.sql.gz
+```
+
+All DBs
+
+```sh
+docker exec -t your-db-container pg_dumpall -c -U db_user | bzip2 --best > dump_`date +%Y-%m-%d"_"%H_%M_%S`.sql.bz2
+```
+
+Specific DB
+
+```sh
+docker exec -t your-db-container pg_dump -U db_user db_name | bzip2 > dump_db_name_`date +%Y-%m-%d"_"%H_%M_%S`.sql.gz
+```
+
+### Restore
+
+All DBs
+
+```sh
+cat your_dump.sql | docker exec -i your-db-container psql -U db_user
+```
+
+Specific DB
+
+```sh
+cat your_dump.sql | docker exec -i your-db-container psql -U db_user -d db_name
+```
