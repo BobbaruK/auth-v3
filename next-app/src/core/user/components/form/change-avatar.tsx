@@ -80,6 +80,7 @@ const ChangeAvatarForm = ({
           buttonLabel="Remove"
           onClick={() => form.setValue("url", "")}
           disabled={isLoading}
+          skeletonClassName="w-[83px]"
         />
       </div>
       <Form {...form} {...restProps}>
