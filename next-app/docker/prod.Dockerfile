@@ -7,6 +7,8 @@ FROM base AS builder
 
 WORKDIR /app
 
+RUN npm install -g npm@11.6.2
+
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
 # Omit --production flag for TypeScript devDependencies
