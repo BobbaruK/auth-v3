@@ -28,6 +28,7 @@ const GoodByePage = async () => {
           buttonLabel="Return to Homepage"
           linkHref="/"
           variant={"outline"}
+          skeletonClassName="w-[167px] mx-auto"
         />
       </div>
     </div>

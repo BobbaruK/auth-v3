@@ -50,6 +50,7 @@ const AdminPage = () => {
               buttonLabel="Click to test"
               variant={"link"}
               onClick={onApiRouteClick}
+              skeletonClassName="w-[106px]"
             />
           </div>
           <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-md">
@@ -58,6 +59,7 @@ const AdminPage = () => {
               buttonLabel="Click to test"
               variant={"link"}
               onClick={onServerActionClick}
+              skeletonClassName="w-[106px]"
             />
           </div>
         </CardContent>

@@ -57,6 +57,7 @@ const AuthErrorPage = async ({ searchParams }: Props) => {
           linkHref="/"
           className="w-full"
           variant={"outline"}
+          skeletonClassName="w-full"
         />
       </AuthCard>
     </PageStructure>
