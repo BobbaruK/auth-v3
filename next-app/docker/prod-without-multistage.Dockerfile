@@ -18,9 +18,11 @@ RUN \
 COPY prisma ./prisma
 COPY public ./public
 COPY src ./src
+COPY eslint.config.mjs .
 COPY next.config.ts .
 COPY postcss.config.mjs .
 COPY tsconfig.json .
+COPY react-table.d.ts .
 
 # Environment variables must be present at build time
 # https://github.com/vercel/next.js/discussions/14030
