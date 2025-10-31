@@ -350,8 +350,7 @@ export const auth = betterAuth({
     }),
     magicLink({
       expiresIn: MAGIC_LINK_TOKEN_EXPIRES,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      sendMagicLink: async ({ email, token, url }, request) => {
+      sendMagicLink: async ({ email, token, url }) => {
         if (TESTING) {
           console.log({ sendMagicLink: { email, token, url } });
           return;

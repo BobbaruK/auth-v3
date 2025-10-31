@@ -20,7 +20,6 @@ import { useCopyToClipboard } from "usehooks-ts";
 const TwoFactorBackupCodes = () => {
   const { backupCodes, openBackupCodesDialog, setOpenBackupCodesDialog } =
     useSettingsContext();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [copiedText, copy] = useCopyToClipboard();
 
   const handleCopy = (text: string) => () => {
