@@ -86,6 +86,8 @@ export function DataTable<TData, TValue>({
   advancedFiltering,
   twSkeletonHeightCell,
 }: DataTableProps<TData, TValue>) {
+  "use no memo"; // TODO: check out for tanstack query v9 or compatibility with react forget (compiler)
+
   const { dataCount, isLoading, startTransition } = useTableContext();
   const [{ pageSize }] = useSearchParams(startTransition);
 
@@ -94,6 +96,8 @@ export function DataTable<TData, TValue>({
     columnVisibilityObj || {},
   );
 
+  // TODO: check out for tanstack query v9 or compatibility with react forget (compiler)
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
