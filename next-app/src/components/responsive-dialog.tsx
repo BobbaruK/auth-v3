@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/drawer";
 import { useCustomMediaQuery } from "@/hooks/use-media-query";
 import { Header, Trigger } from "@/types/responsive-dialog";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useEffectEvent, useState } from "react";
 import { CustomButton } from "./custom-button";
 
 interface Props {
@@ -33,13 +33,15 @@ function ResponsiveDialog({ open, setOpen, trigger, header, children }: Props) {
   const isDesktop = useCustomMediaQuery();
   const [componentLoaded, setComponentLoaded] = useState(false);
 
+  const componentMounted = useEffectEvent(() => setComponentLoaded(true));
+
   useEffect(() => {
-    setComponentLoaded(true);
+    componentMounted();
 
     return () => setComponentLoaded(false);
   }, []);
 
-  if (!componentLoaded) return null;
+  if (!componentLoaded && trigger.hidden) return null;
 
   if (isDesktop) {
     return (
