@@ -41,6 +41,7 @@ export const SearchField = () => {
             iconPlacement="left"
             size={"icon"}
             className="size-9 min-w-9"
+            skeletonClassName="size-9 min-w-9"
             onClick={() => {
               const el = searchElRef.current as HTMLInputElement;
               debounced(null);

@@ -127,6 +127,7 @@ export function DataTable<TData, TValue>({
                   buttonLabel={`Columns`}
                   variant={"outline"}
                   className="ml-auto"
+                  skeletonClassName="ml-auto w-[90px]"
                 />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">

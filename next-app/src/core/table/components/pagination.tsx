@@ -78,6 +78,7 @@ export function DataTablePagination() {
             iconPlacement="left"
             size={"icon"}
             className="size-8 h-8 w-8 min-w-fit p-0 lg:flex"
+            skeletonClassName="size-8 h-8 w-8 min-w-fit p-0 lg:flex"
             onClick={() => {
               setSearchParams({ pageIndex: 0 });
             }}
@@ -90,6 +91,7 @@ export function DataTablePagination() {
             iconPlacement="left"
             size={"icon"}
             className="size-8 h-8 w-8 min-w-fit p-0 lg:flex"
+            skeletonClassName="size-8 h-8 w-8 min-w-fit p-0 lg:flex"
             onClick={() => {
               setSearchParams({ pageIndex: pageIndex - 1 });
             }}
@@ -102,6 +104,7 @@ export function DataTablePagination() {
             iconPlacement="left"
             size={"icon"}
             className="size-8 h-8 w-8 min-w-fit p-0 lg:flex"
+            skeletonClassName="size-8 h-8 w-8 min-w-fit p-0 lg:flex"
             onClick={() => {
               setSearchParams({ pageIndex: pageIndex + 1 });
             }}
@@ -114,6 +117,7 @@ export function DataTablePagination() {
             iconPlacement="left"
             size={"icon"}
             className="size-8 h-8 w-8 min-w-fit p-0 lg:flex"
+            skeletonClassName="size-8 h-8 w-8 min-w-fit p-0 lg:flex"
             onClick={() => {
               setSearchParams({ pageIndex: totalPages - 1 });
             }}
