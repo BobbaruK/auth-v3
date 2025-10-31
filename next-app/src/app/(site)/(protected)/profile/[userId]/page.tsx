@@ -1,12 +1,11 @@
-import { CustomAlert } from "@/components/custom-alert";
 import { PageStructure } from "@/components/page-structure";
-import { MESSAGES } from "@/constants/messages";
 import { getUser } from "@/core/user/data/get-user";
 import ProfileContent from "@/features/profile/components/content";
 import ProfileSidebar from "@/features/profile/components/sidebar";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 interface Props {
   params: Promise<{ userId: string }>;
@@ -38,16 +37,7 @@ const ProfilePage = async ({ params }: Props) => {
     },
   });
 
-  if (!user)
-    return (
-      <PageStructure>
-        <CustomAlert
-          title={"Error!"}
-          description={MESSAGES.USER_NOT_EXIST}
-          variant="danger"
-        />
-      </PageStructure>
-    );
+  if (!user) redirect("/");
 
   return (
     <PageStructure>

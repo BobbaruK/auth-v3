@@ -55,7 +55,7 @@ export const DataTableTransitionWrapper = ({
           username: true,
           email: true,
           role: true,
-          twoFaEnabled: true,
+          twoFactorEnabled: true,
           emailVerified: true,
           banned: true,
           banReason: true,

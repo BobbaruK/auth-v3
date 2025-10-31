@@ -266,8 +266,6 @@ const ProfileActions = ({ user }: Props) => {
               startTransition={startTransition}
               setOpenDeleteDialog={(open) => {
                 setOpenDeleteDialog(open);
-
-                router.push("/users");
               }}
             />
           </ResponsiveDialog>

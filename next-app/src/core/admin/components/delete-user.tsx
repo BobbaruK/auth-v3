@@ -52,7 +52,7 @@ const DeleteUser = ({
   return (
     <div className="flex items-center justify-end gap-4">
       <CustomButton
-        buttonLabel="Delete user"
+        buttonLabel="Delete user(s)"
         variant={"danger"}
         icon={TrashIcon}
         iconPlacement="left"

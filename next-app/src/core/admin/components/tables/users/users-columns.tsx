@@ -296,7 +296,7 @@ export const userColumns = ({
   },
   // 2FA Enabled
   {
-    ...columnId({ id: "twoFaEnabled" }),
+    ...columnId({ id: "twoFactorEnabled" }),
     meta: {
       label: "2FA enabled",
     },
@@ -309,7 +309,7 @@ export const userColumns = ({
     header: ({ column }) => {
       return (
         <THeadDropdown
-          id="twoFaEnabled"
+          id="twoFactorEnabled"
           label={"2FA Enabled"}
           isLoading={isLoading}
           startTransition={startTransition}
@@ -494,18 +494,23 @@ export const userColumns = ({
     },
     cell: ({ getValue }) => {
       const date = getValue() as Date | null;
-      return date
-        ? dateFormatter({
-            date,
-            options: {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            },
-          })
-        : "-";
+
+      return (
+        <div suppressHydrationWarning>
+          {date
+            ? dateFormatter({
+                date,
+                options: {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                },
+              })
+            : "-"}
+        </div>
+      );
     },
   },
   // Last login at
@@ -532,18 +537,23 @@ export const userColumns = ({
     },
     cell: ({ getValue }) => {
       const date = getValue() as Date | null;
-      return date
-        ? dateFormatter({
-            date,
-            options: {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            },
-          })
-        : "-";
+
+      return (
+        <div suppressHydrationWarning>
+          {date
+            ? dateFormatter({
+                date,
+                options: {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                },
+              })
+            : "-"}
+        </div>
+      );
     },
   },
   // Last login method
