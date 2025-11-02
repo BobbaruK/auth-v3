@@ -16,10 +16,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
-import { unbanUser } from "@/core/admin/actions/ban-user";
-import { impersonateUser } from "@/core/admin/actions/impersonate-user";
-import DeleteUser from "@/core/admin/components/delete-user";
-import { BanUserFormSkeleton } from "@/core/admin/components/forms/ban-user";
+import { unbanUser } from "@/core/admin/users/actions/ban-user";
+import { impersonateUser } from "@/core/admin/users/actions/impersonate-user";
+import { revokeUserSessions } from "@/core/admin/users/actions/revoke-sessions";
+import { setUserRole } from "@/core/admin/users/actions/set-user-role";
+import DeleteUser from "@/core/admin/users/components/delete-user";
+import { BanUserFormSkeleton } from "@/core/admin/users/components/forms/ban-user";
 import { RoleIcon } from "@/core/auth/components/role-icon";
 import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
@@ -29,10 +31,8 @@ import { UserProfile } from "@/types/user-profile";
 import { useRouter } from "next/navigation";
 import { lazy, ReactNode, Suspense, useState, useTransition } from "react";
 import { toast } from "sonner";
-import { revokeUserSessions } from "../actions/revoke-sessions";
-import { setUserRole } from "../actions/set-user-role";
 const BanUserForm = lazy(
-  () => import("@/core/admin/components/forms/ban-user"),
+  () => import("@/core/admin/users/components/forms/ban-user"),
 );
 
 interface Props {

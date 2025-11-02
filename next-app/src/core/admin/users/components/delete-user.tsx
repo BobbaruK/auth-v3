@@ -3,11 +3,11 @@
 import { CustomButton } from "@/components/custom-button";
 import { TrashIcon } from "@/components/icons/trash";
 import { BATCH_ITEMS } from "@/constants/misc";
+import { removeUser } from "@/core/admin/users/actions/remove-user";
 import { chunkArray } from "@/lib/utils/chunk-array";
 import { UserSession } from "@/types/session";
 import { Dispatch, SetStateAction, TransitionStartFunction } from "react";
 import { toast } from "sonner";
-import { removeUser } from "../actions/remove-user";
 
 interface Props {
   users: UserSession[];

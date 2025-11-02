@@ -1,12 +1,12 @@
 "use client";
 
+import { userColumns } from "@/core/admin/users/components/tables/users-columns";
 import { DataTable } from "@/core/table/components/data-table";
 import TableProvider from "@/core/table/providers/table-provider";
 import { UserSession } from "@/types/session";
-import { useTransition } from "react";
-import { userColumns } from "./users-columns";
-import PaginationActions from "./pagination-actions";
 import { TableRowSelect } from "@/types/table-row-select";
+import { useTransition } from "react";
+import PaginationActions from "./pagination-actions";
 
 interface Props {
   data: UserSession[];

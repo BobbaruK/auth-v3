@@ -13,7 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BATCH_ITEMS } from "@/constants/misc";
-import { banUser } from "@/core/admin/actions/ban-user";
+import { banUser } from "@/core/admin/users/actions/ban-user";
+import { BanUserSchema } from "@/core/admin/users/schemas/ban-user";
 import { cn } from "@/lib/utils";
 import { chunkArray } from "@/lib/utils/chunk-array";
 import { UserSession } from "@/types/session";
@@ -22,7 +23,6 @@ import { TransitionStartFunction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { BanUserSchema } from "../../schemas/ban-user";
 
 interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   users: UserSession[];

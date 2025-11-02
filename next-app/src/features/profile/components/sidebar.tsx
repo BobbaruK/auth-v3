@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import ProfileActions from "@/core/admin/components/profile-actions";
+import ProfileActions from "@/core/admin/users/components/profile-actions";
 import { RoleIcon } from "@/core/auth/components/role-icon";
 import { UserRole } from "@/generated/prisma";
 import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";

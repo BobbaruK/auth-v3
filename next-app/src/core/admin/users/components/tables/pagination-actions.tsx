@@ -20,9 +20,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BATCH_ITEMS } from "@/constants/misc";
-import { unbanUser } from "@/core/admin/actions/ban-user";
-import { revokeUserSessions } from "@/core/admin/actions/revoke-sessions";
-import { setUserRole } from "@/core/admin/actions/set-user-role";
+import { unbanUser } from "@/core/admin/users/actions/ban-user";
+import { revokeUserSessions } from "@/core/admin/users/actions/revoke-sessions";
+import { setUserRole } from "@/core/admin/users/actions/set-user-role";
+import DeleteUser from "@/core/admin/users/components/delete-user";
+import { BanUserFormSkeleton } from "@/core/admin/users/components/forms/ban-user";
 import { RoleIcon as RoleIconComp } from "@/core/auth/components/role-icon";
 import { UserRole } from "@/generated/prisma";
 import { capitalizeFirstLetter } from "@/lib/utils/capitalize-first-letter";
@@ -31,10 +33,8 @@ import { TableRowSelect } from "@/types/table-row-select";
 import { lazy, Suspense, TransitionStartFunction, useState } from "react";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
-import DeleteUser from "../../delete-user";
-import { BanUserFormSkeleton } from "../../forms/ban-user";
 const BanUserForm = lazy(
-  () => import("@/core/admin/components/forms/ban-user"),
+  () => import("@/core/admin/users/components/forms/ban-user"),
 );
 
 interface Props {

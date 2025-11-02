@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MESSAGES } from "@/constants/messages";
-import { stopImpersonatingUser } from "@/core/admin/actions/impersonate-user";
+import { stopImpersonatingUser } from "@/core/admin/users/actions/impersonate-user";
 import { signOut } from "@/core/auth/actions/sign-out";
 import { UserRole } from "@/generated/prisma";
 import { useSession } from "@/lib/auth-client";
