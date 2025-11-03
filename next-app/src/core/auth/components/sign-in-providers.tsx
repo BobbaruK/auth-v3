@@ -34,9 +34,10 @@ const SignInProviders = () => {
           variant="outline"
           icon={GithubIcon}
           iconPlacement="left"
-          className="grow"
+          hideLabelOnMobile={false}
+          className="w-full"
           onClick={handleGithubClick}
-          skeletonClassName="grow"
+          skeletonClassName="w-full h-9"
         />
 
         <CustomButton
@@ -44,9 +45,10 @@ const SignInProviders = () => {
           variant="outline"
           icon={GoogleIcon}
           iconPlacement="left"
-          className="grow"
+          hideLabelOnMobile={false}
+          className="w-full"
           onClick={handleGoogleClick}
-          skeletonClassName="grow"
+          skeletonClassName="w-full h-9"
         />
       </div>
     </div>

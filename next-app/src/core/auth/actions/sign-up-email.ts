@@ -32,15 +32,15 @@ export const signUpEmail = async (
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
 
-  const { firstName, lastName, userName, email, password } =
+  const { firstName, lastName, username, email, password } =
     validatedFields.data;
 
-  const slug = createFormattedSlug(firstName, lastName, userName);
+  const slug = createFormattedSlug(firstName, lastName, username);
 
   try {
     const { available } = await auth.api.isUsernameAvailable({
       body: {
-        username: userName,
+        username,
       },
     });
 
@@ -54,7 +54,7 @@ export const signUpEmail = async (
         firstName,
         lastName,
         slug,
-        username: userName,
+        username,
         email,
         password,
         callbackURL: DEFAULT_LOGIN_REDIRECT,

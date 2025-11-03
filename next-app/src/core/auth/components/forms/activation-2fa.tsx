@@ -2,23 +2,24 @@
 
 import { CustomButton } from "@/components/custom-button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MESSAGES } from "@/constants/messages";
 import { disable2fa, enable2fa } from "@/core/auth/actions/handle-2fa";
 import { Handle2faSchema } from "@/core/auth/schemas/handle-2fa";
 import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+import { formInputId } from "@/lib/utils/form-input-id";
 import { UserProfile } from "@/types/user-profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TransitionStartFunction } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -49,6 +50,8 @@ const ActivationTwoFactorForm = ({
       password: process.env.NEXT_PUBLIC_DEFAULT_REGISTER_PASSWORD || "",
     },
   });
+
+  const { formId, inputId } = formInputId("activate-2fa-form");
 
   const onSubmit = (values: z.infer<typeof Handle2faSchema>) => {
     startTransition(async () => {
@@ -100,34 +103,30 @@ const ActivationTwoFactorForm = ({
   };
 
   return (
-    <Form {...form} {...restProps}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className={cn(restProps.className, "space-y-6")}
-      >
-        <div className="space-y-4">
-          <FormField
-            control={form.control}
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldSet>
+        <FieldGroup>
+          <Controller
             name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    id="password"
-                    placeholder="******"
-                    autoComplete="new-password"
-                    disabled={isLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>Password</FieldLabel>
+                <PasswordInput
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="********"
+                  autoComplete="off"
+                  disabled={isLoading}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
-        </div>
 
-        <div className="flex flex-wrap items-center gap-6">
           <CustomButton
             buttonLabel={user.twoFactorEnabled ? "Disable" : "Enable"}
             type="submit"
@@ -136,23 +135,25 @@ const ActivationTwoFactorForm = ({
             disabled={isLoading}
             skeletonClassName="grow"
           />
-          <CustomButton
-            buttonLabel={`Cancel`}
-            type="button"
-            className="grow"
-            variant={"outline"}
-            disabled={isLoading}
-            skeletonClassName="grow"
-            onClick={() => {
-              setOpenActivate2faDialog(false);
-              setTotpURI("");
-              setBackupCodes([]);
-            }}
-          />
-        </div>
-      </form>
-    </Form>
+        </FieldGroup>
+      </FieldSet>
+    </form>
   );
 };
 
 export default ActivationTwoFactorForm;
+
+export function ActivateTwoFASkeleton({
+  className,
+  ...restProps
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn("flex flex-col gap-7", className)} {...restProps}>
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
+      </div>
+      <Skeleton className="h-9 w-full" />
+    </div>
+  );
+}

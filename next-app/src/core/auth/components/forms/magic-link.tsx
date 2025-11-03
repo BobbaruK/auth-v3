@@ -1,20 +1,21 @@
 import { CustomButton } from "@/components/custom-button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MESSAGES } from "@/constants/messages";
 import { signInMagicLink } from "@/core/auth/actions/sign-in";
 import { MagicLinkSchema } from "@/core/auth/schemas/magic-link";
 import { cn } from "@/lib/utils";
+import { formInputId } from "@/lib/utils/form-input-id";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -30,6 +31,8 @@ const MagicLinkForm = ({ setOpen, ...restProps }: Props) => {
       email: "",
     },
   });
+
+  const { formId, inputId } = formInputId("magic-link-form");
 
   const onSubmit = (values: z.infer<typeof MagicLinkSchema>) => {
     startTransition(async () => {
@@ -51,42 +54,59 @@ const MagicLinkForm = ({ setOpen, ...restProps }: Props) => {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        {...restProps}
-        className={cn("space-y-4", restProps.className)}
-      >
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldSet>
+        <FieldGroup>
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>Email</FieldLabel>
                 <Input
                   {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="jon.doe@example.com"
+                  autoComplete="off"
                   type="text"
-                  placeholder="john.doe@example.com"
                   disabled={isPending}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex items-center justify-end">
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+
           <CustomButton
-            buttonLabel={`Send link`}
+            buttonLabel={`Send magic link`}
             type="submit"
             className="ms-auto"
             disabled={isPending}
-            skeletonClassName="w-[90px]"
+            skeletonClassName="w-[90px] h-9"
           />
-        </div>
-      </form>
-    </Form>
+        </FieldGroup>
+      </FieldSet>
+    </form>
   );
 };
 
 export default MagicLinkForm;
+
+export function MagicLinkFormSkeleton({
+  className,
+  ...restProps
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn("space-y-7", className)} {...restProps}>
+      <div className="flex flex-col items-start justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-10" />
+        <Skeleton className="h-9 w-full" />
+      </div>
+      <div className="flex items-center justify-end gap-6">
+        <Skeleton className="h-9 w-[133px]" />
+      </div>
+    </div>
+  );
+}

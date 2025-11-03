@@ -2,21 +2,21 @@
 
 import { CustomButton } from "@/components/custom-button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { MESSAGES } from "@/constants/messages";
 import { resetPassword } from "@/core/auth/actions/reset-password";
 import { ResetPasswordSchema } from "@/core/auth/schemas/reset-password";
+import { formInputId } from "@/lib/utils/form-input-id";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -30,6 +30,8 @@ export const ResetPasswordForm = () => {
       email: "",
     },
   });
+
+  const { formId, inputId } = formInputId("reset-password-form");
 
   const onSubmit = (values: z.infer<typeof ResetPasswordSchema>) => {
     startTransition(async () => {
@@ -50,39 +52,39 @@ export const ResetPasswordForm = () => {
   };
 
   return (
-    <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      placeholder="john.doe@example.com"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldSet>
+        <FieldGroup>
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>Email</FieldLabel>
+                <Input
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="jon.doe@example.com"
+                  autoComplete="off"
+                  type="text"
+                  disabled={isPending}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
 
           <CustomButton
             buttonLabel={`Confirm`}
             type="submit"
-            className="w-full"
             disabled={isPending}
-            skeletonClassName="w-full"
+            skeletonClassName="w-full h-9"
           />
-        </form>
-      </Form>
-    </>
+        </FieldGroup>
+      </FieldSet>
+    </form>
   );
 };

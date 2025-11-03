@@ -2,22 +2,21 @@
 
 import { CustomButton } from "@/components/custom-button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
 import { newPassword } from "@/core/auth/actions/new-password";
 import { NewPasswordSchema } from "@/core/user/schemas/new-password";
+import { formInputId } from "@/lib/utils/form-input-id";
 import { ErrorCode } from "@/types/errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -37,6 +36,8 @@ export const NewPasswordForm = ({ token, error }: Props) => {
       confirmPassword: process.env.NEXT_PUBLIC_DEFAULT_REGISTER_PASSWORD || "",
     },
   });
+
+  const { formId, inputId } = formInputId("new-password-form");
 
   const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     startTransition(() => {
@@ -72,51 +73,49 @@ export const NewPasswordForm = ({ token, error }: Props) => {
   }, [error]);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-4">
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="password">New Password</FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    id="password"
-                    placeholder="******"
-                    autoComplete="new-password"
-                    disabled={isPending}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Controller
+          name="password"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={inputId(field.name)}>
+                New password
+              </FieldLabel>
+              <PasswordInput
+                {...field}
+                id={inputId(field.name)}
+                aria-invalid={fieldState.invalid}
+                placeholder="********"
+                autoComplete="off"
+                disabled={isPending}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="confirmPassword">
-                  Confirm Password
-                </FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    id="confirmPassword"
-                    placeholder="******"
-                    autoComplete="new-password"
-                    disabled={isPending}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <Controller
+          name="confirmPassword"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={inputId(field.name)}>
+                Confirm password
+              </FieldLabel>
+              <PasswordInput
+                {...field}
+                id={inputId(field.name)}
+                aria-invalid={fieldState.invalid}
+                placeholder="********"
+                autoComplete="off"
+                disabled={isPending}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
         <CustomButton
           buttonLabel={`Set password`}
@@ -125,7 +124,7 @@ export const NewPasswordForm = ({ token, error }: Props) => {
           disabled={isPending}
           skeletonClassName="w-full"
         />
-      </form>
-    </Form>
+      </FieldGroup>
+    </form>
   );
 };

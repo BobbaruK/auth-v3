@@ -4,7 +4,7 @@ import { z } from "zod";
 export const RegisterSchema = z.object({
   firstName: FIRSTNAME,
   lastName: LASTNAME,
-  userName: USERNAME,
+  username: USERNAME,
   email: EMAIL,
   password: PASSWORD,
 });

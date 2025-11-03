@@ -2,25 +2,8 @@
 
 import { CustomButton } from "@/components/custom-button";
 import { EnvelopeIcon } from "@/components/icons/envelope";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useCustomMediaQuery } from "@/hooks/use-media-query";
-import { cn } from "@/lib/utils";
+import ResponsiveDialog from "@/components/responsive-dialog";
+import { MagicLinkFormSkeleton } from "@/core/auth/components/forms/magic-link";
 import { lazy, Suspense, useState } from "react";
 const MagicLinkForm = lazy(
   () => import("@/core/auth/components/forms/magic-link"),
@@ -28,82 +11,39 @@ const MagicLinkForm = lazy(
 
 const SignInMagicLink = () => {
   const [open, setOpen] = useState(false);
-  const isDesktop = useCustomMediaQuery();
 
-  if (isDesktop) {
-    return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
+  return (
+    <ResponsiveDialog
+      open={open}
+      setOpen={setOpen}
+      trigger={{
+        element: (
           <CustomButton
             buttonLabel="Magic link"
             iconPlacement="left"
             icon={EnvelopeIcon}
+            hideLabelOnMobile={false}
             variant={"outline"}
             className="w-full"
-            skeletonClassName="grow"
+            skeletonClassName="w-full h-9"
             onClick={() => setOpen(!open)}
           />
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Enter your email address</DialogTitle>
-            <DialogDescription>
-              We will send you a link by mail that will sign you in instantly!
-            </DialogDescription>
-          </DialogHeader>
-
-          <Suspense fallback={<MagicLinkFormSkeleton />}>
-            <MagicLinkForm setOpen={setOpen} />
-          </Suspense>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
-  return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
-        <CustomButton
-          buttonLabel="Magic link"
-          iconPlacement="left"
-          icon={EnvelopeIcon}
-          variant={"outline"}
-          className="grow"
-          skeletonClassName="grow"
-          onClick={() => setOpen(!open)}
-        />
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="text-left">
-          <DrawerTitle>Enter your email address</DrawerTitle>
-          <DrawerDescription>
-            We will send you a link by mail that will sign you in instantly!
-          </DrawerDescription>
-        </DrawerHeader>
-
-        <Suspense fallback={<MagicLinkFormSkeleton className="mb-4 px-4" />}>
-          <MagicLinkForm className="mb-4 px-4" setOpen={setOpen} />
-        </Suspense>
-      </DrawerContent>
-    </Drawer>
+        ),
+        type: "element",
+      }}
+      header={{
+        title: {
+          label: "Enter your email address",
+        },
+        description:
+          "We will send you a link by mail that will sign you in instantly!",
+      }}
+    >
+      <Suspense fallback={<MagicLinkFormSkeleton />}>
+        <MagicLinkForm setOpen={setOpen} />
+      </Suspense>
+    </ResponsiveDialog>
   );
 };
 
 export default SignInMagicLink;
-
-function MagicLinkFormSkeleton({
-  className,
-  ...restProps
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("space-y-4", className)} {...restProps}>
-      <div className="flex flex-col items-center justify-end gap-2">
-        <Skeleton className="h-3.5 w-full" />
-        <Skeleton className="h-9 w-full" />
-      </div>
-      <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 w-[90px]" />
-      </div>
-    </div>
-  );
-}

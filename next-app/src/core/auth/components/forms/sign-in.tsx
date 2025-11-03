@@ -3,13 +3,11 @@
 import { CustomButton } from "@/components/custom-button";
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
@@ -17,11 +15,12 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { signIn } from "@/core/auth/actions/sign-in";
 import { LoginSchema } from "@/core/auth/schemas/login";
 import { useSession } from "@/lib/auth-client";
+import { formInputId } from "@/lib/utils/form-input-id";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -29,6 +28,8 @@ export const SignInForm = () => {
   const router = useRouter();
   const { refetch } = useSession();
   const [isPending, startTransition] = useTransition();
+
+  const { formId, inputId } = formInputId("login-form");
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -66,67 +67,68 @@ export const SignInForm = () => {
   };
 
   return (
-    <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username or Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="john.doe@example.com"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex flex-wrap items-center gap-4">
-                    <FormLabel htmlFor="password">Password</FormLabel>
-                    <Button
-                      size={"sm"}
-                      variant={"link"}
-                      asChild
-                      className="text-foreground ms-auto px-0 font-normal"
-                    >
-                      <Link href={"/reset"}>Forgot password?</Link>
-                    </Button>
-                  </div>
-                  <FormControl>
-                    <PasswordInput
-                      id="password"
-                      placeholder="******"
-                      autoComplete="new-password"
-                      disabled={isPending}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <CustomButton
-            buttonLabel={`Login`}
-            type="submit"
-            className="w-full"
-            disabled={isPending}
-            skeletonClassName="w-full"
-          />
-        </form>
-      </Form>
-    </>
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Controller
+          name="email"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={inputId(field.name)}>
+                Username or Email
+              </FieldLabel>
+              <Input
+                {...field}
+                id={inputId(field.name)}
+                aria-invalid={fieldState.invalid}
+                placeholder="jon.doe@example.com"
+                autoComplete="off"
+                type="text"
+                disabled={isPending}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <Controller
+          name="password"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <div className="flex flex-wrap items-center gap-4">
+                <FieldLabel htmlFor={inputId(field.name)}>Password</FieldLabel>
+                <Button
+                  size={"sm"}
+                  variant={"link"}
+                  asChild
+                  className="text-foreground ms-auto h-auto px-0 font-normal"
+                >
+                  <Link href={"/forgot-password"}>Forgot password?</Link>
+                </Button>
+              </div>
+              <PasswordInput
+                {...field}
+                id={inputId(field.name)}
+                aria-invalid={fieldState.invalid}
+                placeholder="********"
+                autoComplete="off"
+                disabled={isPending}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <CustomButton
+          buttonLabel={`Login`}
+          type="submit"
+          className="w-full"
+          disabled={isPending}
+          skeletonClassName="w-full h-9"
+          // form="login-form"
+        />
+      </FieldGroup>
+    </form>
   );
 };

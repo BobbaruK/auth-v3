@@ -1,6 +1,15 @@
 "use client";
 
 import { CustomButton } from "@/components/custom-button";
+import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/components/ui/field";
 import {
   Form,
   FormControl,
@@ -15,10 +24,12 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { MESSAGES } from "@/constants/messages";
 import { signUpEmail } from "@/core/auth/actions/sign-up-email";
 import { RegisterSchema } from "@/core/auth/schemas/register";
+import { formInputId } from "@/lib/utils/form-input-id";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -30,18 +41,20 @@ export const SignUpForm = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
-      userName: "",
+      username: "",
       email: "",
       password: process.env.NEXT_PUBLIC_DEFAULT_REGISTER_PASSWORD || "",
     },
   });
+
+  const { formId, inputId } = formInputId("register-form");
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     startTransition(async () => {
       await signUpEmail(values)
         .then((data) => {
           if (data.username_error) {
-            form.setError("userName", {
+            form.setError("username", {
               message: data.error,
             });
           }
@@ -60,6 +73,136 @@ export const SignUpForm = () => {
         });
     });
   };
+
+  return (
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldSet>
+        <FieldGroup>
+          <Controller
+            name="firstName"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>
+                  First name
+                </FieldLabel>
+                <Input
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="John"
+                  autoComplete="off"
+                  type="text"
+                  disabled={isPending}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+
+          <Controller
+            name="lastName"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>Last name</FieldLabel>
+                <Input
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="Doe"
+                  autoComplete="off"
+                  type="text"
+                  disabled={isPending}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+
+          <Controller
+            name="username"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>Username</FieldLabel>
+                <Input
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="Doughnut"
+                  autoComplete="off"
+                  type="text"
+                  disabled={isPending}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>Email</FieldLabel>
+                <Input
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="jon.doe@example.com"
+                  autoComplete="off"
+                  type="text"
+                  disabled={isPending}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+
+          <Controller
+            name="password"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>Password</FieldLabel>
+                <PasswordInput
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="********"
+                  autoComplete="off"
+                  disabled={isPending}
+                />
+                <FieldDescription>
+                  Password must contain at least one of each: lowercase letters,
+                  uppercase letters, numbers and special characters.
+                </FieldDescription>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+
+          <CustomButton
+            buttonLabel={`Register`}
+            type="submit"
+            disabled={isPending}
+            skeletonClassName="w-full h-9"
+          />
+        </FieldGroup>
+      </FieldSet>
+    </form>
+  );
 
   return (
     <Form {...form}>
@@ -103,7 +246,7 @@ export const SignUpForm = () => {
           />
           <FormField
             control={form.control}
-            name="userName"
+            name="username"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>
