@@ -15,27 +15,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSearchParams } from "@/hooks/use-search-params";
 import { cn } from "@/lib/utils";
-import { UserSession } from "@/types/session";
 import { Column } from "@tanstack/react-table";
 import { TransitionStartFunction } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { LuChevronsUpDown } from "react-icons/lu";
 
-interface Props {
+interface Props<T> {
   id: string;
   label: string;
   isLoading: boolean;
   startTransition: TransitionStartFunction;
-  column: Column<UserSession>;
+  column: Column<T>;
 }
 
-export const THeadDropdown = ({
+export const THeadDropdown = <T,>({
   id,
   label,
   isLoading,
   startTransition,
   column,
-}: Props) => {
+}: Props<T>) => {
   const [{ sort, sortBy }, setSearchParams] = useSearchParams(startTransition);
 
   if (column.getCanSort() || column.getCanPin())
