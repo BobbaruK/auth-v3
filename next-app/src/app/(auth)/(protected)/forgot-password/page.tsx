@@ -4,7 +4,7 @@ import { ResetPasswordForm } from "@/core/auth/components/forms/reset-password";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Reset",
+  title: "Forgot password",
 };
 
 const ResetPasswordPage = () => {
