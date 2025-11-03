@@ -35,18 +35,18 @@ export const updateUser = async (
 
   if (!validatedFields.success) return { error: MESSAGES.INVALID_FIELDS };
 
-  const { firstName, lastName, userName, bio } = validatedFields.data;
+  const { firstName, lastName, username, bio } = validatedFields.data;
 
-  const slug = createFormattedSlug(firstName, lastName, userName);
+  const slug = createFormattedSlug(firstName, lastName, username);
 
   try {
     const { available } = await auth.api.isUsernameAvailable({
       body: {
-        username: userName,
+        username,
       },
     });
 
-    if (!available && user.displayUsername !== userName) {
+    if (!available && user.displayUsername !== username) {
       return {
         error: MESSAGES.USERNAME_NOT_AVAILABLE,
         username_error: true,
@@ -58,7 +58,7 @@ export const updateUser = async (
         firstName,
         lastName,
         slug,
-        username: userName,
+        username,
         name: `${lastName} ${firstName}`,
       },
       headers: await headers(),

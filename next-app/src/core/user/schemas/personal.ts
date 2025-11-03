@@ -4,7 +4,7 @@ import { z } from "zod";
 export const PersonalSchema = z.object({
   firstName: FIRSTNAME,
   lastName: LASTNAME,
-  userName: USERNAME,
+  username: USERNAME,
   slug: z.string(),
   bio: BIO,
 });
