@@ -152,7 +152,7 @@ export const Navigation = React.forwardRef<HTMLElement, NavbarProps>(
                             className={cn(
                               "flex w-full cursor-pointer items-center rounded-md px-3 py-2 text-sm font-medium no-underline transition-colors",
                             )}
-                            skeletonClassName="w-[75px]"
+                            skeletonClassName="w-[75px] h-9"
                           />
                         </NavigationMenuItem>
                       ))}
@@ -180,7 +180,7 @@ export const Navigation = React.forwardRef<HTMLElement, NavbarProps>(
                           className={cn(
                             "group focus:bg-accent focus:text-accent-foreground inline-flex w-max cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-medium no-underline transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50",
                           )}
-                          skeletonClassName="w-[75px]"
+                          skeletonClassName="w-[75px] h-9"
                         />
                       </NavigationMenuItem>
                     ))}
