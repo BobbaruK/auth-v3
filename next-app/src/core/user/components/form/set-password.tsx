@@ -13,11 +13,20 @@ import { MESSAGES } from "@/constants/messages";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TransitionStartFunction } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { setPassword } from "../../actions/set-password";
 import { NewPasswordSchema } from "../../schemas/new-password";
+import {
+  FieldSet,
+  FieldGroup,
+  Field,
+  FieldLabel,
+  FieldError,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { formInputId } from "@/lib/utils/form-input-id";
 
 interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   isLoading: boolean;
@@ -38,6 +47,8 @@ const SetPasswordForm = ({
       confirmPassword: process.env.NEXT_PUBLIC_DEFAULT_REGISTER_PASSWORD || "",
     },
   });
+
+  const { formId, inputId } = formInputId("set-password-form");
 
   const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     startTransition(async () => {
@@ -61,64 +72,63 @@ const SetPasswordForm = ({
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className={cn(restProps.className, "space-y-6")}
-      >
-        <div className="space-y-4">
-          <FormField
-            control={form.control}
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldSet>
+        <FieldGroup>
+          <Controller
             name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    id="password"
-                    placeholder="******"
-                    autoComplete="new-password"
-                    disabled={isLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
             control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="confirmPassword">
-                  Confirm Password
-                </FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    id="confirmPassword"
-                    placeholder="******"
-                    autoComplete="new-password"
-                    disabled={isLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>Password</FieldLabel>
+                <PasswordInput
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="********"
+                  autoComplete="off"
+                  disabled={isLoading}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
-        </div>
 
-        <CustomButton
-          buttonLabel={`Set password`}
-          type="submit"
-          className="w-full"
-          disabled={isLoading}
-          skeletonClassName="w-full"
-        />
-      </form>
-    </Form>
+          <Controller
+            name="confirmPassword"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>
+                  Confirm password
+                </FieldLabel>
+                <PasswordInput
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="********"
+                  autoComplete="off"
+                  disabled={isLoading}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+
+          <CustomButton
+            buttonLabel={`Set password`}
+            type="submit"
+            className="w-full"
+            disabled={isLoading}
+            skeletonClassName="w-full"
+          />
+        </FieldGroup>
+      </FieldSet>
+    </form>
   );
 };
 
@@ -129,20 +139,17 @@ export function SetPasswordSkeleton({
   ...restProps
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...restProps}>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-3.5 w-full" />
-          <Skeleton className="h-9 w-full" />
-        </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-3.5 w-full" />
-          <Skeleton className="h-9 w-full" />
-        </div>
+    <div className={cn("flex flex-col gap-7", className)} {...restProps}>
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
+      </div>
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
       </div>
       <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 grow" />
-        <Skeleton className="h-10 grow" />
+        <Skeleton className="h-9 grow" />
       </div>
     </div>
   );

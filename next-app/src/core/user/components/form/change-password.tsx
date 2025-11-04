@@ -1,5 +1,12 @@
 import { CustomButton } from "@/components/custom-button";
 import {
+  FieldSet,
+  FieldGroup,
+  Field,
+  FieldLabel,
+  FieldError,
+} from "@/components/ui/field";
+import {
   Form,
   FormControl,
   FormField,
@@ -13,9 +20,10 @@ import { MESSAGES } from "@/constants/messages";
 import { ChangePasswordSchema } from "@/core/auth/schemas/change-password";
 import { changePassword } from "@/core/user/actions/change-password";
 import { cn } from "@/lib/utils";
+import { formInputId } from "@/lib/utils/form-input-id";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TransitionStartFunction } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -41,6 +49,8 @@ const ChangePasswordForm = ({
     },
   });
 
+  const { formId, inputId } = formInputId("change-password-form");
+
   const onSubmit = (values: z.infer<typeof ChangePasswordSchema>) => {
     startTransition(async () => {
       await changePassword(values)
@@ -62,97 +72,90 @@ const ChangePasswordForm = ({
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className={cn(restProps.className, "space-y-6")}
-      >
-        <div className="space-y-4">
-          <FormField
-            control={form.control}
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldSet>
+        <FieldGroup>
+          <Controller
             name="currentPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="currentPassword">
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>
                   Current password
-                </FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    id="currentPassword"
-                    placeholder="******"
-                    autoComplete="new-password"
-                    disabled={isLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+                </FieldLabel>
+                <PasswordInput
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="********"
+                  autoComplete="off"
+                  disabled={isLoading}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
 
-          <FormField
-            control={form.control}
+          <Controller
             name="newPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="newPassword">New password</FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    id="newPassword"
-                    placeholder="******"
-                    autoComplete="new-password"
-                    disabled={isLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
             control={form.control}
-            name="confirmNewPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="confirmNewPassword">
-                  Confirm new password
-                </FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    id="confirmNewPassword"
-                    placeholder="******"
-                    autoComplete="new-password"
-                    disabled={isLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>
+                  New password
+                </FieldLabel>
+                <PasswordInput
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="********"
+                  autoComplete="off"
+                  disabled={isLoading}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
-        </div>
 
-        <div className="flex flex-wrap items-center gap-6">
-          <CustomButton
-            buttonLabel={`Change password`}
-            type="submit"
-            className="grow"
-            disabled={isLoading}
-            skeletonClassName="w-full"
+          <Controller
+            name="confirmNewPassword"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>
+                  Confirm new password
+                </FieldLabel>
+                <PasswordInput
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="********"
+                  autoComplete="off"
+                  disabled={isLoading}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
           />
-          <CustomButton
-            buttonLabel={`Cancel`}
-            type="button"
-            className="grow"
-            variant={"outline"}
-            disabled={isLoading}
-            skeletonClassName="grow"
-            onClick={() => setOpenChangePasswordDialog(false)}
-          />
-        </div>
-      </form>
-    </Form>
+
+          <div className="flex flex-wrap items-center gap-6">
+            <CustomButton
+              buttonLabel={`Change password`}
+              type="submit"
+              className="w-full"
+              disabled={isLoading}
+              skeletonClassName="w-full"
+            />
+          </div>
+        </FieldGroup>
+      </FieldSet>
+    </form>
   );
 };
 
@@ -163,24 +166,21 @@ export function ChangePasswordSkeleton({
   ...restProps
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...restProps}>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-3.5 w-full" />
-          <Skeleton className="h-9 w-full" />
-        </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-3.5 w-full" />
-          <Skeleton className="h-9 w-full" />
-        </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-3.5 w-full" />
-          <Skeleton className="h-9 w-full" />
-        </div>
+    <div className={cn("flex flex-col gap-7", className)} {...restProps}>
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
+      </div>
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
+      </div>
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
       </div>
       <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 grow" />
-        <Skeleton className="h-10 grow" />
+        <Skeleton className="h-9 w-full" />
       </div>
     </div>
   );

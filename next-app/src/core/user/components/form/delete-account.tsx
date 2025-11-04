@@ -14,11 +14,20 @@ import { MESSAGES } from "@/constants/messages";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReactNode, TransitionStartFunction } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { deleteUser } from "../../actions/delete-user";
 import { DeleteAccountSchema } from "../../schemas/delete-account";
+import { formInputId } from "@/lib/utils/form-input-id";
+import {
+  FieldSet,
+  FieldGroup,
+  Field,
+  FieldLabel,
+  FieldError,
+} from "@/components/ui/field";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Props extends React.FormHTMLAttributes<HTMLFormElement> {
   userEmail: string;
@@ -43,6 +52,8 @@ const DeleteAccountForm = ({
     },
   });
 
+  const { formId, inputId } = formInputId("delete-account-form");
+
   const onSubmit = (values: z.infer<typeof DeleteAccountSchema>) => {
     startTransition(async () => {
       deleteUser(values, userEmail)
@@ -64,32 +75,30 @@ const DeleteAccountForm = ({
   };
 
   return (
-    <>
-      <Form {...form} {...restProps}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className={cn("space-y-6", restProps.className)}
-        >
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      placeholder="john.doe@example.com"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldSet>
+        <FieldGroup>
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>Email</FieldLabel>
+                <Input
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="jon.doe@example.com"
+                  autoComplete="off"
+                  type="text"
+                  disabled={isPending}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
 
           <div className="flex items-center gap-x-6 gap-y-2 max-sm:flex-wrap">
             <CustomButton
@@ -102,10 +111,28 @@ const DeleteAccountForm = ({
             />
             {closeDialog}
           </div>
-        </form>
-      </Form>
-    </>
+        </FieldGroup>
+      </FieldSet>
+    </form>
   );
 };
 
 export default DeleteAccountForm;
+
+export function DeleteAccountSkeleton({
+  className,
+  ...restProps
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn("space-y-7", className)} {...restProps}>
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
+      </div>
+      <div className="flex items-center justify-end gap-6">
+        <Skeleton className="h-9 grow" />
+        <Skeleton className="h-9 grow" />
+      </div>
+    </div>
+  );
+}

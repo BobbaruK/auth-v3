@@ -2,6 +2,13 @@
 
 import { CustomButton } from "@/components/custom-button";
 import {
+  FieldSet,
+  FieldGroup,
+  Field,
+  FieldLabel,
+  FieldError,
+} from "@/components/ui/field";
+import {
   Form,
   FormControl,
   FormField,
@@ -15,9 +22,10 @@ import { MESSAGES } from "@/constants/messages";
 import { ChangeEmailSchema } from "@/core/auth/schemas/change-email";
 import { changeEmail } from "@/core/user/actions/change-email";
 import { cn } from "@/lib/utils";
+import { formInputId } from "@/lib/utils/form-input-id";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TransitionStartFunction } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -43,6 +51,8 @@ const ChangeEmailForm = ({
     },
   });
 
+  const { formId, inputId } = formInputId("change-email-form");
+
   const onSubmit = (values: z.infer<typeof ChangeEmailSchema>) => {
     startTransition(async () => {
       changeEmail(values, userEmail)
@@ -66,70 +76,74 @@ const ChangeEmailForm = ({
   };
 
   return (
-    <Form {...form} {...restProps}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className={cn(restProps.className, "space-y-6")}
-      >
-        <div className="space-y-4">
-          <FormField
-            control={form.control}
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldSet>
+        <FieldGroup>
+          <Controller
             name="oldEmail"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="email"
-                    placeholder="john.doe@example.com"
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
             control={form.control}
-            name="newEmail"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>New email</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="email"
-                    placeholder="john.doe@example.com"
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>Email</FieldLabel>
+                <Input
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="jon.doe@example.com"
+                  autoComplete="off"
+                  type="text"
+                  disabled={isLoading}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
-        </div>
 
-        <div className="flex flex-wrap items-center gap-6">
-          <CustomButton
-            buttonLabel={`Confirm`}
-            type="submit"
-            className="grow"
-            disabled={isLoading}
-            skeletonClassName="grow"
+          <Controller
+            name="newEmail"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>New email</FieldLabel>
+                <Input
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="jon.doe@example.com"
+                  autoComplete="off"
+                  type="text"
+                  disabled={isLoading}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
           />
-          <CustomButton
-            buttonLabel={`Cancel`}
-            type="button"
-            className="grow"
-            variant={"outline"}
-            disabled={isLoading}
-            skeletonClassName="grow"
-            onClick={() => setOpenChangeEmailDialog(false)}
-          />
-        </div>
-      </form>
-    </Form>
+
+          <div className="flex flex-wrap items-center gap-6">
+            <CustomButton
+              buttonLabel={`Confirm`}
+              type="submit"
+              className="grow"
+              disabled={isLoading}
+              skeletonClassName="grow"
+            />
+            <CustomButton
+              buttonLabel={`Cancel`}
+              type="button"
+              className="grow"
+              variant={"outline"}
+              disabled={isLoading}
+              skeletonClassName="grow"
+              onClick={() => setOpenChangeEmailDialog(false)}
+            />
+          </div>
+        </FieldGroup>
+      </FieldSet>
+    </form>
   );
 };
 
@@ -140,20 +154,18 @@ export function ChangeEmailSkeleton({
   ...restProps
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("space-y-6", className)} {...restProps}>
-      <div className="space-y-4">
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-3.5 w-full" />
-          <Skeleton className="h-9 w-full" />
-        </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-3.5 w-full" />
-          <Skeleton className="h-9 w-full" />
-        </div>
+    <div className={cn("space-y-7", className)} {...restProps}>
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
+      </div>
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
       </div>
       <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 grow" />
-        <Skeleton className="h-10 grow" />
+        <Skeleton className="h-9 grow" />
+        <Skeleton className="h-9 grow" />
       </div>
     </div>
   );
