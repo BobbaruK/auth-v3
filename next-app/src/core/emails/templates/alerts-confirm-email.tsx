@@ -1,3 +1,4 @@
+import { APP_NAME } from "@/constants/misc";
 import {
   Body,
   Button,
@@ -40,7 +41,7 @@ const ConfirmEmailTemplate = ({ name, email, url }: Props) => {
         <Preview>Confirm your email address - Action required</Preview>
         <Body className="my-[10px] bg-gray-100 py-[40px] font-sans">
           <Container className="mx-auto max-w-[600px] rounded-[8px] bg-white p-[32px]">
-            <HeaderEmail title="Welcome to Auth v3!" />
+            <HeaderEmail title={`Welcome to ${APP_NAME}!`} />
 
             <Section>
               <Text className="mb-[24px] text-[16px] leading-[24px] text-gray-700">
