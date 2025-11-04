@@ -2,6 +2,13 @@
 
 import { CustomButton } from "@/components/custom-button";
 import {
+  FieldSet,
+  FieldGroup,
+  Field,
+  FieldLabel,
+  FieldError,
+} from "@/components/ui/field";
+import {
   Form,
   FormControl,
   FormDescription,
@@ -12,15 +19,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Textarea } from "@/components/ui/textarea";
 import { BATCH_ITEMS } from "@/constants/misc";
 import { banUser } from "@/core/admin/users/actions/ban-user";
 import { BanUserSchema } from "@/core/admin/users/schemas/ban-user";
 import { cn } from "@/lib/utils";
 import { chunkArray } from "@/lib/utils/chunk-array";
+import { formInputId } from "@/lib/utils/form-input-id";
 import { UserSession } from "@/types/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TransitionStartFunction } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -47,6 +56,7 @@ const BanUserForm = ({
   });
 
   const userIdBatches = chunkArray(users, BATCH_ITEMS);
+  const { formId, inputId } = formInputId("ban-user-form");
 
   const onSubmit = (values: z.infer<typeof BanUserSchema>) => {
     setOpenBanDialog?.(false);
@@ -80,72 +90,68 @@ const BanUserForm = ({
   };
 
   return (
-    <Form {...form} {...restProps}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className={cn(restProps.className, "space-y-6")}
-      >
-        <div className="space-y-4">
-          <FormField
-            control={form.control}
+    <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldSet>
+        <FieldGroup>
+          <Controller
             name="banReason"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ban Reason</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="text"
-                    placeholder="Spam"
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
             control={form.control}
-            name="banExpiresIn"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ban expires</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="3600"
-                    disabled={isLoading}
-                    {...form.register("banExpiresIn", { valueAsNumber: true })}
-                  />
-                </FormControl>
-                <FormDescription>In seconds</FormDescription>
-                <FormMessage />
-              </FormItem>
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>
+                  Ban reason
+                </FieldLabel>
+                <Input
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="Spam"
+                  autoComplete="off"
+                  type="text"
+                  disabled={isLoading}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
             )}
           />
-        </div>
 
-        <div className="flex flex-wrap items-center gap-6">
+          <Controller
+            name="banExpiresIn"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={inputId(field.name)}>
+                  Ban reason
+                </FieldLabel>
+                <Input
+                  {...field}
+                  id={inputId(field.name)}
+                  aria-invalid={fieldState.invalid}
+                  type="number"
+                  placeholder="3600"
+                  autoComplete="off"
+                  disabled={isLoading}
+                  {...form.register("banExpiresIn", { valueAsNumber: true })}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+
           <CustomButton
             buttonLabel={`Confirm`}
             type="submit"
-            className="grow"
+            className="w-full"
             disabled={isLoading}
-            skeletonClassName="grow"
+            skeletonClassName="h-9 w-full"
           />
-          <CustomButton
-            buttonLabel={`Cancel`}
-            type="button"
-            className="grow"
-            variant={"outline"}
-            disabled={isLoading}
-            skeletonClassName="grow"
-            onClick={() => setOpenBanDialog?.(false)}
-          />
-        </div>
-      </form>
-    </Form>
+        </FieldGroup>
+      </FieldSet>
+    </form>
   );
 };
 
@@ -156,22 +162,16 @@ export function BanUserFormSkeleton({
   ...restProps
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("space-y-6", className)} {...restProps}>
-      <div className="space-y-4">
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-3.5 w-full" />
-          <Skeleton className="h-9 w-full" />
-        </div>
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-3.5 w-full" />
-          <Skeleton className="h-9 w-full" />
-          <Skeleton className="h-5 w-full" />
-        </div>
+    <div className={cn("space-y-7", className)} {...restProps}>
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
       </div>
-      <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 grow" />
-        <Skeleton className="h-10 grow" />
+      <div className="flex flex-col justify-end gap-3">
+        <Skeleton className="h-[19.25px] w-28" />
+        <Skeleton className="h-9 w-full" />
       </div>
+      <Skeleton className="h-9 w-full" />
     </div>
   );
 }
