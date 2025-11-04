@@ -5,6 +5,7 @@ import { TrashIcon } from "@/components/icons/trash";
 import ResponsiveDialog from "@/components/responsive-dialog";
 import { DialogClose } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DeleteAccountSkeleton } from "@/core/user/components/form/delete-account";
 import { useSettingsContext } from "@/features/settings/providers/settings";
 import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
@@ -76,23 +77,3 @@ export const DeleteAccount = () => {
     </div>
   );
 };
-
-function DeleteAccountSkeleton({
-  className,
-  ...restProps
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("space-y-6", className)} {...restProps}>
-      <div className="space-y-4">
-        <div className="flex flex-col items-center justify-end gap-2">
-          <Skeleton className="h-3.5 w-full" />
-          <Skeleton className="h-9 w-full" />
-        </div>
-      </div>
-      <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 grow" />
-        <Skeleton className="h-10 grow" />
-      </div>
-    </div>
-  );
-}

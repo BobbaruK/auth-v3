@@ -43,29 +43,29 @@ export const PersonalInformationSkeleton = ({
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div className="flex flex-col gap-2">
-            <Skeleton className="h-3.5 w-56" />
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-[19.25px] w-56" />
             <Skeleton className="h-9 w-full" />
           </div>
-          <div className="flex flex-col gap-2">
-            <Skeleton className="h-3.5 w-56" />
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-[19.25px] w-56" />
             <Skeleton className="h-9 w-full" />
           </div>
-          <div className="flex flex-col gap-2">
-            <Skeleton className="h-3.5 w-56" />
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-[19.25px] w-56" />
             <Skeleton className="h-9 w-full" />
           </div>
-          <div className="flex flex-col gap-2">
-            <Skeleton className="h-3.5 w-56" />
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-[19.25px] w-56" />
             <Skeleton className="h-9 w-full" />
           </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <Skeleton className="h-3.5 w-56" />
+        <div className="flex flex-col gap-3">
+          <Skeleton className="h-[19.25px] w-56" />
           <Skeleton className="h-16 w-full" />
         </div>
-        <div className="flex flex-col justify-end gap-2">
-          <Skeleton className="ms-auto h-10 w-16" />
+        <div className="flex flex-col justify-end gap-3">
+          <Skeleton className="ms-auto h-9 w-20" />
         </div>
       </CardContent>
     </Card>

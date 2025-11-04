@@ -42,10 +42,10 @@ export const AccountLinkingSkeleton = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-[repeat(auto-fill,minmax(190px,1fr))] gap-4">
-        <Skeleton className="h-[220px] w-full" />
-        <Skeleton className="h-[220px] w-full" />
-        <Skeleton className="h-[220px] w-full" />
-        <Skeleton className="h-[220px] w-full" />
+        <Skeleton className="h-[216px] w-full" />
+        <Skeleton className="h-[216px] w-full" />
+        <Skeleton className="h-[216px] w-full" />
+        <Skeleton className="h-[216px] w-full" />
       </CardContent>
     </Card>
   );

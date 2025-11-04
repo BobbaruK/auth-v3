@@ -54,6 +54,8 @@ export const ChangePassword = () => {
           title: {
             label: `${hasCredential ? "Change" : "Set"} your password`,
           },
+          description:
+            "Password must contain at least one of each: lowercase letters, uppercase letters, numbers and special characters.",
         }}
       >
         {hasCredential ? (

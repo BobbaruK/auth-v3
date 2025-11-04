@@ -1,8 +1,7 @@
 import { CustomButton } from "@/components/custom-button";
 import ResponsiveDialog from "@/components/responsive-dialog";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ActivateTwoFASkeleton } from "@/core/auth/components/forms/activation-2fa";
 import { useSettingsContext } from "@/features/settings/providers/settings";
-import { cn } from "@/lib/utils";
 import { lazy, Suspense } from "react";
 const ActivationTwoFactorForm = lazy(
   () => import("@/core/auth/components/forms/activation-2fa"),
@@ -41,7 +40,7 @@ const TwoFactorActivation = () => {
         description: "Enter your password below.",
       }}
     >
-      <Suspense fallback={<TwoFASkeleton />}>
+      <Suspense fallback={<ActivateTwoFASkeleton />}>
         <ActivationTwoFactorForm
           user={user}
           isLoading={isLoading}
@@ -57,21 +56,3 @@ const TwoFactorActivation = () => {
 };
 
 export default TwoFactorActivation;
-
-function TwoFASkeleton({
-  className,
-  ...restProps
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("flex flex-col gap-6", className)} {...restProps}>
-      <div className="flex flex-col items-center justify-end gap-2">
-        <Skeleton className="h-3.5 w-full" />
-        <Skeleton className="h-9 w-full" />
-      </div>
-      <div className="flex items-center justify-end gap-6">
-        <Skeleton className="h-10 grow" />
-        <Skeleton className="h-10 grow" />
-      </div>
-    </div>
-  );
-}
