@@ -1,6 +1,8 @@
 import { ADMIN_EMAILS, OWNER_EMAILS } from "@/constants/admin";
 import { MESSAGES } from "@/constants/messages";
 import {
+  APP_NAME,
+  COOKIE_PREFIX,
   DELETE_ACCOUNT_TOKEN_EXPIRES,
   MAGIC_LINK_TOKEN_EXPIRES,
   MAX_USERNAME,
@@ -37,8 +39,10 @@ import { createFormattedSlug } from "./utils/format-string";
 
 const TESTING = false;
 
+// TODO: https://github.com/better-auth/better-auth/issues/2728
+
 export const auth = betterAuth({
-  appName: "Auth v3",
+  appName: APP_NAME,
   database: prismaAdapter(db, {
     provider: "postgresql",
   }),
@@ -302,6 +306,7 @@ export const auth = betterAuth({
     errorURL: DEFAULT_API_ERROR_REDIRECT,
   },
   advanced: {
+    cookiePrefix: COOKIE_PREFIX,
     database: {
       generateId: false,
     },
@@ -347,6 +352,7 @@ export const auth = betterAuth({
 
         return null;
       },
+      cookieName: `${COOKIE_PREFIX}.last_used_login_method`,
     }),
     magicLink({
       expiresIn: MAGIC_LINK_TOKEN_EXPIRES,

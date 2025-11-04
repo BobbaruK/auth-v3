@@ -149,6 +149,20 @@ export const MAGIC_LINK_TOKEN_EXPIRES = 60 * 5;
 /* -------------------------------------------------------------------------- */
 
 /**
+ * Application name that will show in places like google login
+ *
+ * @constant
+ */
+export const APP_NAME = "Auth v3";
+
+/**
+ * Cookies will be set with this prefix
+ *
+ * @constant
+ */
+export const COOKIE_PREFIX = "auth-v3";
+
+/**
  * Default debounce delay (in milliseconds) for input handlers or requests.
  *
  * @constant

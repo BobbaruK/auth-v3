@@ -1,5 +1,6 @@
 import { getSessionCookie } from "better-auth/cookies";
 import { NextRequest, NextResponse } from "next/server";
+import { COOKIE_PREFIX } from "./constants/misc";
 import {
   API_AUTH_PREFIX,
   AUTH_ROUTES,
@@ -9,7 +10,9 @@ import {
 
 export async function proxy(request: NextRequest) {
   const { nextUrl } = request;
-  const sessionCookie = getSessionCookie(request);
+  const sessionCookie = getSessionCookie(request, {
+    cookiePrefix: COOKIE_PREFIX,
+  });
 
   const isLoggedIn = !!sessionCookie;
 
