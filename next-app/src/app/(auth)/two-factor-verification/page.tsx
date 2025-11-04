@@ -2,6 +2,7 @@ import { PageStructure } from "@/components/page-structure";
 import { loadSearchParams } from "@/components/search-params";
 import { Button } from "@/components/ui/button";
 import { MESSAGES } from "@/constants/messages";
+import { COOKIE_PREFIX } from "@/constants/misc";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { AuthCard } from "@/core/auth/components/auth-card";
 import OTPVerificationForm from "@/core/auth/components/forms/otp-verification";
@@ -24,7 +25,7 @@ const TwoFactorVerificationPage = async ({ searchParams }: Props) => {
   const { twoFactor, twoFactorFirstTime } =
     await loadSearchParams(searchParams);
   const cookieStore = await cookies();
-  const twoFactorCookie = cookieStore.get("better-auth.two_factor");
+  const twoFactorCookie = cookieStore.get(`${COOKIE_PREFIX}.two_factor`);
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (session && !twoFactorFirstTime) redirect(DEFAULT_LOGIN_REDIRECT);

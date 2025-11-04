@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+import { APP_NAME } from "@/constants/misc";
 import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -16,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: { default: "Auth v3", template: "%s | Auth v3" },
+  title: { default: APP_NAME, template: `%s | ${APP_NAME}` },
   description: "An authentication app powered by Better Auth",
 };
 

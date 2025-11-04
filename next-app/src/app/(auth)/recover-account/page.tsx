@@ -1,4 +1,5 @@
 import { PageStructure } from "@/components/page-structure";
+import { COOKIE_PREFIX } from "@/constants/misc";
 import { DEFAULT_LOGIN_REDIRECT } from "@/constants/routes";
 import { AuthCard } from "@/core/auth/components/auth-card";
 import { RecoverAccountForm } from "@/core/auth/components/forms/recover-account";
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 
 const RecoverAccountPage = async () => {
   const cookieStore = await cookies();
-  const twoFactorCookie = cookieStore.get("better-auth.two_factor");
+  const twoFactorCookie = cookieStore.get(`${COOKIE_PREFIX}.two_factor`);
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (session) redirect(DEFAULT_LOGIN_REDIRECT);
